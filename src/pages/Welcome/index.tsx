@@ -4,6 +4,7 @@ import styles from './styles';
 import { Feather } from '@expo/vector-icons';
 
 import * as Animatable from 'react-native-animatable'
+import Button from '../../components/Button'
 
 
 type WelcomeTypes = {
@@ -23,11 +24,8 @@ export default function Welcome({ navigation }: WelcomeTypes) {
                 <Text style={styles.desc1}>Transforme URLs longas em curtas com facilidade!</Text>
                 <Text style={styles.desc2}>Organize seus links com a Bretz.</Text>
 
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => navigation.navigate('Home')}>
-                    <Text style={styles.buttonText}>Acessar</Text>
-                </TouchableOpacity>
+                <Button text="Acessar" color="#fff" bgColor="#023696" onClick={() => navigation.navigate('Home')} width={200} />
+
             </Animatable.View>
         </SafeAreaView>
     );
