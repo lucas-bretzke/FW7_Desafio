@@ -11,7 +11,7 @@ export default StyleSheet.create({
     },
 
     urlFormContainer: {
-        flex: 1,
+        flex: 2,
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center'
@@ -70,5 +70,6 @@ export default StyleSheet.create({
         flex: 1,
         width: '100%',
         borderWidth: 1,
+        backgroundColor: 'white'
     }
 })
