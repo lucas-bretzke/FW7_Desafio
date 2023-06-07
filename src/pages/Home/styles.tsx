@@ -10,21 +10,22 @@ export default StyleSheet.create({
         justifyContent: 'center',
     },
 
-    urlFormContainer: {
-        flex: 2,
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
 
     containerLogo: {
-        flex: 2,
-        display: 'flex',
+        flex: 1,
         flexDirection: 'row',
+        display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#192436',
     },
+
+    urlFormContainer: {
+        flex: 2,
+        width: '100%',
+        alignItems: 'center',
+    },
+
     title: {
         fontSize: 26,
         color: 'white',
