@@ -58,6 +58,11 @@ export default StyleSheet.create({
         backgroundColor: 'white'
     },
 
+    description: {
+        width: '90%',
+        justifyContent: 'flex-start'
+    },
+
     containerButtons: {
         width: '100%',
         marginTop: 20,
@@ -72,5 +77,11 @@ export default StyleSheet.create({
         width: '100%',
         borderWidth: 1,
         backgroundColor: 'white'
+    },
+
+    clearContentButton: {
+        position: 'absolute',
+        right: '5%',
+        bottom: '5%',
     }
 })

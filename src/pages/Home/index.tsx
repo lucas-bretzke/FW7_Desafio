@@ -4,6 +4,8 @@ import styles from './styles';
 import { Feather } from '@expo/vector-icons';
 import Clipboard from '@react-native-clipboard/clipboard';
 import api from '../../service/api'
+import { urlValidator } from '../../utils/helpers'
+
 import Button from '../../components/Button'
 
 
@@ -12,7 +14,6 @@ export default function Home() {
     const [urlCustom, setUrlCustom] = useState<string>('');
     const [endUrl, setEndUrl] = useState<string>('');
     const [msgError, setMsgError] = useState<string>('');
-    const [msgSuccess, setMsgSuccess] = useState<string>('');
 
 
     function generateRandomString(length: number) {
@@ -25,26 +26,31 @@ export default function Home() {
     }
 
     async function generateShortURL() {
-        if (originalURL) {
+        if (urlValidator(originalURL)) {
             setMsgError("")
-            // try {
-            const code = urlCustom ? urlCustom : generateRandomString(6)
-            // await api.postShortUrl(originalURL, code);
-            setEndUrl('http://localhost:3001/' + code)
-            console.log(endUrl)
-            setMsgSuccess('Success')
-            // } catch (error) {
-            // console.log('post error:', error);
-            // }
+            try {
+                const code = urlCustom ? urlCustom : generateRandomString(6)
+                await api.postShortUrl(originalURL, code);
+                setEndUrl('http://localhost:3001/' + code)
+            } catch (error) {
+                console.log('post error:', error);
+            }
         } else {
-            setMsgError("Ops! você não inseriu nenhuma URL")
+            setMsgError("Ops! URL inválida")
         }
     }
 
 
     function copyUrl() {
-        endUrl ? (Clipboard.setString(endUrl), alert(`URL Copiada!\n ${endUrl}`))
-            : setMsgError("URL inválida")
+        if (endUrl) {
+            Clipboard.setString(endUrl), alert(`URL Copiada!\n ${endUrl}`)
+        } else {
+            setMsgError("URL inválida")
+        }
+    }
+
+    function clearContentButton() {
+        setMsgError(''), setEndUrl(''), setUrlCustom(''), setOriginalURL('')
     }
 
     return (
@@ -62,22 +68,26 @@ export default function Home() {
 
                 <View style={styles.containerInput}>
                     <Text style={styles.label}>Títilo (opcional)</Text>
-                    <TextInput value={urlCustom} onChangeText={text => setUrlCustom(text)} style={styles.input} />
-                    {endUrl && <Text style={[{ color: 'white' }]}>{endUrl}</Text>}
-                    {msgError && <Text style={[{ color: 'red' }]}>{msgError}</Text>}
-                    {msgSuccess &&
-                        <View>
-                            <Text style={{ color: 'white' }}>redireciona para:</Text>
-                            <Text style={{ color: 'white' }}>{originalURL}</Text>
-                        </View>
-                    }
+                    <TextInput value={urlCustom} onChangeText={text => setUrlCustom(text)} placeholder='ex: MinhaUrl' style={styles.input} />
                 </View>
+
+                {endUrl &&
+                    <View style={styles.description}>
+                        <Text style={[{ color: 'white' }]}>{endUrl}</Text>
+                        <Text style={{ color: 'white' }}>Redireciona para:</Text>
+                        <Text style={{ color: 'white' }}>{originalURL}</Text>
+                    </View>
+                }
+                {msgError && <Text style={[{ color: 'red' }]}>{msgError}</Text>}
 
                 <View style={styles.containerButtons}>
                     <Button onClick={() => generateShortURL()} text="Encurtar" color="#fff" bgColor="#023696" width={145} />
                     <Button onClick={() => copyUrl()} text="Copiar" color="orange" bgColor="#023696" width={145} />
                 </View>
 
+                <View style={styles.clearContentButton}>
+                    <Button onClick={() => clearContentButton()} text="🗑️" color="#fff" bgColor="#023696" width={40} />
+                </View>
             </View>
         </View>
     );
