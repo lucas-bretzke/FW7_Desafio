@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, Alert } from 'react-native';
+import { Text, View, TextInput } from 'react-native';
 import styles from './styles';
 import { Feather } from '@expo/vector-icons';
 import Clipboard from '@react-native-clipboard/clipboard';
@@ -31,9 +31,10 @@ export default function Home() {
             try {
                 const code = urlCustom ? urlCustom : generateRandomString(6)
                 await api.postShortUrl(originalURL, code);
-                setEndUrl('http://localhost:3001/' + code)
+                setEndUrl('https://api-fw7.onrender.com/' + code)
             } catch (error) {
                 console.log('post error:', error);
+                setMsgError('Ops! Erro interno, volte mais tarde')
             }
         } else {
             setMsgError("Ops! URL inválida")
