@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput } from 'react-native';
+import { Text, View, TextInput, ScrollView } from 'react-native';
 import styles from './styles';
 import { Feather } from '@expo/vector-icons';
 import Clipboard from '@react-native-clipboard/clipboard';
@@ -71,14 +71,16 @@ export default function Home() {
                     <Text style={styles.label}>Títilo (opcional)</Text>
                     <TextInput value={urlCustom} onChangeText={text => setUrlCustom(text)} placeholder='ex: MinhaUrl' style={styles.input} />
                 </View>
-
                 {endUrl &&
-                    <View style={styles.description}>
-                        <Text style={[{ color: 'white' }]}>{endUrl}</Text>
-                        <Text style={{ color: 'white' }}>Redireciona para:</Text>
-                        <Text style={{ color: 'white' }}>{originalURL}</Text>
-                    </View>
+                    <ScrollView style={{ maxHeight: 150 }}>
+                        <View style={styles.description}>
+                            <Text style={[{ color: 'white' }]}>{endUrl}</Text>
+                            <Text style={{ color: 'white' }}>Redireciona para:</Text>
+                            <Text style={{ color: 'white' }}>{originalURL}</Text>
+                        </View>
+                    </ScrollView>
                 }
+
                 {msgError && <Text style={[{ color: 'red' }]}>{msgError}</Text>}
 
                 <View style={styles.containerButtons}>
@@ -91,5 +93,6 @@ export default function Home() {
                 </View>
             </View>
         </View>
+
     );
 }
