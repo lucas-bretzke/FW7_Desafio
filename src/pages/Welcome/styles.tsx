@@ -7,7 +7,7 @@ export default StyleSheet.create({
         backgroundColor: '#192436'
     },
     containerLogo: {
-        flex: 2,
+        flex: 2.5,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
@@ -23,7 +23,7 @@ export default StyleSheet.create({
         borderColor: '#023696',
         paddingVertical: 12,
     },
-    containerForm: {
+    containerBox: {
         flex: 1,
         backgroundColor: 'white',
         borderTopLeftRadius: 25,
@@ -40,20 +40,11 @@ export default StyleSheet.create({
     desc2: {
         fontSize:17,
     },
-    button: {
+    containerBtn: {
         position: 'absolute',
-        backgroundColor: '#023696',
-        borderRadius: 50,
-        paddingVertical: 8,
-        width: '60%',
         alignSelf: 'center',
-        bottom: '12%',
+        bottom: '20%',
         alignItems: 'center',
         justifycontent: 'center'
     },
-    buttonText: {
-        fontSize: 18,
-        color: '#fff',
-        fontWeight: 'bold'
-    }
 })

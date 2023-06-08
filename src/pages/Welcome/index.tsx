@@ -20,11 +20,12 @@ export default function Welcome({ navigation }: WelcomeTypes) {
                 <Text style={styles.title}>Encurtador de URL</Text>
             </Animatable.View>
 
-            <Animatable.View delay={600} animation="fadeInUp" style={styles.containerForm}>
+            <Animatable.View delay={600} animation="fadeInUp" style={styles.containerBox}>
                 <Text style={styles.desc1}>Transforme URLs longas em curtas com facilidade!</Text>
                 <Text style={styles.desc2}>Organize seus links com a Bretz.</Text>
-
-                <Button text="Acessar" color="#fff" bgColor="#023696" onClick={() => navigation.navigate('Home')} width={200} />
+                <View style={styles.containerBtn}>
+                    <Button text="Acessar" color="#fff" bgColor="#023696" onClick={() => navigation.navigate('Home')} width={250} />
+                </View>
 
             </Animatable.View>
         </SafeAreaView>
