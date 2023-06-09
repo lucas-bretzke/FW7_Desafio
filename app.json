@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "my-app",
-    "slug": "my-app",
+    "name": "Bretz",
+    "slug": "Bretz",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,14 +22,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.lucasbretzke.myapp"
+      "package": "com.lucasbretzke.Bretz"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "6a4dacff-be52-43df-81b3-aa645aada8b0"
+        "projectId": "28dc5b43-7846-4638-b6f1-5c4185d95d91"
       }
     }
   }
