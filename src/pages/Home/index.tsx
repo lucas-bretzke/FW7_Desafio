@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, View, TextInput, ScrollView } from 'react-native';
 import styles from './styles';
 import { Feather } from '@expo/vector-icons';
-import Clipboard from '@react-native-clipboard/clipboard';
+import * as Clipboard from 'expo-clipboard';
 import api from '../../service/api'
 import { urlValidator } from '../../utils/helpers'
 
@@ -26,7 +26,9 @@ export default function Home() {
     }
 
     async function generateShortURL() {
-        if (urlValidator(originalURL)) {
+        if (endUrl) {
+            setMsgError(`Você precisa limpar os campos primeiro!${"\n"}Clique na lixeira abaixo. `)
+        } else if (urlValidator(originalURL)) {
             setMsgError("")
             try {
                 const code = urlCustom ? urlCustom : generateRandomString(6)
