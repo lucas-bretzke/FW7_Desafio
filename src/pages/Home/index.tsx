@@ -27,7 +27,7 @@ export default function Home() {
         return newChart;
     }
 
-    async function checkFieldsBeforeRequest() {
+    function checkFieldsBeforeRequest() {
         setLoading(true);
         Keyboard.dismiss();
 
@@ -37,7 +37,7 @@ export default function Home() {
             setMsgError('Você precisa limpar os campos primeiro!\nClique na lixeira abaixo.');
         } else if (urlValidator(originalURL)) {
             setMsgError('');
-            await generateShortURL();
+            generateShortURL();
         } else {
             setMsgError('Ops! URL inválida');
         }
@@ -87,7 +87,7 @@ export default function Home() {
                 </View>
 
                 <View style={styles.containerInput}>
-                    <Text style={styles.label}>Títilo (opcional)</Text>
+                    <Text style={styles.label}>Título (opcional)</Text>
                     <TextInput value={urlCustom} onChangeText={text => setUrlCustom(text)} placeholder='ex: MinhaUrl' style={styles.input} />
                 </View>
                 {endUrl &&
