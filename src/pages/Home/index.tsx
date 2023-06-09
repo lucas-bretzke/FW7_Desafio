@@ -27,7 +27,7 @@ export default function Home() {
         return newChart;
     }
 
-    function checkFieldsBeforeRequest() {
+    async function checkFieldsBeforeRequest() {
         setLoading(true);
         Keyboard.dismiss();
 
@@ -37,7 +37,7 @@ export default function Home() {
             setMsgError('Você precisa limpar os campos primeiro!\nClique na lixeira abaixo.');
         } else if (urlValidator(originalURL)) {
             setMsgError('');
-            generateShortURL();
+            await generateShortURL();
         } else {
             setMsgError('Ops! URL inválida');
         }
