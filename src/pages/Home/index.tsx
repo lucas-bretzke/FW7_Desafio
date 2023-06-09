@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, ScrollView, ActivityIndicator } from 'react-native';
+import { Text, View, TextInput, ScrollView, ActivityIndicator, Keyboard } from 'react-native';
 import styles from './styles';
 import { Feather } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
@@ -29,6 +29,7 @@ export default function Home() {
 
     async function checkFieldsBeforeRequest() {
         setLoading(true);
+        Keyboard.dismiss();
 
         if (checkCustomUrl()) {
             setMsgError('O título opcional deve conter no mínimo 6 letras e não pode ter espaços.');
@@ -42,7 +43,6 @@ export default function Home() {
         }
 
         setLoading(false);
-
     }
 
     async function generateShortURL() {
