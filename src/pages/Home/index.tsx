@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, ScrollView } from 'react-native';
+import { Text, View, TextInput, ScrollView, ActivityIndicator } from 'react-native';
 import styles from './styles';
 import { Feather } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
@@ -14,6 +14,8 @@ export default function Home() {
     const [urlCustom, setUrlCustom] = useState<string>('');
     const [endUrl, setEndUrl] = useState<string>('');
     const [msgError, setMsgError] = useState<string>('');
+    const [loading, setLoading] = useState(false);
+
 
 
     function generateRandomString(length: number) {
@@ -25,31 +27,46 @@ export default function Home() {
         return newChart;
     }
 
-    async function generateShortURL() {
-        if (endUrl) {
-            setMsgError(`Você precisa limpar os campos primeiro!${"\n"}Clique na lixeira abaixo. `)
+    async function checkFieldsBeforeRequest() {
+        setLoading(true);
+
+        if (checkCustomUrl()) {
+            setMsgError('O título opcional deve conter no mínimo 6 letras e não pode ter espaços.');
+        } else if (endUrl) {
+            setMsgError('Você precisa limpar os campos primeiro!\nClique na lixeira abaixo.');
         } else if (urlValidator(originalURL)) {
-            setMsgError("")
-            try {
-                const code = urlCustom ? urlCustom : generateRandomString(6)
-                await api.postShortUrl(originalURL, code);
-                setEndUrl('https://api-fw7.onrender.com/' + code)
-            } catch (error) {
-                console.log('post error:', error);
-                setMsgError('Ops! Erro interno, volte mais tarde')
-            }
+            setMsgError('');
+            await generateShortURL();
         } else {
-            setMsgError("Ops! URL inválida")
+            setMsgError('Ops! URL inválida');
         }
+
+        setLoading(false);
+
     }
 
+    async function generateShortURL() {
+        try {
+            const code = urlCustom ? urlCustom : generateRandomString(6)
+            await api.postShortUrl(originalURL, code);
+            setEndUrl('api-fw7.onrender.com/' + code)
+        } catch (error) {
+            console.log('post error:', error);
+            setMsgError('Ops! Erro interno, volte mais tarde')
+        }
+    }
 
     function copyUrl() {
         if (endUrl) {
             Clipboard.setString(endUrl), alert(`URL Copiada!\n ${endUrl}`)
-        } else {
-            setMsgError("URL inválida")
-        }
+        } else { setMsgError("URL inválida") }
+    }
+
+    function checkCustomUrl() {
+        const hasSpace = urlCustom.includes(' ');
+        const isValidLength = urlCustom.length >= 1 && urlCustom.length < 6
+
+        return hasSpace || isValidLength
     }
 
     function clearContentButton() {
@@ -83,10 +100,10 @@ export default function Home() {
                     </ScrollView>
                 }
 
-                {msgError && <Text style={[{ color: 'red' }]}>{msgError}</Text>}
+                {msgError && <Text style={styles.msgError}>{msgError}</Text>}
 
                 <View style={styles.containerButtons}>
-                    <Button onClick={() => generateShortURL()} text="Encurtar" color="#fff" bgColor="#023696" width={145} />
+                    <Button onClick={() => checkFieldsBeforeRequest()} text="Encurtar" color="#fff" bgColor="#023696" width={145} />
                     <Button onClick={() => copyUrl()} text="Copiar" color="orange" bgColor="#023696" width={145} />
                 </View>
 
@@ -94,7 +111,8 @@ export default function Home() {
                     <Button onClick={() => clearContentButton()} text="🗑️" color="#fff" bgColor="#023696" width={40} />
                 </View>
             </View>
-        </View>
 
+            {loading && <ActivityIndicator size="large" color="blue" style={styles.spinner} />}
+        </View >
     );
 }

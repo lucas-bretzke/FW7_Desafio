@@ -71,6 +71,10 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    msgError: {
+        width: '90%',
+        color: 'red'
+    },
 
     containsListOfLinks: {
         flex: 1,
@@ -83,5 +87,15 @@ export default StyleSheet.create({
         position: 'absolute',
         right: '5%',
         bottom: '5%',
+    },
+
+    spinner: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        margin: 'auto',
+        backgroundColor: 'white',
+        opacity: .1
+
     }
 })
