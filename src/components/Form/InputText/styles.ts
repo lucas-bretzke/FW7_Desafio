@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 export const ContainerInputPassword = styled.View`
   width: 100%;
   flex-direction: row;
-  border: none;
+  border-color: red;
 `
 
 export const Label = styled.Text`
@@ -28,12 +28,12 @@ export const Input = styled.TextInput`
   elevation: 2;
   background-color: #fff;
 `
-export const EyeButtom = styled.TouchableOpacity`
+
+export const ButtomIcon = styled.TouchableOpacity`
   position: absolute;
-  top: 8px;
-  right: 10px;
-  width: 30px;
-  height: 30px;
+  right: 0;
+  width: 30;
+  height: 30;
   align-items: center;
   justify-content: center;
   border-radius: 50px;
