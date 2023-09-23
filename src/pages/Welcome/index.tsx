@@ -4,7 +4,7 @@ import styles from './styles'
 import { Feather } from '@expo/vector-icons'
 
 import * as Animatable from 'react-native-animatable'
-import Button from '../../components/Form/Buttom/Button'
+import Button from '../../components/Form/Buttom'
 
 type WelcomeTypes = {
   navigation: any
