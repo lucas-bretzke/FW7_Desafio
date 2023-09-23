@@ -13,7 +13,7 @@ import * as Clipboard from 'expo-clipboard'
 import api from '../../service/api'
 import { urlValidator } from '../../utils/helpers'
 
-import Button from '../../components/Form/Buttom/Button'
+import Button from '../../components/Form/Buttom'
 
 export default function Home() {
   const [originalURL, setOriginalURL] = useState<string>('')
@@ -125,15 +125,15 @@ export default function Home() {
 
         <View style={styles.containerButtons}>
           <Button
-            onClick={() => checkFieldsBeforeRequest()}
-            text='Encurtar'
+            onPress={() => checkFieldsBeforeRequest()}
+            title='Encurtar'
             color='#fff'
             bgColor='#023696'
             width={145}
           />
           <Button
-            onClick={() => copyUrl()}
-            text='Copiar'
+            onPress={() => copyUrl()}
+            title='Copiar'
             color='orange'
             bgColor='#023696'
             width={145}
@@ -142,8 +142,8 @@ export default function Home() {
 
         <View style={styles.clearContentButton}>
           <Button
-            onClick={() => clearContentButton()}
-            text='🗑️'
+            onPress={() => clearContentButton()}
+            title='🗑️'
             color='#fff'
             bgColor='#023696'
             width={40}
