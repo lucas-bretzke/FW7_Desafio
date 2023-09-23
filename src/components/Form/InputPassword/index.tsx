@@ -1,78 +1,58 @@
 import React from 'react'
-import {
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  SafeAreaView,
-  StyleSheet
-} from 'react-native'
 import { Feather } from '@expo/vector-icons'
+import { SafeAreaView } from 'react-native'
+import {
+  ContainerInputPassword,
+  EyeButtom,
+  Input,
+  Error,
+  Label
+} from './styles'
 
 type PasswordProps = {
   value: string
-  msgError: string
-  secureTextEntry: boolean
+  onPress?: () => void
+  msgError?: string
   onChangeText: (text: string) => void
+  secureTextEntry?: boolean
   onSubmitEditing?: () => void
-  onClick: () => void
 }
 
-export default function InputPassword(props: PasswordProps) {
+export default function InputPassword({
+  value = '',
+  onPress = () => {},
+  msgError = '',
+  onChangeText = text => {},
+  secureTextEntry = false,
+  onSubmitEditing = () => {}
+}: PasswordProps) {
   return (
     <SafeAreaView>
-      <View style={styles.containerInputPassword}>
-        <TextInput
-          value={props.value}
-          onChangeText={props.onChangeText}
-          onSubmitEditing={props.onSubmitEditing}
-          secureTextEntry={props.secureTextEntry}
+      <Label>Senha</Label>
+
+      <ContainerInputPassword>
+        <Input
+          value={value}
+          onChangeText={onChangeText}
+          onSubmitEditing={onSubmitEditing}
+          secureTextEntry={secureTextEntry}
           placeholder='******'
-          style={styles.input}
           placeholderTextColor={'#ccc'}
         />
-        <TouchableOpacity
-          style={[
-            styles.eye,
-            !props.secureTextEntry && {
+        <EyeButtom
+          style={
+            !secureTextEntry && {
               backgroundColor: '#44444444',
               opacity: 0.5
             }
-          ]}
-          onPress={props.onClick}
+          }
+          onPress={onPress}
         >
-          {props.secureTextEntry ? (
-            <Feather name='eye' size={24} />
-          ) : (
-            <Feather name='eye-off' size={24} />
-          )}
-        </TouchableOpacity>
-      </View>
-      <Text style={{ color: 'red' }}>{props.msgError}</Text>
+          <Feather name={secureTextEntry ? 'eye' : 'eye-off'} size={24} />
+        </EyeButtom>
+      </ContainerInputPassword>
+
+      <Error>{msgError}</Error>
     </SafeAreaView>
   )
 }
-
-const styles = StyleSheet.create({
-  containerInputPassword: {
-    width: '100%',
-    flexDirection: 'row',
-    borderColor: 'red'
-  },
-  input: {
-    width: '100%',
-    borderBottomWidth: 1,
-    height: 40,
-    marginBottom: 12,
-    fontSize: 16
-  },
-  eye: {
-    position: 'absolute',
-    right: 0,
-    width: 30,
-    height: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 50
-  }
-})
