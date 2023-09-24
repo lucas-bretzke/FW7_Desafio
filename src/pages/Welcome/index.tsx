@@ -29,11 +29,10 @@ export default function Welcome({ navigation }: WelcomeTypes) {
         <Text style={styles.desc2}>Organize seus links com a Bretz.</Text>
         <View style={styles.containerBtn}>
           <Button
-            text='Acessar'
-            color='#fff'
-            bgColor='#023696'
-            onClick={() => navigation.navigate('Home')}
+            title='Acessar'
             width={250}
+            bgColor='#023696'
+            onPress={() => navigation.navigate('Home')}
           />
         </View>
       </Animatable.View>

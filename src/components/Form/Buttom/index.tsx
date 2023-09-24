@@ -1,27 +1,30 @@
 import React from 'react'
+import { ViewStyle } from 'react-native'
 import { StyledButton, Text } from './styles'
 
 type TypeProps = {
   title: string
-  disabled?: boolean
-  color?: string
-  bgColor?: string
   width?: number | string
+  color?: string
+  style?: ViewStyle
   onPress: () => void
+  bgColor?: string
+  disabled?: boolean
 }
 
 export default function Button({
   title,
-  color = '#fff',
-  bgColor = '#192436',
-  width = '100%',
+  style,
   onPress,
+  color = '#fff',
+  width = '100%',
+  bgColor = '#192436',
   disabled = false
 }: TypeProps) {
   return (
     <StyledButton
       disabled={disabled}
-      style={{ backgroundColor: bgColor, width: width }}
+      style={{ backgroundColor: bgColor, width: width, ...style }}
       onPress={onPress}
     >
       <Text style={{ color: color }}>{title}</Text>
