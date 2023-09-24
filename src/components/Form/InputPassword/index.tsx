@@ -38,7 +38,7 @@ export default function InputPassword({
   secureTextEntry = false,
   onSubmitEditing = () => {}
 }: PasswordProps) {
-  const [passwordVisibility, setPasswordVisibility] = useState(true)
+  const [passwordVisibility, setPasswordVisibility] = useState(false)
 
   const visiblePassword = () => setPasswordVisibility(!passwordVisibility)
   return (
