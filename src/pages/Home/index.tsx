@@ -10,7 +10,7 @@ import {
 import styles from './styles'
 import { Feather } from '@expo/vector-icons'
 import * as Clipboard from 'expo-clipboard'
-import api from '../../service/api'
+import api from '../../services/api'
 import { urlValidator } from '../../utils/helpers'
 
 import Button from '../../components/Form/Buttom'

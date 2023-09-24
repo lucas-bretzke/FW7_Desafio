@@ -19,6 +19,8 @@ export default function Register() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
+  function createAccount() {}
+
   return (
     <Container>
       <Animatable.View delay={1000} animation='fadeInUp'>
