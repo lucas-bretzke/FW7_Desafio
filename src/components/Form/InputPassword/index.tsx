@@ -1,33 +1,46 @@
-import React from 'react'
 import { Feather } from '@expo/vector-icons'
+import React, { useState } from 'react'
 import { SafeAreaView, ViewStyle } from 'react-native'
+
+/**
+ * Styles.
+ */
 import {
-  ContainerInputPassword,
-  EyeButtom,
   Input,
   Error,
-  Label
+  Label,
+  EyeButtom,
+  ContainerInputPassword
 } from './styles'
 
+/**
+ * Types.
+ */
 type PasswordProps = {
   value: string
+  style?: ViewStyle
   onPress?: () => void
   msgError?: string
   onChangeText: (text: string) => void
   secureTextEntry?: boolean
   onSubmitEditing?: () => void
-  style?: ViewStyle
 }
 
+/**
+ * Component.
+ */
 export default function InputPassword({
+  style,
   value = '',
   onPress = () => {},
   msgError = '',
   onChangeText = text => {},
   secureTextEntry = false,
-  onSubmitEditing = () => {},
-  style
+  onSubmitEditing = () => {}
 }: PasswordProps) {
+  const [passwordVisibility, setPasswordVisibility] = useState(true)
+
+  const visiblePassword = () => setPasswordVisibility(!passwordVisibility)
   return (
     <SafeAreaView>
       <Label>Senha</Label>
@@ -37,21 +50,21 @@ export default function InputPassword({
           value={value}
           onChangeText={onChangeText}
           onSubmitEditing={onSubmitEditing}
-          secureTextEntry={secureTextEntry}
+          secureTextEntry={passwordVisibility}
           placeholder='******'
           placeholderTextColor={'#ccc'}
           style={{ ...style }}
         />
         <EyeButtom
           style={
-            !secureTextEntry && {
+            !passwordVisibility && {
               backgroundColor: '#44444444',
               opacity: 0.5
             }
           }
-          onPress={onPress}
+          onPress={visiblePassword}
         >
-          <Feather name={secureTextEntry ? 'eye' : 'eye-off'} size={24} />
+          <Feather name={passwordVisibility ? 'eye' : 'eye-off'} size={24} />
         </EyeButtom>
       </ContainerInputPassword>
 

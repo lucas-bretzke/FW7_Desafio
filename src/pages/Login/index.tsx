@@ -29,7 +29,6 @@ import Buttom from '../../components/Form/Buttom'
 import InputText from '../../components/Form/InputText'
 import InputPassword from '../../components/Form/InputPassword'
 import { TouchableOpacity } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 /**
  * Component.
@@ -40,7 +39,6 @@ export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [msgError, setMsgError] = useState('')
-  const [passwordVisibility, setPasswordVisibility] = useState(true)
 
   const [checked, setChecked] = useState(false)
 
@@ -62,7 +60,6 @@ export default function Login() {
     }
   }
 
-  const visiblePassword = () => setPasswordVisibility(!passwordVisibility)
   const visibleButtom = validateTheEmail(email) && password.length >= 6
 
   return (
@@ -90,8 +87,6 @@ export default function Login() {
           value={password}
           msgError={msgError}
           onChangeText={text => setPassword(text)}
-          secureTextEntry={passwordVisibility}
-          onPress={visiblePassword}
         />
 
         <KeepMeMonnected>
