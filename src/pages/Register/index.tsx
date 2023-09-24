@@ -21,7 +21,7 @@ export default function Register() {
   return (
     <Container>
       <Animatable.View delay={1000} animation='fadeInUp'>
-        <Title style={styles.containerHeader}>Faça seu cadastro</Title>
+        <Title style={styles.containerHeader}>Crie sua conta</Title>
 
         <View style={styles.containerForm}>
           <InputText

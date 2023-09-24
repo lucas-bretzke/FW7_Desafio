@@ -11,6 +11,7 @@ export const Title = styled.Text`
   font-size: 28px;
   font-weight: bold;
   color: #fff;
+  margin: 0 auto;
 `
 
 export const KeepMeMonnected = styled.View`
@@ -43,8 +44,8 @@ export const ButtonText = styled.Text`
 export default StyleSheet.create({
   containerHeader: {
     marginVertical: '14%',
-    marginBottom: '19%',
-    paddingStart: '5%'
+    marginBottom: '19%'
+    // paddingStart: '5%'
   },
 
   containerForm: {

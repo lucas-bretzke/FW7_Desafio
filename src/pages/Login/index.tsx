@@ -1,7 +1,7 @@
+import { Feather } from '@expo/vector-icons'
 import * as Animatable from 'react-native-animatable'
 import React, { useState } from 'react'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
-import { Feather } from '@expo/vector-icons'
 
 /**
  * Helpers.
@@ -69,7 +69,7 @@ export default function Login() {
         animation='fadeInLeft'
         style={styles.containerHeader}
       >
-        <Title>Faça seu login</Title>
+        <Title>LOGIN</Title>
       </Animatable.View>
 
       <Animatable.View
@@ -101,16 +101,17 @@ export default function Login() {
         </KeepMeMonnected>
 
         <Buttom
-          title={'Login'}
+          title={'Acessar'}
           onPress={validateSingIn}
           disabled={visibleButtom ? false : true}
           bgColor={'#192436'}
         />
 
         <ButtonContainer>
-          <CreateAccountButton onPress={() => console.log()}>
+          <CreateAccountButton onPress={() => navigation.navigate('Register')}>
             <ButtonText>Criar conta</ButtonText>
           </CreateAccountButton>
+
           <ForgotPasswordButton onPress={() => console.log('click')}>
             <ButtonText>Esquceu a senha?</ButtonText>
           </ForgotPasswordButton>
