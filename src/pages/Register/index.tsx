@@ -27,6 +27,8 @@ export default function Register() {
           <InputText
             value={email}
             label='E-mail'
+            icon='mail'
+            placeholder='example@gmail.comn'
             onChangeText={text => setEmail(text)}
           />
           <InputPassword

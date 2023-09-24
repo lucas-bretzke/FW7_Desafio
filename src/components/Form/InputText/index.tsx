@@ -5,31 +5,31 @@ import {
   Input,
   Label,
   Error,
-  ContainerInputPassword,
-  ButtomIcon
+  ButtomIcon,
+  ContainerInputPassword
 } from './styles'
 
 type TextInputProps = {
   value: string
-  onChangeText: (text: string) => void
-  placeholder?: string
+  icon?: String
   label?: string
-  secureTextEntry?: boolean
+  style?: ViewStyle
   onPress?: () => void
   msgError?: string
-  style?: ViewStyle
-  icon?: String
+  placeholder?: string
+  onChangeText: (text: string) => void
+  secureTextEntry?: boolean
 }
 
 export default function TextInput({
-  value = '',
-  onChangeText = text => {},
-  placeholder = '',
+  icon,
+  style,
+  value,
   label = '',
   onPress = () => {},
   msgError = '',
-  icon,
-  style
+  placeholder = '',
+  onChangeText = text => {}
 }: TextInputProps) {
   return (
     <SafeAreaView>
@@ -44,7 +44,11 @@ export default function TextInput({
         />
         {icon && (
           <ButtomIcon onPress={onPress}>
-            <Feather name={`${icon}`} size={24} />
+            <Feather
+              name={`${icon}`}
+              size={24}
+              style={!value && { opacity: 0.5 }}
+            />
           </ButtomIcon>
         )}
       </ContainerInputPassword>

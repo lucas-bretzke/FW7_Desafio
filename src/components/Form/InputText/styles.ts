@@ -30,13 +30,14 @@ export const Input = styled.TextInput`
 `
 
 export const ButtomIcon = styled.TouchableOpacity`
+  top: 8px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
   position: absolute;
-  right: 0;
-  width: 30;
-  height: 30;
   align-items: center;
-  justify-content: center;
   border-radius: 50px;
+  justify-content: center;
 `
 
 export const Error = styled.Text`
