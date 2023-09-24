@@ -14,6 +14,7 @@ import InputPassword from '../../components/Form/InputPassword'
  * Component.
  */
 export default function Register() {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -24,6 +25,14 @@ export default function Register() {
         <Title style={styles.containerHeader}>Crie sua conta</Title>
 
         <View style={styles.containerForm}>
+          <InputText
+            value={name}
+            label='Nome'
+            icon='user'
+            placeholder='Nome'
+            onChangeText={text => setName(text)}
+          />
+
           <InputText
             value={email}
             label='E-mail'
