@@ -1,7 +1,7 @@
 import * as Animatable from 'react-native-animatable'
 import React, { useState } from 'react'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
-import { Text, View, TextInput, TouchableOpacity } from 'react-native'
+import { Feather } from '@expo/vector-icons'
 
 /**
  * Helpers.
@@ -11,13 +11,25 @@ import { validateTheEmail } from '../../utils/helpers'
 /**
  * Styles.
  */
-import styles from './styles'
+import styles, {
+  Container,
+  Title,
+  CheckboxLabel,
+  KeepMeMonnected,
+  ForgotPasswordButton,
+  ButtonText,
+  CreateAccountButton,
+  ButtonContainer
+} from './styles'
 
 /**
  * Components.
  */
-import InputPassword from '../../components/Form/InputPassword'
 import Buttom from '../../components/Form/Buttom'
+import InputText from '../../components/Form/InputText'
+import InputPassword from '../../components/Form/InputPassword'
+import { TouchableOpacity } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 /**
  * Component.
@@ -29,6 +41,12 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [msgError, setMsgError] = useState('')
   const [passwordVisibility, setPasswordVisibility] = useState(true)
+
+  const [checked, setChecked] = useState(false)
+
+  const toggleCheckbox = () => {
+    setChecked(!checked)
+  }
 
   function singIn() {
     navigation.navigate('Home')
@@ -48,41 +66,61 @@ export default function Login() {
   const visibleButtom = validateTheEmail(email) && password.length >= 6
 
   return (
-    <View style={styles.container}>
+    <Container>
       <Animatable.View
-        delay={600}
+        delay={1000}
         animation='fadeInLeft'
         style={styles.containerHeader}
       >
-        <Text style={styles.message}>Bem-vindo(a)</Text>
+        <Title>Faça seu login</Title>
       </Animatable.View>
 
-      <Animatable.View animation='fadeInUp' style={styles.containerForm}>
-        <Text style={styles.title}>E-mail</Text>
-        <TextInput
+      <Animatable.View
+        delay={1500}
+        animation='fadeInUp'
+        style={styles.containerForm}
+      >
+        <InputText
+          label='E-mail'
+          placeholder='example@gmail.comn'
           value={email}
           onChangeText={text => setEmail(text)}
-          placeholder='fulano@gmail.com'
-          style={styles.input}
-          placeholderTextColor={'#ccc'}
         />
-        <Text style={styles.title}>Senha</Text>
         <InputPassword
           value={password}
           msgError={msgError}
           onChangeText={text => setPassword(text)}
           secureTextEntry={passwordVisibility}
-          onClick={visiblePassword}
+          onPress={visiblePassword}
         />
+
+        <KeepMeMonnected>
+          <TouchableOpacity onPress={toggleCheckbox}>
+            <Feather
+              name={checked ? 'check-square' : 'square'}
+              size={24}
+              color={checked ? 'green' : 'gray'}
+            />
+          </TouchableOpacity>
+          <CheckboxLabel>Manter-me conectado!</CheckboxLabel>
+        </KeepMeMonnected>
+
         <Buttom
           title={'Login'}
           onPress={validateSingIn}
           disabled={visibleButtom ? false : true}
-          bgColor={`${visibleButtom ? '#192436' : '#4444'}`}
+          bgColor={'#192436'}
         />
 
-        <Text style={styles.registerText}>Cadastre-se</Text>
+        <ButtonContainer>
+          <CreateAccountButton onPress={() => console.log()}>
+            <ButtonText>Criar conta</ButtonText>
+          </CreateAccountButton>
+          <ForgotPasswordButton onPress={() => console.log('click')}>
+            <ButtonText>Esquceu a senha?</ButtonText>
+          </ForgotPasswordButton>
+        </ButtonContainer>
       </Animatable.View>
-    </View>
+    </Container>
   )
 }

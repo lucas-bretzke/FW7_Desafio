@@ -1,59 +1,57 @@
 import { StyleSheet } from 'react-native'
+import styled from 'styled-components/native'
+
+export const Container = styled.SafeAreaView`
+  flex: 1;
+  background-color: #192436;
+  padding: 10px;
+`
+
+export const Title = styled.Text`
+  font-size: 28px;
+  font-weight: bold;
+  color: #fff;
+`
+
+export const KeepMeMonnected = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 30px;
+`
+
+export const CheckboxLabel = styled.Text`
+  margin: 0px 10px;
+  color: #4e4b4b;
+`
+
+export const ButtonContainer = styled.TouchableOpacity`
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+`
+
+export const ForgotPasswordButton = styled.TouchableOpacity``
+export const CreateAccountButton = styled.TouchableOpacity``
+
+export const ButtonText = styled.Text`
+  color: #192436;
+`
 
 export default StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#192436',
-    padding: 10
-  },
   containerHeader: {
-    marginTop: '14%',
-    marginBottom: '8%',
+    marginVertical: '14%',
+    marginBottom: '19%',
     paddingStart: '5%'
   },
-  message: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#fff'
-  },
-  containerForm: {
-    backgroundColor: '#fff',
-    flex: 1,
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    padding: '5%'
-  },
-  title: {
-    fontSize: 20,
-    marginTop: 28
-  },
-  input: {
-    width: '100%',
-    borderBottomWidth: 1,
-    height: 40,
-    marginBottom: 12,
-    fontSize: 16
-  },
 
-  button: {
-    backgroundColor: '#192436',
-    width: '100%',
-    borderRadius: 4,
-    paddingVertical: 8,
-    marginTop: 14,
-    alignItems: 'center',
-    justifycontent: 'center'
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold'
-  },
-  buttonRegister: {
-    marginTop: 14,
-    alignSelf: 'center'
-  },
-  registerText: {
-    color: '#a1a1a1'
+  containerForm: {
+    borderRadius: 25,
+    paddingHorizontal: '5%',
+    paddingVertical: '10%',
+    elevation: 2,
+    backgroundColor: '#fff'
   }
 })
