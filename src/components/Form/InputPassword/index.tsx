@@ -1,6 +1,6 @@
 import React from 'react'
 import { Feather } from '@expo/vector-icons'
-import { SafeAreaView } from 'react-native'
+import { SafeAreaView, ViewStyle } from 'react-native'
 import {
   ContainerInputPassword,
   EyeButtom,
@@ -16,6 +16,7 @@ type PasswordProps = {
   onChangeText: (text: string) => void
   secureTextEntry?: boolean
   onSubmitEditing?: () => void
+  style?: ViewStyle
 }
 
 export default function InputPassword({
@@ -24,7 +25,8 @@ export default function InputPassword({
   msgError = '',
   onChangeText = text => {},
   secureTextEntry = false,
-  onSubmitEditing = () => {}
+  onSubmitEditing = () => {},
+  style
 }: PasswordProps) {
   return (
     <SafeAreaView>
@@ -38,6 +40,7 @@ export default function InputPassword({
           secureTextEntry={secureTextEntry}
           placeholder='******'
           placeholderTextColor={'#ccc'}
+          style={{ ...style }}
         />
         <EyeButtom
           style={
