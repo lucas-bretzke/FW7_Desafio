@@ -54,11 +54,10 @@ export default function Login() {
   async function login() {
     try {
       setLoading(true)
-      const res = await singIn(email, password)
 
-      console.log(res)
-
+      await singIn(email, password)
       navigation.navigate('Home')
+
       setMsgError('')
     } catch (error) {
       const { status } = error?.response

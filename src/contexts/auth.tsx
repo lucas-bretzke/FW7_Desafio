@@ -15,8 +15,6 @@ export default function AuthProvider({ children }: any) {
       email: res.email,
       token: res.token
     })
-
-    return res
   }
 
   return (
