@@ -4,6 +4,11 @@ import React, { useState } from 'react'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
 
 /**
+ * Services.
+ */
+import api from '../../services/api'
+
+/**
  * Helpers.
  */
 import { validateTheEmail } from '../../utils/helpers'
@@ -30,7 +35,6 @@ import Buttom from '../../components/Form/Buttom'
 import InputText from '../../components/Form/InputText'
 import InputPassword from '../../components/Form/InputPassword'
 import { TouchableOpacity } from 'react-native'
-import axios from 'axios'
 
 /**
  * Component.
@@ -49,14 +53,11 @@ export default function Login() {
   async function singIn() {
     try {
       setLoading(true)
-      const res = await axios.post('http://192.168.0.14:3000/login', {
-        email: email,
-        password: password
-      })
+      const res = await api.singIn(email, password)
 
-      const token = res.data.token
-      console.log(res.data)
-      // navigation.navigate('Home');
+      console.log(res)
+
+      // navigation.navigate('Home')
       setMsgError('')
     } catch (error) {
       const { status } = error?.response
