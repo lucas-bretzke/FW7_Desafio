@@ -41,6 +41,17 @@ export const ButtonText = styled.Text`
   color: #192436;
 `
 
+export const Spinner = styled.ActivityIndicator`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: white;
+  opacity: 0.2;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`
+
 export default StyleSheet.create({
   containerHeader: {
     marginVertical: '14%',

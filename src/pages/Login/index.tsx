@@ -12,14 +12,15 @@ import { validateTheEmail } from '../../utils/helpers'
  * Styles.
  */
 import styles, {
-  Container,
   Title,
+  Spinner,
+  Container,
+  ButtonText,
   CheckboxLabel,
   KeepMeMonnected,
-  ForgotPasswordButton,
-  ButtonText,
+  ButtonContainer,
   CreateAccountButton,
-  ButtonContainer
+  ForgotPasswordButton
 } from './styles'
 
 /**
@@ -38,16 +39,16 @@ export default function Login() {
   const navigation = useNavigation<NavigationProp<any>>()
 
   const [email, setEmail] = useState('')
+  const [checked, setChecked] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [password, setPassword] = useState('')
   const [msgError, setMsgError] = useState('')
-  const [checked, setChecked] = useState(false)
 
-  const toggleCheckbox = () => {
-    setChecked(!checked)
-  }
+  const toggleCheckbox = () => setChecked(!checked)
 
   async function singIn() {
     try {
+      setLoading(true)
       const res = await axios.post('http://192.168.0.14:3000/login', {
         email: email,
         password: password
@@ -58,68 +59,75 @@ export default function Login() {
       // navigation.navigate('Home');
       setMsgError('')
     } catch (error) {
-      if (error?.response?.status === 401)
-        setMsgError('Email ou senha incorretos.')
+      const { status } = error?.response
+      if (status === 401) setMsgError('Email ou senha incorretos.')
+    } finally {
+      setLoading(false)
     }
   }
 
   const visibleButtom = validateTheEmail(email) && password.length >= 6
 
   return (
-    <Container>
-      <Animatable.View
-        delay={1000}
-        animation='fadeInLeft'
-        style={styles.containerHeader}
-      >
-        <Title>LOGIN</Title>
-      </Animatable.View>
+    <>
+      <Container>
+        <Animatable.View
+          delay={1000}
+          animation='fadeInLeft'
+          style={styles.containerHeader}
+        >
+          <Title>LOGIN</Title>
+        </Animatable.View>
 
-      <Animatable.View
-        delay={1500}
-        animation='fadeInUp'
-        style={styles.containerForm}
-      >
-        <InputText
-          label='E-mail'
-          placeholder='example@gmail.comn'
-          value={email}
-          onChangeText={text => setEmail(text)}
-        />
-        <InputPassword
-          value={password}
-          msgError={msgError}
-          onChangeText={text => setPassword(text)}
-        />
+        <Animatable.View
+          delay={1500}
+          animation='fadeInUp'
+          style={styles.containerForm}
+        >
+          <InputText
+            label='E-mail'
+            placeholder='example@gmail.comn'
+            value={email}
+            onChangeText={text => setEmail(text)}
+          />
+          <InputPassword
+            value={password}
+            msgError={msgError}
+            onChangeText={text => setPassword(text)}
+          />
 
-        <KeepMeMonnected>
-          <TouchableOpacity onPress={toggleCheckbox}>
-            <Feather
-              name={checked ? 'check-square' : 'square'}
-              size={24}
-              color={checked ? 'green' : 'gray'}
-            />
-          </TouchableOpacity>
-          <CheckboxLabel>Manter-me conectado!</CheckboxLabel>
-        </KeepMeMonnected>
+          <KeepMeMonnected>
+            <TouchableOpacity onPress={toggleCheckbox}>
+              <Feather
+                name={checked ? 'check-square' : 'square'}
+                size={24}
+                color={checked ? 'green' : 'gray'}
+              />
+            </TouchableOpacity>
+            <CheckboxLabel>Manter-me conectado!</CheckboxLabel>
+          </KeepMeMonnected>
 
-        <Buttom
-          title={'Acessar'}
-          onPress={singIn}
-          disabled={visibleButtom ? false : true}
-          bgColor={'#192436'}
-        />
+          <Buttom
+            title={'Acessar'}
+            onPress={singIn}
+            disabled={visibleButtom ? false : true}
+            bgColor={'#192436'}
+          />
 
-        <ButtonContainer>
-          <CreateAccountButton onPress={() => navigation.navigate('Register')}>
-            <ButtonText>Criar conta</ButtonText>
-          </CreateAccountButton>
+          <ButtonContainer>
+            <CreateAccountButton
+              onPress={() => navigation.navigate('Register')}
+            >
+              <ButtonText>Criar conta</ButtonText>
+            </CreateAccountButton>
 
-          <ForgotPasswordButton onPress={() => console.log('click')}>
-            <ButtonText>Esquceu a senha?</ButtonText>
-          </ForgotPasswordButton>
-        </ButtonContainer>
-      </Animatable.View>
-    </Container>
+            <ForgotPasswordButton onPress={() => console.log('click')}>
+              <ButtonText>Esquceu a senha?</ButtonText>
+            </ForgotPasswordButton>
+          </ButtonContainer>
+        </Animatable.View>
+      </Container>
+      {loading && <Spinner size='large' color='black' />}
+    </>
   )
 }
