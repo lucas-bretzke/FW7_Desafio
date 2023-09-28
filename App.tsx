@@ -1,11 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import Routes from './src/routes';
+import Routes from './src/routes'
+import { StatusBar } from 'expo-status-bar'
+import AuthProvider from './src/contexts/auth'
 
 export default function App() {
   return (
     <>
       <StatusBar backgroundColor='#192436' style='light' translucent={false} />
-      <Routes />
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
     </>
-  );
+  )
 }

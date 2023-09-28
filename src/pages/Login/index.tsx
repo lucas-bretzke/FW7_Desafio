@@ -1,12 +1,12 @@
 import { Feather } from '@expo/vector-icons'
 import * as Animatable from 'react-native-animatable'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
 
 /**
- * Services.
+ * Contexts.
  */
-import api from '../../services/api'
+import { AuthContext } from '.././../contexts/auth'
 
 /**
  * Helpers.
@@ -41,6 +41,7 @@ import { TouchableOpacity } from 'react-native'
  */
 export default function Login() {
   const navigation = useNavigation<NavigationProp<any>>()
+  const { singIn }: any = useContext(AuthContext)
 
   const [email, setEmail] = useState('')
   const [checked, setChecked] = useState(false)
@@ -50,14 +51,14 @@ export default function Login() {
 
   const toggleCheckbox = () => setChecked(!checked)
 
-  async function singIn() {
+  async function login() {
     try {
       setLoading(true)
-      const res = await api.singIn(email, password)
+      const res = await singIn(email, password)
 
       console.log(res)
 
-      // navigation.navigate('Home')
+      navigation.navigate('Home')
       setMsgError('')
     } catch (error) {
       const { status } = error?.response
@@ -67,7 +68,7 @@ export default function Login() {
     }
   }
 
-  const visibleButtom = validateTheEmail(email) && password.length >= 6
+  const buttonEnabled = validateTheEmail(email) && password.length >= 6
 
   return (
     <>
@@ -110,8 +111,8 @@ export default function Login() {
 
           <Buttom
             title={'Acessar'}
-            onPress={singIn}
-            disabled={visibleButtom ? false : true}
+            onPress={login}
+            disabled={!buttonEnabled}
             bgColor={'#192436'}
           />
 
