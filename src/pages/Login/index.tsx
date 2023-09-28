@@ -29,6 +29,7 @@ import Buttom from '../../components/Form/Buttom'
 import InputText from '../../components/Form/InputText'
 import InputPassword from '../../components/Form/InputPassword'
 import { TouchableOpacity } from 'react-native'
+import axios from 'axios'
 
 /**
  * Component.
@@ -39,24 +40,26 @@ export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [msgError, setMsgError] = useState('')
-
   const [checked, setChecked] = useState(false)
 
   const toggleCheckbox = () => {
     setChecked(!checked)
   }
 
-  function singIn() {
-    navigation.navigate('Home')
-  }
+  async function singIn() {
+    try {
+      const res = await axios.post('http://192.168.0.14:3000/login', {
+        email: email,
+        password: password
+      })
 
-  function validateSingIn() {
-    if (validateTheEmail(email) && password.length >= 6) {
-      singIn()
-    }
-
-    if (!email || !password) {
-      setMsgError('E-mail inválido!')
+      const token = res.data.token
+      console.log(res.data)
+      // navigation.navigate('Home');
+      setMsgError('')
+    } catch (error) {
+      if (error?.response?.status === 401)
+        setMsgError('Email ou senha incorretos.')
     }
   }
 
@@ -102,7 +105,7 @@ export default function Login() {
 
         <Buttom
           title={'Acessar'}
-          onPress={validateSingIn}
+          onPress={singIn}
           disabled={visibleButtom ? false : true}
           bgColor={'#192436'}
         />
