@@ -1,20 +1,38 @@
+import { Feather } from '@expo/vector-icons'
+import * as Clipboard from 'expo-clipboard'
 import React, { useState } from 'react'
 import {
   Text,
   View,
+  Keyboard,
   TextInput,
   ScrollView,
-  ActivityIndicator,
-  Keyboard
+  ActivityIndicator
 } from 'react-native'
-import styles from './styles'
-import { Feather } from '@expo/vector-icons'
-import * as Clipboard from 'expo-clipboard'
+
+/**
+ * Services.
+ */
 import api from '../../services/api'
+
+/**
+ * Helpers.
+ */
 import { urlValidator } from '../../utils/helpers'
 
+/**
+ * Components.
+ */
 import Button from '../../components/Form/Buttom'
 
+/**
+ * Styles.
+ */
+import styles from './styles'
+
+/**
+ * Component.
+ */
 export default function Home() {
   const [originalURL, setOriginalURL] = useState<string>('')
   const [urlCustom, setUrlCustom] = useState<string>('')
