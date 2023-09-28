@@ -2,7 +2,7 @@ import { http } from './config'
 
 export default {
   postShortUrl: async (url: string, code: string) => {
-    const response = await http.post('/new', { url, code })
+    const response = await http.post('/newShortUrl', { url, code })
     return response?.data
   },
 
