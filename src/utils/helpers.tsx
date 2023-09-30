@@ -9,4 +9,27 @@ const urlValidator = (url: string) => {
   return regex.test(url)
 }
 
-export { validateTheEmail, urlValidator }
+const validatePassword = (password: string) => {
+  if (password.length < 6) {
+    return false
+  }
+
+  if (!/[A-Z]/.test(password)) {
+    // Verifique se a senha contém pelo menos uma letra maiúscula
+    return false
+  }
+
+  // Verifique se a senha contém apenas letras maiúsculas, minúsculas ou números
+  if (!/^[A-Za-z0-9@]+$/.test(password)) {
+    return false
+  }
+
+  // Verifique se a senha contém pelo menos um caractere especial
+  if (!/[@#$%^&+=]/.test(password)) {
+    return false
+  }
+
+  return true
+}
+
+export { validateTheEmail, urlValidator, validatePassword }
