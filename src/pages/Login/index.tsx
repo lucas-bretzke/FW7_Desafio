@@ -58,13 +58,20 @@ export default function Login() {
       await singIn(email, password)
       navigation.navigate('Home')
 
-      setMsgError('')
+      clearState()
     } catch (error) {
       const { status } = error?.response
       if (status === 401) setMsgError('Email ou senha incorretos.')
     } finally {
       setLoading(false)
     }
+  }
+
+  function clearState() {
+    setEmail('')
+    setChecked(false)
+    setPassword('')
+    setMsgError('')
   }
 
   const buttonEnabled = validateTheEmail(email) && password.length >= 6
