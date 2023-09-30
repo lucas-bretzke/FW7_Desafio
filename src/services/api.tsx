@@ -21,5 +21,14 @@ export default {
       password: password
     })
     return response?.data
+  },
+
+  checkIfTheEmailIsAlreadyRegistered: async (email: any) => {
+    try {
+      const response = await http.get(`/users/email/${email}`)
+      return response
+    } catch (error) {
+      console.log('Success: email not found')
+    }
   }
 }

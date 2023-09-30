@@ -35,7 +35,7 @@ export default function Register() {
   const [msgError, setMsgError] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
-  const validateForm = () => {
+  const validateForm = async () => {
     if (!name) {
       setMsgError('Preencha o nome')
       return false
@@ -46,29 +46,33 @@ export default function Register() {
       return false
     }
 
-    if (password.length > 1 && password !== confirmPassword) {
-      setMsgError('As senha não são iguais')
+    if (password !== confirmPassword) {
+      setMsgError('Os campos de senha devem ser iguais')
       return false
     }
 
-    if (password.length > 5 && password === confirmPassword) setMsgError('')
+    const emailExists = await api.checkIfTheEmailIsAlreadyRegistered(email)
+
+    if (emailExists?.status === 200) {
+      setMsgError('Este email já está cadastrado')
+      return false
+    }
+
+    setMsgError('')
     return true
   }
 
   async function createAccount() {
     try {
       setLoading(true)
-      if (validateForm()) {
+
+      if (await validateForm()) {
         await api.createAccount(name, email, password)
+
         Alert.alert(
           'Conta criada com sucesso!',
           'Sua conta foi criada com sucesso.',
-          [
-            {
-              text: 'Logar',
-              onPress: () => console.log('teste')
-            }
-          ]
+          [{ text: 'Logar', onPress: () => console.log('teste') }]
         )
       }
     } catch (error) {
