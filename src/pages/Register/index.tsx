@@ -10,7 +10,7 @@ import api from '../../services/api'
 /**
  * Utils.
  */
-import { validatePassword, validateTheEmail } from '../../utils/helpers'
+import { validatePassword, validateTheEmail } from '../../utils/form'
 
 /**
  * Components.
@@ -48,7 +48,7 @@ export default function Register() {
 
     if (!validatePassword(password)) {
       setMsgError(
-    `A senha deve conter no mínimo um caractere especial (@, #, $, %, ^, & ou +), um número e uma letra maiúscula.`
+        `A senha deve conter no mínimo um caractere especial (@, #, $, %, ^, & ou +), um número e uma letra maiúscula.`
       )
       return false
     }

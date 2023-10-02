@@ -11,7 +11,7 @@ import { AuthContext } from '.././../contexts/auth'
 /**
  * Helpers.
  */
-import { validateTheEmail } from '../../utils/helpers'
+import { validateTheEmail } from '../../utils/form'
 
 /**
  * Styles.

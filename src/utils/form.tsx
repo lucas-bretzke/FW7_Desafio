@@ -4,11 +4,6 @@ const validateTheEmail = (email: any) => {
   return re.test(email)
 }
 
-const urlValidator = (url: string) => {
-  const regex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i
-  return regex.test(url)
-}
-
 const validatePassword = (password: string) => {
   if (password.length < 6) {
     return false
@@ -32,4 +27,4 @@ const validatePassword = (password: string) => {
   return true
 }
 
-export { validateTheEmail, urlValidator, validatePassword }
+export { validateTheEmail, validatePassword }
