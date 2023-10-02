@@ -74,7 +74,7 @@ export default function Register() {
       setLoading(true)
 
       if (await validateForm()) {
-        await api.createAccount(name, email, password)
+        await api.createUser(name, email, password)
 
         Alert.alert(
           'Conta criada com sucesso!',

@@ -10,11 +10,11 @@ export default {
   },
 
   postShortUrl: async (url: string, code: string) => {
-    const response = await http.post('/newShortUrl', { url, code })
+    const response = await http.post('/shortUrl', { url, code })
     return response?.data
   },
 
-  createAccount: async (name: string, email: string, password: string) => {
+  createUser: async (name: string, email: string, password: string) => {
     const response = await http.post('/user', {
       username: name,
       email: email,
