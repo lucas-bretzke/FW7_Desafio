@@ -2,7 +2,7 @@ import { http } from './config'
 
 export default {
   singIn: async (email: string, password: string) => {
-    const response = await http.post('/login', {
+    const response = await http.post('/auth/login', {
       email: email,
       password: password
     })
@@ -11,6 +11,11 @@ export default {
 
   postShortUrl: async (url: string, code: string) => {
     const response = await http.post('/shortUrl', { url, code })
+    return response?.data
+  },
+
+  userUrls: async (id: string) => {
+    const response = await http.get(`/shortUrl${id}`)
     return response?.data
   },
 
