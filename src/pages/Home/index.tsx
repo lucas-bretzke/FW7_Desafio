@@ -1,6 +1,6 @@
 import { Feather } from '@expo/vector-icons'
 import * as Clipboard from 'expo-clipboard'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
   Text,
   View,
@@ -18,7 +18,7 @@ import api from '../../services/api'
 /**
  * Helpers.
  */
-import { urlValidator } from '../../utils/helpers'
+import { urlValidator } from '../../utils/others'
 
 /**
  * Components.
@@ -29,16 +29,19 @@ import Button from '../../components/Form/Buttom'
  * Styles.
  */
 import styles from './styles'
+import { AuthContext } from '../../contexts/auth'
 
 /**
  * Component.
  */
 export default function Home() {
-  const [originalURL, setOriginalURL] = useState<string>('')
-  const [urlCustom, setUrlCustom] = useState<string>('')
-  const [endUrl, setEndUrl] = useState<string>('')
-  const [msgError, setMsgError] = useState<string>('')
+  const { user }: any = useContext(AuthContext)
+
+  const [endUrl, setEndUrl] = useState('')
   const [loading, setLoading] = useState(false)
+  const [msgError, setMsgError] = useState('')
+  const [urlCustom, setUrlCustom] = useState('')
+  const [originalURL, setOriginalURL] = useState('')
 
   function generateRandomString(length: number) {
     let newChart = ''
