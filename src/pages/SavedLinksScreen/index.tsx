@@ -58,11 +58,11 @@ export default function SavedLinksScreen() {
   const { getUserShortenedUrls }: any = useContext(AuthContext)
 
   const [isLoading, setIsLoading] = useState(false)
-  const [isModalVisible, setIsModalVisible] = useState(false)
   const [selectedItem, setSelectedItem] = useState<ITypeLink>()
   const [shortenedUrls, setShortenedUrls] = useState([])
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
-  async function teste() {
+  async function getUrls() {
     try {
       setIsLoading(true)
       const response = await getUserShortenedUrls()
@@ -99,38 +99,74 @@ export default function SavedLinksScreen() {
     setIsModalVisible(false)
   }
 
-  function copyLink(item: any) {
-    Clipboard.setString(item.short_url),
-      alert(`URL Copiada!\n ${item.short_url}`)
+  function copyLink() {
+    if (!selectedItem) return
+
+    Clipboard.setString(selectedItem?.short_url),
+      alert(`URL Copiada!\n ${selectedItem?.short_url}`)
+  }
+
+  async function toggleFavorite() {
+    if (!selectedItem) return
+
+    closeModal()
+    setIsLoading(true)
+
+    const updatedLink = {
+      id: selectedItem.link_id,
+      description: selectedItem?.description,
+      is_favorite: !selectedItem.is_favorite
+    }
+
+    try {
+      await api.editShortenedUrl(updatedLink)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      getUrls()
+      setIsLoading(false)
+    }
   }
 
   async function deleteLink() {
     try {
+      setIsLoading(true)
+      closeModal()
+
       if (!selectedItem) return
 
       await api.deleteShorUrl(selectedItem.link_id)
-
-      closeModal()
     } catch (error) {
       console.log(error)
+    } finally {
+      getUrls()
+      setIsLoading(false)
     }
   }
 
   function ContentModal() {
+    const buttons = [
+      { text: 'Copiar', onPress: copyLink },
+      { text: 'Excluir', onPress: deleteLink },
+      {
+        text: selectedItem?.is_favorite ? 'Desfavoritar' : 'Favoritar',
+        onPress: toggleFavorite
+      }
+    ]
+
     return (
       <ModalContent>
-        <ModalButtons onPress={copyLink}>
-          <TextButtons>Copiar</TextButtons>
-        </ModalButtons>
-        <ModalButtons onPress={deleteLink}>
-          <TextButtons>Excluir</TextButtons>
-        </ModalButtons>
+        {buttons.map((button, index) => (
+          <ModalButtons key={index} onPress={button.onPress}>
+            <TextButtons>{button.text}</TextButtons>
+          </ModalButtons>
+        ))}
       </ModalContent>
     )
   }
 
   useEffect(() => {
-    teste()
+    getUrls()
   }, [])
 
   return (
@@ -159,7 +195,7 @@ export default function SavedLinksScreen() {
         width={40}
       />
 
-      {isLoading && <Spinner size='large' color='blue' />}
+      {isLoading && <Spinner size='large' color='black' />}
     </Container>
   )
 }

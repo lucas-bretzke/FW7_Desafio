@@ -45,7 +45,7 @@ export const ModalButtons = styled.TouchableOpacity`
   border-color: #d6d6d6;
   padding: 15px 10px;
   margin: 5px 0px;
-  width: 230px;
+  width: 240px;
   justify-content: center;
   border-radius: 5px;
 `
