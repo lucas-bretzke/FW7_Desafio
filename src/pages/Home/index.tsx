@@ -1,12 +1,10 @@
 import { Feather } from '@expo/vector-icons'
-import * as Clipboard from 'expo-clipboard'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import {
   Text,
   View,
   Keyboard,
   TextInput,
-  ScrollView,
   ActivityIndicator
 } from 'react-native'
 
@@ -29,19 +27,16 @@ import Button from '../../components/Form/Buttom'
  * Styles.
  */
 import styles from './styles'
-import { AuthContext } from '../../contexts/auth'
 
 /**
  * Component.
  */
 export default function Home() {
-  const { user }: any = useContext(AuthContext)
-
-  const [endUrl, setEndUrl] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [msgError, setMsgError] = useState('')
-  const [urlCustom, setUrlCustom] = useState('')
+  const [customUrl, setCustomUrl] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const [originalURL, setOriginalURL] = useState('')
+  const [shortenedUrl, setShortenedUrl] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   function generateRandomString(length: number) {
     let newChart = ''
@@ -54,55 +49,51 @@ export default function Home() {
   }
 
   async function checkFieldsBeforeRequest() {
-    setLoading(true)
+    setIsLoading(true)
     Keyboard.dismiss()
 
     if (checkCustomUrl()) {
-      setMsgError(
+      setErrorMessage(
         'O título opcional deve conter no mínimo 6 letras e não pode ter espaços.'
       )
-    } else if (endUrl) {
-      setMsgError(
+    } else if (shortenedUrl) {
+      setErrorMessage(
         'Você precisa limpar os campos primeiro!\nClique na lixeira abaixo.'
       )
     } else if (urlValidator(originalURL)) {
-      setMsgError('')
+      setErrorMessage('')
       await generateShortURL()
     } else {
-      setMsgError('Ops! URL inválida')
+      setErrorMessage('Ops! URL inválida')
     }
 
-    setLoading(false)
+    setIsLoading(false)
   }
 
   async function generateShortURL() {
     try {
-      const code = urlCustom ? urlCustom : generateRandomString(6)
+      const code = customUrl ? customUrl : generateRandomString(6)
       await api.postShortUrl(originalURL, code)
-      setEndUrl('api-fw7.onrender.com/' + code)
+
+      setShortenedUrl('bretz.up.railway.app/' + code)
     } catch (error) {
       console.log('post error:', error)
-      setMsgError('Ops! Erro interno, volte mais tarde')
-    }
-  }
-
-  function copyUrl() {
-    if (endUrl) {
-      Clipboard.setString(endUrl), alert(`URL Copiada!\n ${endUrl}`)
-    } else {
-      setMsgError('URL inválida')
+      setErrorMessage('Ops! Erro interno, volte mais tarde')
     }
   }
 
   function checkCustomUrl() {
-    const hasSpace = urlCustom.includes(' ')
-    const isValidLength = urlCustom.length >= 1 && urlCustom.length < 6
+    const hasSpace = customUrl.includes(' ')
+    const isValidLength = customUrl.length >= 1 && customUrl.length < 6
 
     return hasSpace || isValidLength
   }
 
   function clearContentButton() {
-    setMsgError(''), setEndUrl(''), setUrlCustom(''), setOriginalURL('')
+    setErrorMessage(''),
+      setShortenedUrl(''),
+      setCustomUrl(''),
+      setOriginalURL('')
   }
 
   return (
@@ -126,23 +117,14 @@ export default function Home() {
         <View style={styles.containerInput}>
           <Text style={styles.label}>Título (opcional)</Text>
           <TextInput
-            value={urlCustom}
-            onChangeText={text => setUrlCustom(text)}
+            value={customUrl}
+            onChangeText={text => setCustomUrl(text)}
             placeholder='ex: MinhaUrl'
             style={styles.input}
           />
         </View>
-        {endUrl && (
-          <ScrollView style={{ maxHeight: 150 }}>
-            <View style={styles.description}>
-              <Text style={[{ color: 'white' }]}>{endUrl}</Text>
-              <Text style={{ color: 'white' }}>Redireciona para:</Text>
-              <Text style={{ color: 'white' }}>{originalURL}</Text>
-            </View>
-          </ScrollView>
-        )}
 
-        {msgError && <Text style={styles.msgError}>{msgError}</Text>}
+        {errorMessage && <Text style={styles.msgError}>{errorMessage}</Text>}
 
         <View style={styles.containerButtons}>
           <Button
@@ -150,29 +132,21 @@ export default function Home() {
             title='Encurtar'
             color='#fff'
             bgColor='#023696'
-            width={145}
-          />
-          <Button
-            onPress={() => copyUrl()}
-            title='Copiar'
-            color='orange'
-            bgColor='#023696'
-            width={145}
-          />
-        </View>
-
-        <View style={styles.clearContentButton}>
-          <Button
-            onPress={() => clearContentButton()}
-            title='🗑️'
-            color='#fff'
-            bgColor='#023696'
-            width={40}
           />
         </View>
       </View>
 
-      {loading && (
+      <View style={styles.clearContentButton}>
+        <Button
+          onPress={() => clearContentButton()}
+          title='🗑️'
+          color='#fff'
+          bgColor='#023696'
+          width={40}
+        />
+      </View>
+
+      {isLoading && (
         <ActivityIndicator size='large' color='blue' style={styles.spinner} />
       )}
     </View>

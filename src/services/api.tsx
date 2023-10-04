@@ -14,8 +14,18 @@ export default {
     return response?.data
   },
 
-  userUrls: async (id: string) => {
-    const response = await http.get(`/shortUrl${id}`)
+  editShortenedUrl: async (link: any) => {
+    const response = await http.put(`/shortUrl/${link.id}`, link)
+    return response?.data
+  },
+
+  deleteShorUrl: async (id: number) => {
+    const response = await http.delete(`/shortUrl/${id}`)
+    return response?.data
+  },
+
+  userShortenedUrls: async (id: number) => {
+    const response = await http.get(`/shortUrl/${id}`)
     return response?.data
   },
 
