@@ -54,6 +54,12 @@ export const TextButtons = styled.Text`
   font-size: 15px;
 `
 
+export const IconFavorite = styled.TouchableOpacity`
+  position: absolute;
+  right: 2%;
+  top: 15%;
+`
+
 export const Spinner = styled.ActivityIndicator`
   width: 100%;
   height: 100%;

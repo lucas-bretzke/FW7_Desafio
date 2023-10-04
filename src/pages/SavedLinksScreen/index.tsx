@@ -1,70 +1,66 @@
-import { FlatList, TouchableOpacity, Text } from 'react-native'
-import { Feather } from '@expo/vector-icons'
+import { FlatList } from 'react-native'
 import * as Clipboard from 'expo-clipboard'
+import { MaterialIcons, Feather } from '@expo/vector-icons'
 import React, { useContext, useEffect, useState } from 'react'
+import { NavigationProp, useNavigation } from '@react-navigation/native'
 
+/**
+ * Styles.
+ */
 import {
+  Link,
+  Spinner,
   Container,
-  ContainerShortenedUrl,
   DateCreated,
   Description,
-  Link,
+  TextButtons,
   ModalButtons,
   ModalContent,
+  IconFavorite,
   NumberOfLinks,
-  Spinner,
-  TextButtons
+  ContainerShortenedUrl
 } from './styles'
 
-import Button from '../../components/Form/Buttom'
+/**
+ * Contexts.
+ */
 import { AuthContext } from '../../contexts/auth'
-import { NavigationProp, useNavigation } from '@react-navigation/native'
+
+/**
+ * Services.
+ */
+import api from '../../services/api'
+
+/**
+ * Components.
+ */
+import Button from '../../components/Form/Buttom'
 import BaseModal from '../../components/Modal'
 
+/**
+ * Types.
+ */
+type ITypeLink = {
+  user_id: number
+  link_id: number
+  short_url: string
+  created_at: Date
+  description: string
+  is_favorite: boolean
+  original_url: string
+}
+
+/**
+ * Component.
+ */
 export default function SavedLinksScreen() {
   const navigation = useNavigation<NavigationProp<any>>()
   const { getUserShortenedUrls }: any = useContext(AuthContext)
 
   const [isLoading, setIsLoading] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [selectedItem, setSelectedItem] = useState(null)
-  const [shortenedUrls, setShortenedUrls] = useState([
-    {
-      created_at: '2023-10-02T17:56:35.666Z',
-      link_id: 29,
-      original_url: 'https://www.linkedin.com/notifications/?filter=all',
-      short_url: 'bretz.up.railway.app/12345678',
-      user_id: 32
-    },
-    {
-      created_at: '2023-10-02T17:56:35.666Z',
-      link_id: 29,
-      original_url: 'https://www.linkedin.com/notifications/?filter=all',
-      short_url: 'bretz.up.railway.app/12345678',
-      user_id: 32
-    },
-    {
-      created_at: '2023-10-02T17:56:35.666Z',
-      link_id: 29,
-      original_url: 'https://www.linkedin.com/notifications/?filter=all',
-      short_url: 'bretz.up.railway.app/12345678',
-      user_id: 32
-    },
-    {
-      created_at: '2023-10-02T17:56:35.666Z',
-      link_id: 29,
-      original_url: 'https://www.linkedin.com/notifications/?filter=all',
-      short_url: 'bretz.up.railway.app/12345678',
-      user_id: 32
-    },
-    {
-      created_at: '2023-10-02T17:56:35.666Z',
-      link_id: 29,
-      original_url: 'https://www.linkedin.com/notifications/?filter=all',
-      short_url: 'bretz.up.railway.app/12345678',
-      user_id: 32
-    }
-  ])
+  const [selectedItem, setSelectedItem] = useState<ITypeLink>()
+  const [shortenedUrls, setShortenedUrls] = useState([])
 
   async function teste() {
     try {
@@ -79,7 +75,6 @@ export default function SavedLinksScreen() {
     }
   }
   function renderShortenedUrl(item: any) {
-    console.log(item)
     return (
       <ContainerShortenedUrl
         onPress={() => {
@@ -88,8 +83,14 @@ export default function SavedLinksScreen() {
         }}
       >
         <DateCreated>{item.created_at}</DateCreated>
-        <Description>Minha descrição 01</Description>
+        <Description>{item.description}</Description>
         <Link>{item.short_url}</Link>
+
+        {item.is_favorite && (
+          <IconFavorite>
+            <MaterialIcons name='favorite' size={18} color='#444444' />
+          </IconFavorite>
+        )}
       </ContainerShortenedUrl>
     )
   }
@@ -103,8 +104,16 @@ export default function SavedLinksScreen() {
       alert(`URL Copiada!\n ${item.short_url}`)
   }
 
-  function deleteLink() {
-    closeModal()
+  async function deleteLink() {
+    try {
+      if (!selectedItem) return
+
+      await api.deleteShorUrl(selectedItem.link_id)
+
+      closeModal()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   function ContentModal() {
@@ -120,9 +129,9 @@ export default function SavedLinksScreen() {
     )
   }
 
-  // useEffect(() => {
-  //   teste()
-  // }, [])
+  useEffect(() => {
+    teste()
+  }, [])
 
   return (
     <Container>

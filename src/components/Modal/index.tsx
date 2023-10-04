@@ -24,7 +24,7 @@ export default function BaseModal({
   container
 }: IPropsType) {
   return (
-    <Modal visible={visible} animationType='slide' transparent={true}>
+    <Modal visible={visible} transparent={true}>
       <ModalStyled>
         <Container>
           <CloseModal onPress={onClose}>
