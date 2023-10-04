@@ -133,7 +133,7 @@ export default function SavedLinksScreen() {
       />
 
       <BaseModal
-        visible={true}
+        visible={isModalVisible}
         onClose={() => closeModal()}
         container={ContentModal()}
       />
