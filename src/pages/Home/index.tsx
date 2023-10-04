@@ -141,14 +141,6 @@ export default function Home() {
             title='Encurtar'
             color='#fff'
             bgColor='#023696'
-            width={145}
-          />
-          <Button
-            onPress={() => copyUrl()}
-            title='Copiar'
-            color='orange'
-            bgColor='#023696'
-            width={145}
           />
         </View>
       </View>
