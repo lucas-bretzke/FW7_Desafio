@@ -7,7 +7,7 @@ export const Container = styled.SafeAreaView`
 
 export const NumberOfLinks = styled.Text`
   padding: 10px 15px;
-  background-color: #eee
+  background-color: #eee;
 `
 
 export const ContainerShortenedUrl = styled.TouchableOpacity`
@@ -33,6 +33,25 @@ export const DeleteButton = styled.TouchableOpacity`
   background-color: red;
   padding: 10px;
   font-size: 18px;
+`
+
+export const ModalContent = styled.SafeAreaView`
+  align-items: center;
+  justify-content: center;
+`
+
+export const ModalButtons = styled.TouchableOpacity`
+  border-bottom-width: 1px;
+  border-color: #d6d6d6;
+  padding: 15px 10px;
+  margin: 5px 0px;
+  width: 230px;
+  justify-content: center;
+  border-radius: 5px;
+`
+
+export const TextButtons = styled.Text`
+  font-size: 15px;
 `
 
 export const Spinner = styled.ActivityIndicator`

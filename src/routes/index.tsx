@@ -14,6 +14,24 @@ import { View, Text, Button, TouchableOpacity } from 'react-native'
 
 const Stack = createNativeStackNavigator()
 
+function CustomHeader({ navigation }: any) {
+  return (
+    <View
+      style={{
+        height: 60,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 10
+      }}
+    >
+      <TouchableOpacity onPress={() => navigation.openDrawer()}>
+        <Ionicons name='menu' size={30} color='black' />
+      </TouchableOpacity>
+      <Text style={{ fontSize: 20, marginLeft: 30 }}>Links</Text>
+    </View>
+  )
+}
+
 export default function Routes() {
   return (
     <NavigationContainer>
@@ -22,16 +40,7 @@ export default function Routes() {
           name='SavedLinksScreen'
           component={SavedLinksScreen}
           options={{
-            headerTitle: 'Links',
-            headerTintColor: '#444444',
-            headerLeft: () => (
-              <TouchableOpacity
-                onPress={() => console.log('click')}
-                style={{ marginRight: 16 }}
-              >
-                <Ionicons name='menu' size={24} color='black' />
-              </TouchableOpacity>
-            )
+            header: props => <CustomHeader {...props} />
           }}
         />
 

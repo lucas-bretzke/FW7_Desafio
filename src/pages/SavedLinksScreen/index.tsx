@@ -9,8 +9,11 @@ import {
   DateCreated,
   Description,
   Link,
+  ModalButtons,
+  ModalContent,
   NumberOfLinks,
-  Spinner
+  Spinner,
+  TextButtons
 } from './styles'
 
 import Button from '../../components/Form/Buttom'
@@ -104,6 +107,19 @@ export default function SavedLinksScreen() {
     closeModal()
   }
 
+  function ContentModal() {
+    return (
+      <ModalContent>
+        <ModalButtons onPress={copyLink}>
+          <TextButtons>Copiar</TextButtons>
+        </ModalButtons>
+        <ModalButtons onPress={deleteLink}>
+          <TextButtons>Excluir</TextButtons>
+        </ModalButtons>
+      </ModalContent>
+    )
+  }
+
   // useEffect(() => {
   //   teste()
   // }, [])
@@ -117,18 +133,9 @@ export default function SavedLinksScreen() {
       />
 
       <BaseModal
-        visible={isModalVisible}
+        visible={true}
         onClose={() => closeModal()}
-        container={
-          <>
-            <TouchableOpacity onPress={copyLink}>
-              <Text>Copiar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={deleteLink}>
-              <Text>Excluir</Text>
-            </TouchableOpacity>
-          </>
-        }
+        container={ContentModal()}
       />
 
       <Button
