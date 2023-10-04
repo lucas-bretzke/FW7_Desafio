@@ -20,7 +20,8 @@ import {
   ModalContent,
   ContainerIcons,
   AccessCount,
-  ContainerShortenedUrl
+  ContainerShortenedUrl,
+  NumberOfLinks
 } from './styles'
 
 /**
