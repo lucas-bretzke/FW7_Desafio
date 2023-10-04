@@ -1,5 +1,4 @@
 import { Feather } from '@expo/vector-icons'
-import * as Clipboard from 'expo-clipboard'
 import React, { useState } from 'react'
 import {
   Text,
@@ -80,14 +79,6 @@ export default function Home() {
     } catch (error) {
       console.log('post error:', error)
       setErrorMessage('Ops! Erro interno, volte mais tarde')
-    }
-  }
-
-  function copyUrl() {
-    if (shortenedUrl) {
-      Clipboard.setString(shortenedUrl), alert(`URL Copiada!\n ${shortenedUrl}`)
-    } else {
-      setErrorMessage('URL inválida')
     }
   }
 
