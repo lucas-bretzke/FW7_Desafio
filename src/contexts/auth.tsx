@@ -4,7 +4,7 @@ import React, { useState, createContext } from 'react'
 export const AuthContext = createContext({})
 
 export default function AuthProvider({ children }: any) {
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState()
 
   async function singIn(email: string, password: string) {
     const res = await api.singIn(email, password)
@@ -17,8 +17,18 @@ export default function AuthProvider({ children }: any) {
     })
   }
 
+  async function getUserShortenedUrls() {
+    try {
+      const response = await api.userShortenedUrls(user.id)
+
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ singIn, user }}>
+    <AuthContext.Provider value={{ singIn, getUserShortenedUrls, user }}>
       {children}
     </AuthContext.Provider>
   )
