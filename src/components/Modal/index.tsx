@@ -1,6 +1,7 @@
 import React from 'react'
-import { Text, Modal, TouchableOpacity } from 'react-native'
-import { Container, ModalStyled, Title } from './styles'
+import { Feather } from '@expo/vector-icons'
+import { Text, Modal } from 'react-native'
+import { CloseModal, Container, ModalStyled, Title } from './styles'
 
 /**
  * Types.
@@ -9,7 +10,7 @@ import { Container, ModalStyled, Title } from './styles'
 type IPropsType = {
   title?: string
   visible: boolean
-  onClose?: () => void
+  onClose: () => void
   container: any
 }
 
@@ -17,21 +18,24 @@ type IPropsType = {
  * Component.
  */
 export default function BaseModal({
+  title,
   visible,
   onClose,
-  container,
-  title
+  container
 }: IPropsType) {
   return (
     <Modal visible={visible} animationType='slide' transparent={true}>
       <ModalStyled>
         <Container>
-          {title && <Title>{title}</Title>}
-          {container}
+          <CloseModal onPress={onClose}>
+            <Text>
+              <Feather name='x' size={24} color='black' onPress={onClose} />
+            </Text>
+          </CloseModal>
 
-          <TouchableOpacity onPress={onClose}>
-            <Text>Fechar</Text>
-          </TouchableOpacity>
+          {title && <Title>{title}</Title>}
+
+          {container}
         </Container>
       </ModalStyled>
     </Modal>
