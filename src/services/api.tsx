@@ -14,6 +14,11 @@ export default {
     return response?.data
   },
 
+  editShortenedUrl: async (link: any) => {
+    const response = await http.put(`/shortUrl/${link.id}`, link)
+    return response?.data
+  },
+
   deleteShorUrl: async (id: number) => {
     const response = await http.delete(`/shortUrl/${id}`)
     return response?.data
