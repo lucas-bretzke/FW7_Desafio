@@ -1,4 +1,4 @@
-import { FlatList } from 'react-native'
+import { FlatList, TouchableOpacity, Text } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import * as Clipboard from 'expo-clipboard'
 import React, { useContext, useEffect, useState } from 'react'
@@ -7,7 +7,6 @@ import {
   Container,
   ContainerShortenedUrl,
   DateCreated,
-  DeleteButton,
   Description,
   Link,
   NumberOfLinks,
@@ -119,13 +118,17 @@ export default function SavedLinksScreen() {
 
       <BaseModal
         visible={isModalVisible}
-        onClose={closeModal}
-        title='Selecione uma ação'
-        buttons={[
-          { title: 'Copiar', onPress: copyLink },
-          { title: 'Excluir', onPress: deleteLink },
-          { title: 'Outra ação', onPress: () => console.log('Outra ação') }
-        ]}
+        onClose={() => closeModal()}
+        container={
+          <>
+            <TouchableOpacity onPress={copyLink}>
+              <Text>Copiar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={deleteLink}>
+              <Text>Excluir</Text>
+            </TouchableOpacity>
+          </>
+        }
       />
 
       <Button

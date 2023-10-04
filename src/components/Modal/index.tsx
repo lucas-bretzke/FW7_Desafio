@@ -1,36 +1,39 @@
 import React from 'react'
-import { View, Text, Modal, TouchableOpacity } from 'react-native'
+import { Text, Modal, TouchableOpacity } from 'react-native'
+import { Container, ModalStyled, Title } from './styles'
 
-export default function BaseModal({ visible, onClose, buttons, title }) {
+/**
+ * Types.
+ */
+
+type IPropsType = {
+  title?: string
+  visible: boolean
+  onClose?: () => void
+  container: any
+}
+
+/**
+ * Component.
+ */
+export default function BaseModal({
+  visible,
+  onClose,
+  container,
+  title
+}: IPropsType) {
   return (
     <Modal visible={visible} animationType='slide' transparent={true}>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)'
-        }}
-      >
-        <View
-          style={{
-            backgroundColor: 'white',
-            padding: 20,
-            borderRadius: 10,
-            width: '80%'
-          }}
-        >
-          {title && <Text>{title}</Text>}
-          {buttons.map((button, index) => (
-            <TouchableOpacity key={index} onPress={button.onPress}>
-              <Text>{button.title}</Text>
-            </TouchableOpacity>
-          ))}
+      <ModalStyled>
+        <Container>
+          {title && <Title>{title}</Title>}
+          {container}
+
           <TouchableOpacity onPress={onClose}>
             <Text>Fechar</Text>
           </TouchableOpacity>
-        </View>
-      </View>
+        </Container>
+      </ModalStyled>
     </Modal>
   )
 }
