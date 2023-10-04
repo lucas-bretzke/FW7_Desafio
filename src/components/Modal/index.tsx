@@ -28,9 +28,7 @@ export default function BaseModal({
       <ModalStyled>
         <Container>
           <CloseModal onPress={onClose}>
-            <Text>
-              <Feather name='x' size={24} color='black' onPress={onClose} />
-            </Text>
+            <Feather name='x' size={24} color='black' onPress={onClose} />
           </CloseModal>
 
           {title && <Title>{title}</Title>}
