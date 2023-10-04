@@ -32,7 +32,7 @@ export default function Welcome({ navigation }: WelcomeTypes) {
             title='Acessar'
             width={250}
             bgColor='#023696'
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => navigation.navigate('CreateNewLinkScreen')}
           />
         </View>
       </Animatable.View>

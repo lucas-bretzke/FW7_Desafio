@@ -190,7 +190,7 @@ export default function SavedLinksScreen() {
           bottom: 25,
           backgroundColor: 'white'
         }}
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => navigation.navigate('CreateNewLinkScreen')}
         title={<Feather name='plus-circle' size={40} color='black' />}
         width={40}
       />

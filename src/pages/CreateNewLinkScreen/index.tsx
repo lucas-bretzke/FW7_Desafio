@@ -31,7 +31,7 @@ import styles from './styles'
 /**
  * Component.
  */
-export default function Home() {
+export default function CreateNewLinkScreen() {
   const [customUrl, setCustomUrl] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [originalURL, setOriginalURL] = useState('')

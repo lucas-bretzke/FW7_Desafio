@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 /**
  * Screens
  */
-import Home from '../pages/Home'
+import CreateNewLinkScreen from '../pages/CreateNewLinkScreen'
 import Login from '../pages/Login'
 import Welcome from '../pages/Welcome'
 import Register from '../pages/Register'
@@ -45,8 +45,8 @@ export default function Routes() {
         />
 
         <Stack.Screen
-          name='Home'
-          component={Home}
+          name='CreateNewLinkScreen'
+          component={CreateNewLinkScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
