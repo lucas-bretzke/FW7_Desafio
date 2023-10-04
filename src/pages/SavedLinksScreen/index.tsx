@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import { FlatList } from 'react-native'
 import * as Clipboard from 'expo-clipboard'
 import { MaterialIcons, Feather } from '@expo/vector-icons'
@@ -75,6 +76,8 @@ export default function SavedLinksScreen() {
     }
   }
   function renderShortenedUrl(item: any) {
+    const date = format(new Date(item.created_at), 'dd/MM/yy')
+
     return (
       <ContainerShortenedUrl
         onPress={() => {
@@ -82,7 +85,7 @@ export default function SavedLinksScreen() {
           setIsModalVisible(true)
         }}
       >
-        <DateCreated>{item.created_at}</DateCreated>
+        <DateCreated>{date}</DateCreated>
         <Description>{item.description}</Description>
         <Link>{item.short_url}</Link>
 
@@ -143,7 +146,6 @@ export default function SavedLinksScreen() {
       setIsLoading(false)
     }
   }
-
   function ContentModal() {
     const buttons = [
       { text: 'Copiar', onPress: copyLink },
