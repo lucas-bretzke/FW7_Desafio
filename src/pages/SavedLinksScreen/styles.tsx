@@ -28,6 +28,19 @@ export const Link = styled.Text`
   color: blue;
 `
 
+export const ContainerIcons = styled.View`
+  position: absolute;
+  right: 2%;
+  bottom: 30%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
+
+export const AccessCount = styled.Text`
+  margin: 0 5px;
+`
+
 export const DeleteButton = styled.TouchableOpacity`
   color: white;
   background-color: red;
@@ -52,12 +65,6 @@ export const ModalButtons = styled.TouchableOpacity`
 
 export const TextButtons = styled.Text`
   font-size: 15px;
-`
-
-export const IconFavorite = styled.TouchableOpacity`
-  position: absolute;
-  right: 2%;
-  top: 15%;
 `
 
 export const Spinner = styled.ActivityIndicator`

@@ -1,9 +1,10 @@
 import { format } from 'date-fns'
 import { FlatList } from 'react-native'
 import * as Clipboard from 'expo-clipboard'
+import { FontAwesome } from '@expo/vector-icons'
 import { MaterialIcons, Feather } from '@expo/vector-icons'
-import React, { useContext, useEffect, useState } from 'react'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
+import React, { useContext, useEffect, useState } from 'react'
 
 /**
  * Styles.
@@ -17,8 +18,8 @@ import {
   TextButtons,
   ModalButtons,
   ModalContent,
-  IconFavorite,
-  NumberOfLinks,
+  ContainerIcons,
+  AccessCount,
   ContainerShortenedUrl
 } from './styles'
 
@@ -89,11 +90,15 @@ export default function SavedLinksScreen() {
         <Description>{item.description}</Description>
         <Link>{item.short_url}</Link>
 
-        {item.is_favorite && (
-          <IconFavorite>
-            <MaterialIcons name='favorite' size={18} color='#444444' />
-          </IconFavorite>
-        )}
+        <ContainerIcons>
+          {item.is_favorite && (
+            <MaterialIcons name='favorite' size={14} color='#444444' />
+          )}
+
+          <AccessCount>{item.access_count}</AccessCount>
+
+          <FontAwesome name='bar-chart' size={14} color='black' />
+        </ContainerIcons>
       </ContainerShortenedUrl>
     )
   }
