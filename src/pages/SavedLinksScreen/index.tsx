@@ -1,5 +1,6 @@
 import { FlatList } from 'react-native'
 import { Feather } from '@expo/vector-icons'
+import * as Clipboard from 'expo-clipboard'
 import React, { useContext, useEffect, useState } from 'react'
 
 import {
@@ -16,13 +17,52 @@ import {
 import Button from '../../components/Form/Buttom'
 import { AuthContext } from '../../contexts/auth'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
+import BaseModal from '../../components/Modal'
 
 export default function SavedLinksScreen() {
   const navigation = useNavigation<NavigationProp<any>>()
   const { getUserShortenedUrls }: any = useContext(AuthContext)
 
   const [isLoading, setIsLoading] = useState(false)
-  const [shortenedUrls, setShortenedUrls] = useState()
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [selectedItem, setSelectedItem] = useState(null)
+  const [shortenedUrls, setShortenedUrls] = useState([
+    {
+      created_at: '2023-10-02T17:56:35.666Z',
+      link_id: 29,
+      original_url: 'https://www.linkedin.com/notifications/?filter=all',
+      short_url: 'bretz.up.railway.app/12345678',
+      user_id: 32
+    },
+    {
+      created_at: '2023-10-02T17:56:35.666Z',
+      link_id: 29,
+      original_url: 'https://www.linkedin.com/notifications/?filter=all',
+      short_url: 'bretz.up.railway.app/12345678',
+      user_id: 32
+    },
+    {
+      created_at: '2023-10-02T17:56:35.666Z',
+      link_id: 29,
+      original_url: 'https://www.linkedin.com/notifications/?filter=all',
+      short_url: 'bretz.up.railway.app/12345678',
+      user_id: 32
+    },
+    {
+      created_at: '2023-10-02T17:56:35.666Z',
+      link_id: 29,
+      original_url: 'https://www.linkedin.com/notifications/?filter=all',
+      short_url: 'bretz.up.railway.app/12345678',
+      user_id: 32
+    },
+    {
+      created_at: '2023-10-02T17:56:35.666Z',
+      link_id: 29,
+      original_url: 'https://www.linkedin.com/notifications/?filter=all',
+      short_url: 'bretz.up.railway.app/12345678',
+      user_id: 32
+    }
+  ])
 
   async function teste() {
     try {
@@ -39,7 +79,12 @@ export default function SavedLinksScreen() {
   function renderShortenedUrl(item: any) {
     console.log(item)
     return (
-      <ContainerShortenedUrl>
+      <ContainerShortenedUrl
+        onPress={() => {
+          setSelectedItem(item)
+          setIsModalVisible(true)
+        }}
+      >
         <DateCreated>{item.created_at}</DateCreated>
         <Description>Minha descrição 01</Description>
         <Link>{item.short_url}</Link>
@@ -47,51 +92,40 @@ export default function SavedLinksScreen() {
     )
   }
 
-  useEffect(() => {
-    teste()
-  }, [])
+  function closeModal() {
+    setIsModalVisible(false)
+  }
+
+  function copyLink(item: any) {
+    Clipboard.setString(item.short_url),
+      alert(`URL Copiada!\n ${item.short_url}`)
+  }
+
+  function deleteLink() {
+    closeModal()
+  }
+
+  // useEffect(() => {
+  //   teste()
+  // }, [])
+
   return (
     <Container>
       <NumberOfLinks>Links: {shortenedUrls?.length}</NumberOfLinks>
       <FlatList
-        data={[
-          {
-            created_at: '2023-10-02T17:56:35.666Z',
-            link_id: 29,
-            original_url: 'https://www.linkedin.com/notifications/?filter=all',
-            short_url: 'bretz.up.railway.app/12345678',
-            user_id: 32
-          },
-          {
-            created_at: '2023-10-02T17:56:35.666Z',
-            link_id: 29,
-            original_url: 'https://www.linkedin.com/notifications/?filter=all',
-            short_url: 'bretz.up.railway.app/12345678',
-            user_id: 32
-          },
-          {
-            created_at: '2023-10-02T17:56:35.666Z',
-            link_id: 29,
-            original_url: 'https://www.linkedin.com/notifications/?filter=all',
-            short_url: 'bretz.up.railway.app/12345678',
-            user_id: 32
-          },
-          {
-            created_at: '2023-10-02T17:56:35.666Z',
-            link_id: 29,
-            original_url: 'https://www.linkedin.com/notifications/?filter=all',
-            short_url: 'bretz.up.railway.app/12345678',
-            user_id: 32
-          },
-          {
-            created_at: '2023-10-02T17:56:35.666Z',
-            link_id: 29,
-            original_url: 'https://www.linkedin.com/notifications/?filter=all',
-            short_url: 'bretz.up.railway.app/12345678',
-            user_id: 32
-          }
-        ]}
+        data={shortenedUrls}
         renderItem={({ item }) => renderShortenedUrl(item)}
+      />
+
+      <BaseModal
+        visible={isModalVisible}
+        onClose={closeModal}
+        title='Selecione uma ação'
+        buttons={[
+          { title: 'Copiar', onPress: copyLink },
+          { title: 'Excluir', onPress: deleteLink },
+          { title: 'Outra ação', onPress: () => console.log('Outra ação') }
+        ]}
       />
 
       <Button
