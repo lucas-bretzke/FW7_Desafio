@@ -12,11 +12,10 @@ export const Label = styled.Text`
   margin-left: 5px;
   margin-bottom: -10px;
   z-index: 1;
-  width: auto;
   height: 20px;
   padding: 0 4px;
-  max-width: 55px;
   background-color: white;
+  align-self: flex-start;
 `
 
 export const Input = styled.TextInput`

@@ -1,8 +1,10 @@
-import { FlatList } from 'react-native'
+import { format } from 'date-fns'
 import * as Clipboard from 'expo-clipboard'
+import { FontAwesome } from '@expo/vector-icons'
+import { FlatList, Text } from 'react-native'
 import { MaterialIcons, Feather } from '@expo/vector-icons'
-import React, { useContext, useEffect, useState } from 'react'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
+import React, { useContext, useEffect, useState } from 'react'
 
 /**
  * Styles.
@@ -11,14 +13,16 @@ import {
   Link,
   Spinner,
   Container,
+  AccessCount,
   DateCreated,
   Description,
   TextButtons,
   ModalButtons,
   ModalContent,
-  IconFavorite,
   NumberOfLinks,
-  ContainerShortenedUrl
+  ContainerIcons,
+  ContainerShortenedUrl,
+  NoLinksSaved
 } from './styles'
 
 /**
@@ -75,6 +79,8 @@ export default function SavedLinksScreen() {
     }
   }
   function renderShortenedUrl(item: any) {
+    const date = format(new Date(item.created_at), 'dd/MM/yy')
+
     return (
       <ContainerShortenedUrl
         onPress={() => {
@@ -82,15 +88,19 @@ export default function SavedLinksScreen() {
           setIsModalVisible(true)
         }}
       >
-        <DateCreated>{item.created_at}</DateCreated>
+        <DateCreated>{date}</DateCreated>
         <Description>{item.description}</Description>
         <Link>{item.short_url}</Link>
 
-        {item.is_favorite && (
-          <IconFavorite>
-            <MaterialIcons name='favorite' size={18} color='#444444' />
-          </IconFavorite>
-        )}
+        <ContainerIcons>
+          {item.is_favorite && (
+            <MaterialIcons name='favorite' size={14} color='#444444' />
+          )}
+
+          <AccessCount>{item.access_count}</AccessCount>
+
+          <FontAwesome name='bar-chart' size={14} color='black' />
+        </ContainerIcons>
       </ContainerShortenedUrl>
     )
   }
@@ -143,7 +153,6 @@ export default function SavedLinksScreen() {
       setIsLoading(false)
     }
   }
-
   function ContentModal() {
     const buttons = [
       { text: 'Copiar', onPress: copyLink },
@@ -186,14 +195,17 @@ export default function SavedLinksScreen() {
       <Button
         style={{
           position: 'absolute',
-          right: 25,
-          bottom: 25,
-          backgroundColor: 'white'
+          right: '5%',
+          bottom: '3%',
+          backgroundColor: 'white',
+          elevation: 0
         }}
-        onPress={() => navigation.navigate('Home')}
-        title={<Feather name='plus-circle' size={40} color='black' />}
+        onPress={() => navigation.navigate('CreateNewLinkScreen')}
+        title={<Feather name='plus-circle' size={42} color='black' />}
         width={40}
       />
+
+      {!shortenedUrls && <NoLinksSaved>Não há links salvos</NoLinksSaved>}
 
       {isLoading && <Spinner size='large' color='black' />}
     </Container>

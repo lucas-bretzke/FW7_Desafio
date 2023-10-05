@@ -1,12 +1,8 @@
 import { Feather } from '@expo/vector-icons'
-import React, { useState } from 'react'
-import {
-  Text,
-  View,
-  Keyboard,
-  TextInput,
-  ActivityIndicator
-} from 'react-native'
+import { Keyboard } from 'react-native'
+import { MaterialIcons } from '@expo/vector-icons'
+import React, { useContext, useState } from 'react'
+import { NavigationProp, useNavigation } from '@react-navigation/native'
 
 /**
  * Services.
@@ -19,21 +15,40 @@ import api from '../../services/api'
 import { urlValidator } from '../../utils/others'
 
 /**
+ * Contexts.
+ */
+import { AuthContext } from '../../contexts/auth'
+
+/**
  * Components.
  */
 import Button from '../../components/Form/Buttom'
+import TextInput from '../../components/Form/InputText'
 
 /**
  * Styles.
  */
-import styles from './styles'
+import {
+  Title,
+  Spinner,
+  Container,
+  MessageError,
+  ContainerForm,
+  ContainerLogo,
+  ContinueButtom,
+  ClearContentButton
+} from './styles'
 
 /**
  * Component.
  */
-export default function Home() {
+export default function CreateNewLinkScreen() {
+  const navigation = useNavigation<NavigationProp<any>>()
+  const { user }: any = useContext(AuthContext)
+
   const [customUrl, setCustomUrl] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [description, setDescription] = useState('')
   const [originalURL, setOriginalURL] = useState('')
   const [shortenedUrl, setShortenedUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
@@ -52,7 +67,7 @@ export default function Home() {
     setIsLoading(true)
     Keyboard.dismiss()
 
-    if (checkCustomUrl()) {
+    if (!customUrlIsValid()) {
       setErrorMessage(
         'O título opcional deve conter no mínimo 6 letras e não pode ter espaços.'
       )
@@ -73,16 +88,24 @@ export default function Home() {
   async function generateShortURL() {
     try {
       const code = customUrl ? customUrl : generateRandomString(6)
-      await api.postShortUrl(originalURL, code)
+
+      await api.postShortUrl({
+        user_id: user.id,
+        code: code,
+        description: description,
+        original_url: originalURL
+      })
 
       setShortenedUrl('bretz.up.railway.app/' + code)
+
+      navigation.navigate('SavedLinksScreen')
     } catch (error) {
       console.log('post error:', error)
       setErrorMessage('Ops! Erro interno, volte mais tarde')
     }
   }
 
-  function checkCustomUrl() {
+  function customUrlIsValid() {
     const hasSpace = customUrl.includes(' ')
     const isValidLength = customUrl.length >= 1 && customUrl.length < 6
 
@@ -97,58 +120,51 @@ export default function Home() {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.containerLogo}>
+    <Container>
+      <ContainerLogo>
         <Feather name='link' size={26} color='blue' />
-        <Text style={styles.title}>Encurtador de URL</Text>
-      </View>
+        <Title>Gerar Link</Title>
+      </ContainerLogo>
 
-      <View style={styles.urlFormContainer}>
-        <View style={styles.containerInput}>
-          <Text style={styles.label}>Destino</Text>
-          <TextInput
-            value={originalURL}
-            onChangeText={text => setOriginalURL(text)}
-            placeholder='Coloque sua URL aqui'
-            style={styles.input}
-          />
-        </View>
+      <ContainerForm>
+        <TextInput
+          label='Descrição'
+          value={description}
+          onChangeText={text => setDescription(text)}
+          placeholder='Descrição do link'
+        />
 
-        <View style={styles.containerInput}>
-          <Text style={styles.label}>Título (opcional)</Text>
-          <TextInput
-            value={customUrl}
-            onChangeText={text => setCustomUrl(text)}
-            placeholder='ex: MinhaUrl'
-            style={styles.input}
-          />
-        </View>
+        <TextInput
+          label='Insira sua URL de destino'
+          value={originalURL}
+          onChangeText={text => setOriginalURL(text)}
+          placeholder='Link de destino'
+        />
 
-        {errorMessage && <Text style={styles.msgError}>{errorMessage}</Text>}
+        <TextInput
+          label='Customizar url'
+          value={customUrl}
+          onChangeText={text => setCustomUrl(text)}
+          placeholder='bretz.exemplo/Sua-customização-aqui'
+        />
 
-        <View style={styles.containerButtons}>
+        {errorMessage && <MessageError>{errorMessage}</MessageError>}
+
+        <ContinueButtom>
           <Button
             onPress={() => checkFieldsBeforeRequest()}
-            title='Encurtar'
+            title='Encurtar link'
             color='#fff'
             bgColor='#023696'
           />
-        </View>
-      </View>
+        </ContinueButtom>
+      </ContainerForm>
 
-      <View style={styles.clearContentButton}>
-        <Button
-          onPress={() => clearContentButton()}
-          title='🗑️'
-          color='#fff'
-          bgColor='#023696'
-          width={40}
-        />
-      </View>
+      <ClearContentButton onPress={() => clearContentButton()}>
+        <MaterialIcons name='refresh' size={24} color='#023696' />
+      </ClearContentButton>
 
-      {isLoading && (
-        <ActivityIndicator size='large' color='blue' style={styles.spinner} />
-      )}
-    </View>
+      {isLoading && <Spinner size='large' color='blue' />}
+    </Container>
   )
 }

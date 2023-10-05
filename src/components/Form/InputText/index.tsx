@@ -1,6 +1,10 @@
 import React from 'react'
 import { Feather } from '@expo/vector-icons'
 import { SafeAreaView, ViewStyle } from 'react-native'
+
+/**
+ * styles.
+ */
 import {
   Input,
   Label,
@@ -9,9 +13,12 @@ import {
   ContainerInputPassword
 } from './styles'
 
+/**
+ * Types.
+ */
 type TextInputProps = {
   value: string
-  icon?: String
+  icon?: string
   label?: string
   style?: ViewStyle
   onPress?: () => void
@@ -21,6 +28,9 @@ type TextInputProps = {
   secureTextEntry?: boolean
 }
 
+/**
+ * Component.
+ */
 export default function TextInput({
   icon,
   style,
@@ -44,11 +54,7 @@ export default function TextInput({
         />
         {icon && (
           <ButtomIcon onPress={onPress}>
-            <Feather
-              name={`${icon}`}
-              size={24}
-              style={!value && { opacity: 0.5 }}
-            />
+            <Feather name={icon} size={24} style={!value && { opacity: 0.5 }} />
           </ButtomIcon>
         )}
       </ContainerInputPassword>
