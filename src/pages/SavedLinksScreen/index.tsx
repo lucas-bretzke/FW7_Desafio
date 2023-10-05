@@ -13,15 +13,15 @@ import {
   Link,
   Spinner,
   Container,
+  AccessCount,
   DateCreated,
   Description,
   TextButtons,
   ModalButtons,
   ModalContent,
+  NumberOfLinks,
   ContainerIcons,
-  AccessCount,
-  ContainerShortenedUrl,
-  NumberOfLinks
+  ContainerShortenedUrl
 } from './styles'
 
 /**

@@ -38,8 +38,8 @@ export const ContainerForm = styled.View`
 `
 
 export const MessageError = styled.View`
-    width: 90%,
-    color: red
+  width: 90%;
+  color: red;
 `
 
 export const ContinueButtom = styled.View`

@@ -1,7 +1,7 @@
 import { Feather } from '@expo/vector-icons'
 import { Keyboard } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 /**
  * Services.
@@ -12,6 +12,11 @@ import api from '../../services/api'
  * Helpers.
  */
 import { urlValidator } from '../../utils/others'
+
+/**
+ * Contexts.
+ */
+import { AuthContext } from '../../contexts/auth'
 
 /**
  * Components.
@@ -37,6 +42,8 @@ import {
  * Component.
  */
 export default function CreateNewLinkScreen() {
+  const { user }: any = useContext(AuthContext)
+
   const [customUrl, setCustomUrl] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [originalURL, setOriginalURL] = useState('')
@@ -79,7 +86,13 @@ export default function CreateNewLinkScreen() {
   async function generateShortURL() {
     try {
       const code = customUrl ? customUrl : generateRandomString(6)
-      await api.postShortUrl(originalURL, code)
+
+      await api.postShortUrl({
+        user_id: user.user_id,
+        code: code,
+        description: description,
+        original_url: originalURL
+      })
 
       setShortenedUrl('bretz.up.railway.app/' + code)
     } catch (error) {
