@@ -56,7 +56,7 @@ export default function Login() {
       setLoading(true)
 
       await singIn(email, password)
-      navigation.navigate('CreateNewLinkScreen')
+      navigation.navigate('SavedLinksScreen')
 
       clearState()
     } catch (error) {

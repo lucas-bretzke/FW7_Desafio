@@ -7,7 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
  */
 import Login from '../pages/Login'
 import Welcome from '../pages/Welcome'
-import Register from '../pages//RegisterUser'
+import CreateAccount from '../pages//RegisterUser'
 import SavedLinksScreen from '../pages/SavedLinksScreen'
 import CreateNewLinkScreen from '../pages/CreateNewLinkScreen'
 import { View, Text, TouchableOpacity } from 'react-native'
@@ -37,6 +37,11 @@ export default function Routes() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
+          name='Welcome'
+          component={Welcome}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name='CreateNewLinkScreen'
           component={CreateNewLinkScreen}
           options={{ headerShown: false }}
@@ -55,14 +60,8 @@ export default function Routes() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name='Register'
-          component={Register}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name='Welcome'
-          component={Welcome}
+          name='CreateAccount'
+          component={CreateAccount}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

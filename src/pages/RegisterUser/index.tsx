@@ -117,6 +117,7 @@ export default function Register() {
               onChangeText={text => setPassword(text)}
             />
             <InputPassword
+              placeholder='Confirmar senha'
               value={confirmPassword}
               onChangeText={text => setConfirmPassword(text)}
               msgError={msgError}
