@@ -119,12 +119,12 @@ export default function CreateNewLinkScreen() {
     <Container>
       <ContainerLogo>
         <Feather name='link' size={26} color='blue' />
-        <Title>Encurtar URL</Title>
+        <Title>Gerar Link</Title>
       </ContainerLogo>
 
       <ContainerForm>
         <TextInput
-          label='Description'
+          label='Descrição'
           value={description}
           onChangeText={text => setDescription(text)}
           placeholder='Descrição do link'
@@ -138,7 +138,7 @@ export default function CreateNewLinkScreen() {
         />
 
         <TextInput
-          label='new url'
+          label='Customizar url'
           value={customUrl}
           onChangeText={text => setCustomUrl(text)}
           placeholder='bretz.exemplo/Sua-customização-aqui'
@@ -149,7 +149,7 @@ export default function CreateNewLinkScreen() {
         <ContinueButtom>
           <Button
             onPress={() => checkFieldsBeforeRequest()}
-            title='Criar novo link'
+            title='Encurtar link'
             color='#fff'
             bgColor='#023696'
           />
