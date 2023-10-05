@@ -2,6 +2,7 @@ import { Feather } from '@expo/vector-icons'
 import { Keyboard } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import React, { useContext, useState } from 'react'
+import { NavigationProp, useNavigation } from '@react-navigation/native'
 
 /**
  * Services.
@@ -34,22 +35,23 @@ import {
   MessageError,
   ContainerForm,
   ContainerLogo,
-  ClearContentButton,
-  ContinueButtom
+  ContinueButtom,
+  ClearContentButton
 } from './styles'
 
 /**
  * Component.
  */
 export default function CreateNewLinkScreen() {
+  const navigation = useNavigation<NavigationProp<any>>()
   const { user }: any = useContext(AuthContext)
 
   const [customUrl, setCustomUrl] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [description, setDescription] = useState('')
   const [originalURL, setOriginalURL] = useState('')
   const [shortenedUrl, setShortenedUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
-  const [description, setDescription] = useState('')
 
   function generateRandomString(length: number) {
     let newChart = ''
@@ -65,7 +67,7 @@ export default function CreateNewLinkScreen() {
     setIsLoading(true)
     Keyboard.dismiss()
 
-    if (checkCustomUrl()) {
+    if (!customUrlIsValid()) {
       setErrorMessage(
         'O título opcional deve conter no mínimo 6 letras e não pode ter espaços.'
       )
@@ -88,20 +90,22 @@ export default function CreateNewLinkScreen() {
       const code = customUrl ? customUrl : generateRandomString(6)
 
       await api.postShortUrl({
-        user_id: user.user_id,
+        user_id: user.id,
         code: code,
         description: description,
         original_url: originalURL
       })
 
       setShortenedUrl('bretz.up.railway.app/' + code)
+
+      navigation.navigate('SavedLinksScreen')
     } catch (error) {
       console.log('post error:', error)
       setErrorMessage('Ops! Erro interno, volte mais tarde')
     }
   }
 
-  function checkCustomUrl() {
+  function customUrlIsValid() {
     const hasSpace = customUrl.includes(' ')
     const isValidLength = customUrl.length >= 1 && customUrl.length < 6
 

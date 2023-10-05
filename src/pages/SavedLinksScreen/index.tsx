@@ -205,7 +205,7 @@ export default function SavedLinksScreen() {
         width={40}
       />
 
-      {shortenedUrls && <NoLinksSaved>Não há links salvos</NoLinksSaved>}
+      {!shortenedUrls && <NoLinksSaved>Não há links salvos</NoLinksSaved>}
 
       {isLoading && <Spinner size='large' color='black' />}
     </Container>
