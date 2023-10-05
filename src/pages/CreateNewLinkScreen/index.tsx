@@ -1,12 +1,6 @@
 import { Feather } from '@expo/vector-icons'
 import React, { useState } from 'react'
-import {
-  Text,
-  View,
-  Keyboard,
-  TextInput,
-  ActivityIndicator
-} from 'react-native'
+import { Text, View, Keyboard, ActivityIndicator } from 'react-native'
 
 /**
  * Services.
@@ -22,11 +16,21 @@ import { urlValidator } from '../../utils/others'
  * Components.
  */
 import Button from '../../components/Form/Buttom'
+import TextInput from '../../components/Form/InputText'
 
 /**
  * Styles.
  */
-import styles from './styles'
+import {
+  Title,
+  Spinner,
+  Container,
+  MessageError,
+  ContainerForm,
+  ContainerLogo,
+  ContainerButtons,
+  ClearContentButton
+} from './styles'
 
 /**
  * Component.
@@ -97,46 +101,40 @@ export default function CreateNewLinkScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.containerLogo}>
+    <Container>
+      <ContainerLogo>
         <Feather name='link' size={26} color='blue' />
-        <Text style={styles.title}>Encurtador de URL</Text>
-      </View>
+        <Title>Encurtar URL</Title>
+      </ContainerLogo>
 
-      <View style={styles.urlFormContainer}>
-        <View style={styles.containerInput}>
-          <Text style={styles.label}>Destino</Text>
-          <TextInput
-            value={originalURL}
-            onChangeText={text => setOriginalURL(text)}
-            placeholder='Coloque sua URL aqui'
-            style={styles.input}
-          />
-        </View>
+      <ContainerForm>
+        <TextInput
+          label='Destinho'
+          value={originalURL}
+          onChangeText={text => setOriginalURL(text)}
+          placeholder='Coloque sua URL aqui'
+        />
 
-        <View style={styles.containerInput}>
-          <Text style={styles.label}>Título (opcional)</Text>
-          <TextInput
-            value={customUrl}
-            onChangeText={text => setCustomUrl(text)}
-            placeholder='ex: MinhaUrl'
-            style={styles.input}
-          />
-        </View>
+        <TextInput
+          label='new url'
+          value={customUrl}
+          onChangeText={text => setCustomUrl(text)}
+          placeholder='ex: MinhaUrl'
+        />
 
-        {errorMessage && <Text style={styles.msgError}>{errorMessage}</Text>}
+        {errorMessage && <MessageError>{errorMessage}</MessageError>}
 
-        <View style={styles.containerButtons}>
+        <ContainerButtons>
           <Button
             onPress={() => checkFieldsBeforeRequest()}
             title='Encurtar'
             color='#fff'
             bgColor='#023696'
           />
-        </View>
-      </View>
+        </ContainerButtons>
+      </ContainerForm>
 
-      <View style={styles.clearContentButton}>
+      <ClearContentButton>
         <Button
           onPress={() => clearContentButton()}
           title='🗑️'
@@ -144,11 +142,9 @@ export default function CreateNewLinkScreen() {
           bgColor='#023696'
           width={40}
         />
-      </View>
+      </ClearContentButton>
 
-      {isLoading && (
-        <ActivityIndicator size='large' color='blue' style={styles.spinner} />
-      )}
-    </View>
+      {isLoading && <Spinner size='large' color='blue' />}
+    </Container>
   )
 }

@@ -1,99 +1,65 @@
 import { StyleSheet } from 'react-native'
+import styled from 'styled-components/native'
 
-export default StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#192436',
-    display: 'flex',
-    flexdirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
+export const Container = styled.SafeAreaView`
+  flex: 1;
+  background-color: #192436;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
 
-  containerLogo: {
-    flex: 1,
-    flexDirection: 'row',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#192436'
-  },
+export const ContainerLogo = styled.View`
+  flex: 1;
+  flex-direction: row;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #192436;
+`
 
-  urlFormContainer: {
-    flex: 2,
-    width: '100%',
-    alignItems: 'center'
-  },
+export const Title = styled.Text`
+  font-size: 26px;
+  color: white;
+  margin-left: 10px;
+  padding: 10px;
+  border-bottom-width: 1px;
+  border-color: #023696;
+  padding-vertical: 12px;
+`
 
-  title: {
-    fontSize: 26,
-    color: 'white',
-    marginLeft: 10,
-    padding: 10,
-    borderBottomWidth: 1,
-    borderColor: '#023696',
-    paddingVertical: 12
-  },
+export const ContainerForm = styled.View`
+  flex: 2;
+  width: 100%;
+  align-items: center;
+`
 
-  containerInput: {
-    width: '90%',
-    marginHorizontal: 'auto'
-  },
+export const MessageError = styled.View`
+    width: 90%,
+    color: red
+`
+export const ContainerButtons = styled.View`
+  width: 90%;
+  margin-top: 20;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`
 
-  label: {
-    fontWeight: '600',
-    color: 'white'
-  },
-
-  input: {
-    width: '100%',
-    height: 50,
-    borderWidth: 1,
-    borderRadius: 3,
-    padding: 12,
-    marginTop: 5,
-    marginBottom: 12,
-    fontSize: 16,
-    backgroundColor: 'white'
-  },
-
-  description: {
-    width: '90%',
-    justifyContent: 'flex-start'
-  },
-
-  containerButtons: {
-    width: '90%',
-    marginTop: 20,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  msgError: {
-    width: '90%',
-    color: 'red'
-  },
-
-  containsListOfLinks: {
-    flex: 1,
-    width: '100%',
-    borderWidth: 1,
-    backgroundColor: 'white'
-  },
-
-  clearContentButton: {
-    position: 'absolute',
-    right: '5%',
-    bottom: '5%'
-  },
-
-  spinner: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    margin: 'auto',
-    backgroundColor: 'white',
-    opacity: 0.1
-  }
-})
+export const Spinner = styled.ActivityIndicator`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: white;
+  opacity: 0.2;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`
+export const ClearContentButton = styled.View`
+  position: absolute;
+  right: 5%;
+  bottom: 5%;
+`
