@@ -66,6 +66,11 @@ export const ModalButtons = styled.TouchableOpacity`
 export const TextButtons = styled.Text`
   font-size: 15px;
 `
+export const NoLinksSaved = styled.Text`
+  margin: 0px auto;
+  margin-bottom: 450px;
+  font-size: 15px;
+`
 
 export const Spinner = styled.ActivityIndicator`
   width: 100%;

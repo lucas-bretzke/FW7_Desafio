@@ -1,7 +1,7 @@
 import { format } from 'date-fns'
-import { FlatList } from 'react-native'
 import * as Clipboard from 'expo-clipboard'
 import { FontAwesome } from '@expo/vector-icons'
+import { FlatList, Text } from 'react-native'
 import { MaterialIcons, Feather } from '@expo/vector-icons'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
 import React, { useContext, useEffect, useState } from 'react'
@@ -21,7 +21,8 @@ import {
   ModalContent,
   NumberOfLinks,
   ContainerIcons,
-  ContainerShortenedUrl
+  ContainerShortenedUrl,
+  NoLinksSaved
 } from './styles'
 
 /**
@@ -194,14 +195,17 @@ export default function SavedLinksScreen() {
       <Button
         style={{
           position: 'absolute',
-          right: 25,
-          bottom: 25,
-          backgroundColor: 'white'
+          right: '5%',
+          bottom: '3%',
+          backgroundColor: 'white',
+          elevation: 0
         }}
         onPress={() => navigation.navigate('CreateNewLinkScreen')}
-        title={<Feather name='plus-circle' size={40} color='black' />}
+        title={<Feather name='plus-circle' size={42} color='black' />}
         width={40}
       />
+
+      {shortenedUrls && <NoLinksSaved>Não há links salvos</NoLinksSaved>}
 
       {isLoading && <Spinner size='large' color='black' />}
     </Container>
