@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 
 export const Container = styled.SafeAreaView`
   flex: 1;
-  background-color: #192436;
+  background-color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,12 +16,13 @@ export const ContainerLogo = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #192436;
+  background-color: white;
 `
 
 export const Title = styled.Text`
   font-size: 26px;
-  color: white;
+  color: #023696;
+  font-weight: bold;
   margin-left: 10px;
   padding: 10px;
   border-bottom-width: 1px;
@@ -30,8 +31,9 @@ export const Title = styled.Text`
 `
 
 export const ContainerForm = styled.View`
-  flex: 2;
-  width: 100%;
+  flex: 2.5;
+  width: 90%;
+  max-width: 500px;
   align-items: center;
 `
 
@@ -39,13 +41,23 @@ export const MessageError = styled.View`
     width: 90%,
     color: red
 `
-export const ContainerButtons = styled.View`
-  width: 90%;
-  margin-top: 20;
-  display: flex;
-  flex-direction: row;
+
+export const ContinueButtom = styled.View`
+  margin-top: 90px;
+  width: 100%;
   align-items: center;
   justify-content: center;
+`
+
+export const ClearContentButton = styled.TouchableOpacity`
+  position: absolute;
+  right: 5%;
+  bottom: 3%;
+  padding: 10px;
+  border-radius: 50px;
+  border: 1px solid #023696;
+  background-color: #ffff;
+  elevation: 3;
 `
 
 export const Spinner = styled.ActivityIndicator`
@@ -57,9 +69,4 @@ export const Spinner = styled.ActivityIndicator`
   flex: 1;
   justify-content: center;
   align-items: center;
-`
-export const ClearContentButton = styled.View`
-  position: absolute;
-  right: 5%;
-  bottom: 5%;
 `

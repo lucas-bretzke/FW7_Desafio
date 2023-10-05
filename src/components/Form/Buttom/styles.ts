@@ -6,6 +6,7 @@ export const StyledButton = styled.TouchableOpacity`
   border-radius: 4px;
   flex-direction: row;
   justify-content: center;
+  elevation: 4;
 ` 
 
 export const Text = styled.Text`

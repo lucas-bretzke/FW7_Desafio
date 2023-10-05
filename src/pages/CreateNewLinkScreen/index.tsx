@@ -1,6 +1,7 @@
 import { Feather } from '@expo/vector-icons'
+import { Keyboard } from 'react-native'
+import { MaterialIcons } from '@expo/vector-icons'
 import React, { useState } from 'react'
-import { Text, View, Keyboard, ActivityIndicator } from 'react-native'
 
 /**
  * Services.
@@ -28,8 +29,8 @@ import {
   MessageError,
   ContainerForm,
   ContainerLogo,
-  ContainerButtons,
-  ClearContentButton
+  ClearContentButton,
+  ContinueButtom
 } from './styles'
 
 /**
@@ -41,6 +42,7 @@ export default function CreateNewLinkScreen() {
   const [originalURL, setOriginalURL] = useState('')
   const [shortenedUrl, setShortenedUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const [description, setDescription] = useState('')
 
   function generateRandomString(length: number) {
     let newChart = ''
@@ -109,39 +111,40 @@ export default function CreateNewLinkScreen() {
 
       <ContainerForm>
         <TextInput
-          label='Destinho'
+          label='Description'
+          value={description}
+          onChangeText={text => setDescription(text)}
+          placeholder='Descrição do link'
+        />
+
+        <TextInput
+          label='Insira sua URL de destino'
           value={originalURL}
           onChangeText={text => setOriginalURL(text)}
-          placeholder='Coloque sua URL aqui'
+          placeholder='Link de destino'
         />
 
         <TextInput
           label='new url'
           value={customUrl}
           onChangeText={text => setCustomUrl(text)}
-          placeholder='ex: MinhaUrl'
+          placeholder='bretz.exemplo/Sua-customização-aqui'
         />
 
         {errorMessage && <MessageError>{errorMessage}</MessageError>}
 
-        <ContainerButtons>
+        <ContinueButtom>
           <Button
             onPress={() => checkFieldsBeforeRequest()}
-            title='Encurtar'
+            title='Criar novo link'
             color='#fff'
             bgColor='#023696'
           />
-        </ContainerButtons>
+        </ContinueButtom>
       </ContainerForm>
 
-      <ClearContentButton>
-        <Button
-          onPress={() => clearContentButton()}
-          title='🗑️'
-          color='#fff'
-          bgColor='#023696'
-          width={40}
-        />
+      <ClearContentButton onPress={() => clearContentButton()}>
+        <MaterialIcons name='refresh' size={24} color='#023696' />
       </ClearContentButton>
 
       {isLoading && <Spinner size='large' color='blue' />}
