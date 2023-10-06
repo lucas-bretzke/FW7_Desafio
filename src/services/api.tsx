@@ -10,7 +10,7 @@ export default {
     return response?.data
   },
 
-  postShortUrl: async (params: ITypeLink) => {
+  postShortUrl: async (params: IInputLink) => {
     const response = await http.post('/shortUrl', {
       user_id: params.user_id,
       code: params.code,

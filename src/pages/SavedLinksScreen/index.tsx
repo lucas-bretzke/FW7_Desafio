@@ -3,7 +3,11 @@ import * as Clipboard from 'expo-clipboard'
 import { FontAwesome } from '@expo/vector-icons'
 import { FlatList, Text } from 'react-native'
 import { MaterialIcons, Feather } from '@expo/vector-icons'
-import { NavigationProp, useNavigation } from '@react-navigation/native'
+import {
+  NavigationProp,
+  useFocusEffect,
+  useNavigation
+} from '@react-navigation/native'
 import React, { useContext, useEffect, useState } from 'react'
 
 /**
@@ -177,13 +181,11 @@ export default function SavedLinksScreen() {
     )
   }
 
-  async function reloadData() {
-    getUrls()
-  }
-
-  useEffect(() => {
-    getUrls()
-  }, [])
+  useFocusEffect(
+    React.useCallback(() => {
+      getUrls()
+    }, [])
+  )
 
   return (
     <Container>
@@ -198,10 +200,6 @@ export default function SavedLinksScreen() {
         onClose={closeModal}
         container={ContentModal()}
       />
-
-      <FloatButton style={{ right: '6%', bottom: '11%' }} onPress={reloadData}>
-        <MaterialIcons name='refresh' size={25} />
-      </FloatButton>
 
       <FloatButton onPress={() => navigation.navigate('CreateNewLinkScreen')}>
         <Feather name='plus-circle' size={42} />

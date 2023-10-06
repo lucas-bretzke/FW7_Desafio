@@ -1,4 +1,4 @@
-type ITypeLink = {
+type IInputLink = {
   code: string
   user_id: number
   description: string
