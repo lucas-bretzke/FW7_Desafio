@@ -195,16 +195,16 @@ export default function SavedLinksScreen() {
 
       <BaseModal
         visible={isModalVisible}
-        onClose={() => closeModal()}
+        onClose={closeModal}
         container={ContentModal()}
       />
 
-      <FloatButton style={{ right: '7%', bottom: '11%' }} onPress={reloadData}>
-        <MaterialIcons name='refresh' size={25} color='black' />
+      <FloatButton style={{ right: '6%', bottom: '11%' }} onPress={reloadData}>
+        <MaterialIcons name='refresh' size={25} />
       </FloatButton>
 
       <FloatButton onPress={() => navigation.navigate('CreateNewLinkScreen')}>
-        <Feather name='plus-circle' size={42} color='black' />
+        <Feather name='plus-circle' size={42} />
       </FloatButton>
 
       {!shortenedUrls && <NoLinksSaved>Não há links salvos</NoLinksSaved>}
