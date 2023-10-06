@@ -19,10 +19,11 @@ import {
   TextButtons,
   ModalButtons,
   ModalContent,
+  NoLinksSaved,
   NumberOfLinks,
   ContainerIcons,
   ContainerShortenedUrl,
-  NoLinksSaved
+  FloatButton
 } from './styles'
 
 /**
@@ -38,7 +39,6 @@ import api from '../../services/api'
 /**
  * Components.
  */
-import Button from '../../components/Form/Buttom'
 import BaseModal from '../../components/Modal'
 
 /**
@@ -52,6 +52,7 @@ type ITypeLink = {
   description: string
   is_favorite: boolean
   original_url: string
+  access_count: number
 }
 
 /**
@@ -78,7 +79,8 @@ export default function SavedLinksScreen() {
       setIsLoading(false)
     }
   }
-  function renderShortenedUrl(item: any) {
+
+  function renderShortenedUrl(item: ITypeLink) {
     const date = format(new Date(item.created_at), 'dd/MM/yy')
 
     return (
@@ -153,6 +155,7 @@ export default function SavedLinksScreen() {
       setIsLoading(false)
     }
   }
+
   function ContentModal() {
     const buttons = [
       { text: 'Copiar', onPress: copyLink },
@@ -174,6 +177,10 @@ export default function SavedLinksScreen() {
     )
   }
 
+  async function reloadData() {
+    getUrls()
+  }
+
   useEffect(() => {
     getUrls()
   }, [])
@@ -192,18 +199,13 @@ export default function SavedLinksScreen() {
         container={ContentModal()}
       />
 
-      <Button
-        style={{
-          position: 'absolute',
-          right: '5%',
-          bottom: '3%',
-          backgroundColor: 'white',
-          elevation: 0
-        }}
-        onPress={() => navigation.navigate('CreateNewLinkScreen')}
-        title={<Feather name='plus-circle' size={42} color='black' />}
-        width={40}
-      />
+      <FloatButton style={{ right: '7%', bottom: '11%' }} onPress={reloadData}>
+        <MaterialIcons name='refresh' size={25} color='black' />
+      </FloatButton>
+
+      <FloatButton onPress={() => navigation.navigate('CreateNewLinkScreen')}>
+        <Feather name='plus-circle' size={42} color='black' />
+      </FloatButton>
 
       {!shortenedUrls && <NoLinksSaved>Não há links salvos</NoLinksSaved>}
 
