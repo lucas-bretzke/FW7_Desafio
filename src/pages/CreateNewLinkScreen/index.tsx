@@ -105,11 +105,9 @@ export default function CreateNewLinkScreen() {
 
   function customUrlIsValid() {
     const hasSpace = customUrl.includes(' ')
-    const isValidLength = customUrl.length >= 1 && customUrl.length < 6
+    const isValidLength = customUrl.length >= 6
 
-    if (hasSpace || isValidLength) return false
-
-    return true
+    return !hasSpace && isValidLength
   }
 
   function clearFields() {
