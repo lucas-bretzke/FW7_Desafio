@@ -124,7 +124,7 @@ export default function Login() {
 
           <ButtonContainer>
             <CreateAccountButton
-              onPress={() => navigation.navigate('Register')}
+              onPress={() => navigation.navigate('CreateAccount')}
             >
               <ButtonText>Criar conta</ButtonText>
             </CreateAccountButton>

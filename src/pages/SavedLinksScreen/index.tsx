@@ -205,7 +205,9 @@ export default function SavedLinksScreen() {
         <Feather name='plus-circle' size={42} />
       </FloatButton>
 
-      {!shortenedUrls && <NoLinksSaved>Não há links salvos</NoLinksSaved>}
+      {!shortenedUrls.length && (
+        <NoLinksSaved>Não há links salvos</NoLinksSaved>
+      )}
 
       {isLoading && <Spinner size='large' color='black' />}
     </Container>
