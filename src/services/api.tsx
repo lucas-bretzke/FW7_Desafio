@@ -6,6 +6,7 @@ export default {
       email: email,
       password: password
     })
+
     return response?.data
   },
 
@@ -16,6 +17,7 @@ export default {
       description: params.description,
       original_url: params.original_url
     })
+
     return response?.data
   },
 
@@ -40,6 +42,7 @@ export default {
       email: email,
       password: password
     })
+
     return response?.data
   },
 

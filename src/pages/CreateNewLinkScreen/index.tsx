@@ -48,7 +48,6 @@ export default function CreateNewLinkScreen() {
   const [isLoading, setIsLoading] = useState(false)
   const [description, setDescription] = useState('')
   const [originalURL, setOriginalURL] = useState('')
-  const [shortenedUrl, setShortenedUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
 
   function generateRandomString(length: number) {
@@ -62,6 +61,13 @@ export default function CreateNewLinkScreen() {
     }
 
     return newChart
+  }
+
+  function customUrlIsValid() {
+    const hasSpace = customUrl.includes(' ')
+    const isValidLength = customUrl.length >= 6 || customUrl.length === 0
+
+    return !hasSpace && isValidLength
   }
 
   async function checkFieldsBeforeRequest() {
@@ -90,29 +96,21 @@ export default function CreateNewLinkScreen() {
 
       await api.postShortUrl({
         code: code,
-        user_id: user.user_id,
+        user_id: user.id,
         description: description,
         original_url: originalURL
       })
+
+      navigation.navigate('SavedLinksScreen')
+      clearFields()
     } catch (error) {
       console.log('post error:', error)
       setErrorMessage('Ops! Erro interno, volte mais tarde')
-    } finally {
-      clearFields()
-      navigation.navigate('SavedLinksScreen')
     }
-  }
-
-  function customUrlIsValid() {
-    const hasSpace = customUrl.includes(' ')
-    const isValidLength = customUrl.length >= 6
-
-    return !hasSpace && isValidLength
   }
 
   function clearFields() {
     setErrorMessage('')
-    setShortenedUrl('')
     setCustomUrl('')
     setOriginalURL('')
     setDescription('')
