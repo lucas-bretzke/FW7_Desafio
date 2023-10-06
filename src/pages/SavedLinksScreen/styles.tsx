@@ -62,6 +62,13 @@ export const ModalButtons = styled.TouchableOpacity`
   justify-content: center;
   border-radius: 5px;
 `
+export const FloatButton = styled.TouchableOpacity`
+  position: absolute;
+  bottom: 3%;
+  right: 5%;
+  background-color: transparent;
+  elevation: 0;
+`
 
 export const TextButtons = styled.Text`
   font-size: 15px;

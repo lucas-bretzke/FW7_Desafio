@@ -1,41 +1,64 @@
 import React from 'react'
-import { Text, View, SafeAreaView } from 'react-native'
-import styles from './styles'
 import { Feather } from '@expo/vector-icons'
-
 import * as Animatable from 'react-native-animatable'
+
+/**
+ * Styles.
+ */
+import styles, {
+  Image,
+  Container,
+  Description,
+  ContainerText,
+  SubDescription,
+  ContainerButtons
+} from './styles'
+
+/**
+ * Components.
+ */
 import Button from '../../components/Form/Buttom'
 
+/**
+ * Types.
+ */
 type WelcomeTypes = {
   navigation: any
 }
 
+/**
+ * Component.
+ */
 export default function Welcome({ navigation }: WelcomeTypes) {
   return (
-    <SafeAreaView style={styles.container}>
+    <Container>
       <Animatable.View animation='flipInY' style={styles.containerLogo}>
-        <Feather name='link' size={26} color='blue' />
-        <Text style={styles.title}>Encurtador de URL</Text>
+        {/* <Feather name='link' size={26} color='blue' /> */}
+
+        <Image source={require('../../../assets/adaptive-icon.png')} />
       </Animatable.View>
 
-      <Animatable.View
-        delay={600}
-        animation='fadeInUp'
-        style={styles.containerBox}
-      >
-        <Text style={styles.desc1}>
-          Transforme URLs longas em curtas com facilidade!
-        </Text>
-        <Text style={styles.desc2}>Organize seus links com a Bretz.</Text>
-        <View style={styles.containerBtn}>
+      <Animatable.View delay={600} animation='fadeInUp'>
+        <ContainerText>
+          <Description>
+            Transforme URLs longas em curtas com facilidade!
+          </Description>
+          <SubDescription>Organize seus links com a Bretz.</SubDescription>
+        </ContainerText>
+
+        <ContainerButtons>
           <Button
-            title='Acessar'
-            width={250}
+            title='Abra sua conta'
             bgColor='#023696'
-            onPress={() => navigation.navigate('SavedLinksScreen')}
+            onPress={() => navigation.navigate('CreateAccount')}
           />
-        </View>
+          <Button
+            title='Login'
+            style={{ marginTop: 10 }}
+            onPress={() => navigation.navigate('Login')}
+          />
+        </ContainerButtons>
       </Animatable.View>
-    </SafeAreaView>
+    </Container>
   )
 }

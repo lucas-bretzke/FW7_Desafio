@@ -6,16 +6,18 @@ export default {
       email: email,
       password: password
     })
+
     return response?.data
   },
 
-  postShortUrl: async (params: ITypeLink) => {
+  postShortUrl: async (params: IInputLink) => {
     const response = await http.post('/shortUrl', {
       user_id: params.user_id,
       code: params.code,
       description: params.description,
       original_url: params.original_url
     })
+
     return response?.data
   },
 
@@ -40,6 +42,7 @@ export default {
       email: email,
       password: password
     })
+
     return response?.data
   },
 

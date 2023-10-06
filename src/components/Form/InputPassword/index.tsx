@@ -18,9 +18,11 @@ import {
  */
 type PasswordProps = {
   value: string
+  label?: string
   style?: ViewStyle
   onPress?: () => void
   msgError?: string
+  placeholder?: string
   onChangeText: (text: string) => void
   secureTextEntry?: boolean
   onSubmitEditing?: () => void
@@ -31,11 +33,11 @@ type PasswordProps = {
  */
 export default function InputPassword({
   style,
+  label = '',
   value = '',
-  onPress = () => {},
   msgError = '',
+  placeholder = '******',
   onChangeText = text => {},
-  secureTextEntry = false,
   onSubmitEditing = () => {}
 }: PasswordProps) {
   const [passwordVisibility, setPasswordVisibility] = useState(false)
@@ -43,7 +45,7 @@ export default function InputPassword({
   const visiblePassword = () => setPasswordVisibility(!passwordVisibility)
   return (
     <SafeAreaView>
-      <Label>Senha</Label>
+      <Label>{label || 'Senha'}</Label>
 
       <ContainerInputPassword>
         <Input
@@ -51,7 +53,7 @@ export default function InputPassword({
           onChangeText={onChangeText}
           onSubmitEditing={onSubmitEditing}
           secureTextEntry={passwordVisibility}
-          placeholder='******'
+          placeholder={placeholder}
           placeholderTextColor={'#ccc'}
           style={{ ...style }}
         />
