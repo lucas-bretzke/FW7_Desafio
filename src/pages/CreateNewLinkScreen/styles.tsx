@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native'
 import styled from 'styled-components/native'
 
 export const Container = styled.SafeAreaView`
@@ -35,18 +34,6 @@ export const ContainerForm = styled.View`
   width: 90%;
   max-width: 500px;
   align-items: center;
-`
-
-export const MessageError = styled.View`
-  width: 90%;
-  color: red;
-`
-
-export const ContinueButtom = styled.View`
-  margin-top: 90px;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
 `
 
 export const ClearContentButton = styled.TouchableOpacity`

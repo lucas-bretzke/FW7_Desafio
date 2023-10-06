@@ -32,10 +32,8 @@ import {
   Title,
   Spinner,
   Container,
-  MessageError,
   ContainerForm,
   ContainerLogo,
-  ContinueButtom,
   ClearContentButton
 } from './styles'
 
@@ -55,11 +53,14 @@ export default function CreateNewLinkScreen() {
 
   function generateRandomString(length: number) {
     let newChart = ''
+
     const chart =
       'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+
     for (let i = 0; i < length; i++) {
       newChart += chart.charAt(Math.floor(Math.random() * chart.length))
     }
+
     return newChart
   }
 
@@ -67,21 +68,19 @@ export default function CreateNewLinkScreen() {
     setIsLoading(true)
     Keyboard.dismiss()
 
-    if (!customUrlIsValid()) {
-      setErrorMessage(
-        'O título opcional deve conter no mínimo 6 letras e não pode ter espaços.'
-      )
-    } else if (shortenedUrl) {
-      setErrorMessage(
-        'Você precisa limpar os campos primeiro!\nClique na lixeira abaixo.'
-      )
-    } else if (urlValidator(originalURL)) {
-      setErrorMessage('')
-      await generateShortURL()
-    } else {
+    if (!urlValidator(originalURL)) {
       setErrorMessage('Ops! URL inválida')
+      return setIsLoading(false)
     }
 
+    if (!customUrlIsValid()) {
+      setErrorMessage(
+        'Customizar a URL é opcional e requer no mínimo 6 letras, sem espaços.'
+      )
+      return setIsLoading(false)
+    }
+
+    await generateShortURL()
     setIsLoading(false)
   }
 
@@ -90,18 +89,17 @@ export default function CreateNewLinkScreen() {
       const code = customUrl ? customUrl : generateRandomString(6)
 
       await api.postShortUrl({
-        user_id: user.id,
         code: code,
+        user_id: user.user_id,
         description: description,
         original_url: originalURL
       })
-
-      setShortenedUrl('bretz.up.railway.app/' + code)
-
-      navigation.navigate('SavedLinksScreen')
     } catch (error) {
       console.log('post error:', error)
       setErrorMessage('Ops! Erro interno, volte mais tarde')
+    } finally {
+      clearFields()
+      navigation.navigate('SavedLinksScreen')
     }
   }
 
@@ -109,14 +107,17 @@ export default function CreateNewLinkScreen() {
     const hasSpace = customUrl.includes(' ')
     const isValidLength = customUrl.length >= 1 && customUrl.length < 6
 
-    return hasSpace || isValidLength
+    if (hasSpace || isValidLength) return false
+
+    return true
   }
 
-  function clearContentButton() {
-    setErrorMessage(''),
-      setShortenedUrl(''),
-      setCustomUrl(''),
-      setOriginalURL('')
+  function clearFields() {
+    setErrorMessage('')
+    setShortenedUrl('')
+    setCustomUrl('')
+    setOriginalURL('')
+    setDescription('')
   }
 
   return (
@@ -128,39 +129,36 @@ export default function CreateNewLinkScreen() {
 
       <ContainerForm>
         <TextInput
-          label='Descrição'
+          label='*Descrição'
           value={description}
           onChangeText={text => setDescription(text)}
           placeholder='Descrição do link'
         />
 
         <TextInput
-          label='Insira sua URL de destino'
+          label='*Insira sua URL de destino'
           value={originalURL}
           onChangeText={text => setOriginalURL(text)}
           placeholder='Link de destino'
         />
 
         <TextInput
-          label='Customizar url'
+          label='Customizar URL (opicional)'
           value={customUrl}
           onChangeText={text => setCustomUrl(text)}
           placeholder='bretz.exemplo/Sua-customização-aqui'
+          msgError={errorMessage}
         />
 
-        {errorMessage && <MessageError>{errorMessage}</MessageError>}
-
-        <ContinueButtom>
-          <Button
-            onPress={() => checkFieldsBeforeRequest()}
-            title='Encurtar link'
-            color='#fff'
-            bgColor='#023696'
-          />
-        </ContinueButtom>
+        <Button
+          onPress={() => checkFieldsBeforeRequest()}
+          title='Encurtar link'
+          bgColor='#023696'
+          style={{ marginTop: 90 }}
+        />
       </ContainerForm>
 
-      <ClearContentButton onPress={() => clearContentButton()}>
+      <ClearContentButton onPress={clearFields}>
         <MaterialIcons name='refresh' size={24} color='#023696' />
       </ClearContentButton>
 
