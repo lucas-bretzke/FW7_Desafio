@@ -56,12 +56,11 @@ export default function Login() {
       setLoading(true)
 
       await singIn(email, password)
-      navigation.navigate('SavedLinksScreen')
-
+      
       clearState()
+      navigation.navigate('SavedLinksScreen')
     } catch (error) {
-      const { status } = error?.response
-      if (status === 401) setMsgError('Email ou senha incorretos.')
+      if (error?.response === 401) setMsgError('Email ou senha incorretos.')
     } finally {
       setLoading(false)
     }
