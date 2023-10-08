@@ -5,7 +5,7 @@ import React, { useState, createContext, useEffect } from 'react'
 export const AuthContext = createContext({})
 
 export default function AuthProvider({ children }: any) {
-  const [user, setUser] = useState<IUser>()
+  const [user, setUser] = useState<IUser | undefined>()
 
   async function singIn(email: string, password: string) {
     try {
@@ -29,7 +29,7 @@ export default function AuthProvider({ children }: any) {
   async function logout() {
     try {
       await AsyncStorage.removeItem('userData')
-      setUser()
+      setUser(undefined)
     } catch (error) {
       console.log('Erro ao remover os dados do usuário: ', error)
     }
