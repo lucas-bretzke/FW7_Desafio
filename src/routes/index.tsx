@@ -11,6 +11,7 @@ import CreateAccount from '../pages/CreateAccount'
 import SavedLinksScreen from '../pages/SavedLinksScreen'
 import CreateNewLinkScreen from '../pages/CreateNewLinkScreen'
 import { View, Text, TouchableOpacity } from 'react-native'
+import AuthWrapper from './AuthWrapper'
 
 const Stack = createNativeStackNavigator()
 
@@ -36,6 +37,12 @@ export default function Routes() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name='AuthWrapper'
+          component={AuthWrapper}
+          options={{ headerShown: false }}
+        />
+        
         <Stack.Screen
           name='Welcome'
           component={Welcome}
