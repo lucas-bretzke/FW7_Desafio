@@ -29,7 +29,7 @@ export default function AuthProvider({ children }: any) {
   async function logout() {
     try {
       await AsyncStorage.removeItem('userData')
-      setUser({})
+      setUser()
     } catch (error) {
       console.log('Erro ao remover os dados do usuário: ', error)
     }
@@ -62,9 +62,11 @@ export default function AuthProvider({ children }: any) {
     getUserToAsyncStorage()
   }, [])
 
-  const teste = { singIn, getUserShortenedUrls, logout, user }
-
   return (
-    <AuthContext.Provider value={{ teste }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider
+      value={{ singIn, getUserShortenedUrls, logout, user }}
+    >
+      {children}
+    </AuthContext.Provider>
   )
 }
