@@ -52,15 +52,18 @@ export default function Login() {
   const toggleCheckbox = () => setChecked(!checked)
 
   async function login() {
+    setLoading(true)
     try {
-      setLoading(true)
-
       await singIn(email, password)
-      
-      clearState()
-      navigation.navigate('SavedLinksScreen')
+
+      // clearState()
     } catch (error) {
-      if (error?.response === 401) setMsgError('Email ou senha incorretos.')
+      console.log('Erro ao fazer login:', error)
+      setMsgError('Email ou senha incorretos.')
+
+      // if (error?.message === 'Network Error') {
+      //   setMsgError('Erro de rede. Verifique sua conexão com a internet.')
+      // }
     } finally {
       setLoading(false)
     }

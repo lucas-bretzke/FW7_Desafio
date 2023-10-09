@@ -9,13 +9,12 @@ export default function AuthProvider({ children }: any) {
 
   async function singIn(email: string, password: string) {
     try {
-      const { token, user } = await api.singIn(email, password)
+      const { user } = await api.singIn(email, password)
 
       const userData = {
         id: user.user_id,
         name: user.username,
-        email: user.email,
-        token: token
+        email: user.email
       }
 
       setUser(userData)

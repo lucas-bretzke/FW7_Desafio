@@ -44,6 +44,7 @@ import api from '../../services/api'
  * Components.
  */
 import BaseModal from '../../components/Modal'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 /**
  * Types.
@@ -205,7 +206,21 @@ export default function SavedLinksScreen() {
         <Feather name='plus-circle' size={42} />
       </FloatButton>
 
-      {!shortenedUrls.length && (
+      <FloatButton
+        style={{ right: 100 }}
+        onPress={() => {
+          try {
+            AsyncStorage.removeItem('userData')
+            console.log('Dados do usuário removidos com sucesso.')
+          } catch (error) {
+            console.log('Erro ao remover os dados do usuário: ', error)
+          }
+        }}
+      >
+        <Feather name='plus-circle' size={42} />
+      </FloatButton>
+
+      {!shortenedUrls?.length && (
         <NoLinksSaved>Não há links salvos</NoLinksSaved>
       )}
 
