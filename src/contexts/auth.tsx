@@ -20,6 +20,7 @@ export default function AuthProvider({ children }: any) {
       setUser(userData)
       //Armazenar dados do usuario no AsyncStorage
       await AsyncStorage.setItem('userData', JSON.stringify(userData))
+      return userData
     } catch (error) {
       console.log('Erro ao fazer login: ', error)
     }
