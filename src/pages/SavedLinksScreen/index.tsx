@@ -3,7 +3,7 @@ import * as Clipboard from 'expo-clipboard'
 import { FontAwesome } from '@expo/vector-icons'
 import { FlatList, Text } from 'react-native'
 import { MaterialIcons, Feather } from '@expo/vector-icons'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   useNavigation,
   NavigationProp,
@@ -50,6 +50,7 @@ import api from '../../services/api'
 import BaseModal from '../../components/Modal'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Header from '../../components/Header'
+import InputText from '../../components/Form/InputText'
 
 /**
  * Types.
@@ -73,14 +74,24 @@ export default function SavedLinksScreen() {
   const { getUserShortenedUrls }: any = useContext(AuthContext)
 
   const [isLoading, setIsLoading] = useState(false)
+  const [search, setSearch] = useState('')
   const [selectedItem, setSelectedItem] = useState<ITypeLink>()
   const [shortenedUrls, setShortenedUrls] = useState([])
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [isDropdownVisible, setIsDropdownVisible] = useState(false)
+  const [favoritosAtivados, setFavoritosAtivados] = useState(false)
 
   const DropdownButtons = [
-    { text: 'Favoritos', onPress: copyLink },
-    { text: 'Todos', onPress: deleteLink }
+    {
+      text: 'Favoritos',
+      onPress: () => (setFavoritosAtivados(true), setIsDropdownVisible(false))
+    },
+    {
+      text: 'Todos',
+      onPress: () => (
+        setSearch(''), setFavoritosAtivados(false), setIsDropdownVisible(false)
+      )
+    }
   ]
 
   async function getUrls() {
@@ -94,6 +105,24 @@ export default function SavedLinksScreen() {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const filterLinks = () => {
+    let filteredLinks = shortenedUrls
+
+    if (favoritosAtivados) {
+      filteredLinks = filteredLinks.filter(
+        (item: ITypeLink) => item.is_favorite === true
+      )
+    }
+
+    if (search !== '') {
+      filteredLinks = filteredLinks.filter((item: ITypeLink) => {
+        return item.description.toUpperCase().includes(search.toUpperCase())
+      })
+    }
+
+    return filteredLinks
   }
 
   function closeModal() {
@@ -204,9 +233,12 @@ export default function SavedLinksScreen() {
       <Header
         title='Links'
         leftIcon='menu'
+        rightIcon='magnify'
         inputValue={''}
         onPresss={() => console.log('sss')}
       />
+
+      {/* <InputText onChangeText={text => setSearch(text)} value={search} /> */}
 
       <Section>
         <NumberOfLinks>Links: {shortenedUrls?.length}</NumberOfLinks>
@@ -226,7 +258,7 @@ export default function SavedLinksScreen() {
       )}
 
       <FlatList
-        data={shortenedUrls}
+        data={filterLinks()}
         renderItem={({ item }) => renderShortenedUrl(item)}
       />
 
