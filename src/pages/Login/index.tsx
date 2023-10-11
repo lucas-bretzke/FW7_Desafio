@@ -52,16 +52,14 @@ export default function Login() {
   const toggleCheckbox = () => setChecked(!checked)
 
   async function login() {
+    setLoading(true)
+
     try {
-      setLoading(true)
+      const { user } = await singIn(email, password)
 
-      await singIn(email, password)
-      navigation.navigate('SavedLinksScreen')
-
-      clearState()
+      if (user) clearState()
     } catch (error) {
-      const { status } = error?.response
-      if (status === 401) setMsgError('Email ou senha incorretos.')
+      setMsgError('Email ou senha incorretos.')
     } finally {
       setLoading(false)
     }
@@ -124,7 +122,7 @@ export default function Login() {
 
           <ButtonContainer>
             <CreateAccountButton
-              onPress={() => navigation.navigate('Register')}
+              onPress={() => navigation.navigate('CreateAccount')}
             >
               <ButtonText>Criar conta</ButtonText>
             </CreateAccountButton>

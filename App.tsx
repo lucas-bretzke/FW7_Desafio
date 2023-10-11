@@ -1,6 +1,6 @@
 import Routes from './src/routes'
-import { StatusBar } from 'expo-status-bar'
 import AuthProvider from './src/contexts/auth'
+import { StatusBar } from 'expo-status-bar'
 
 export default function App() {
   return (

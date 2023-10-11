@@ -27,7 +27,7 @@ import styles, { Container, Spinner, Title } from './styles'
 /**
  * Component.
  */
-export default function Register() {
+export default function CreateAccount() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
