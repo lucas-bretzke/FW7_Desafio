@@ -59,7 +59,7 @@ export default function TextInput({
         )}
       </ContainerInputPassword>
 
-      <Error>{msgError}</Error>
+      {msgError && <Error>{msgError}</Error>}
     </SafeAreaView>
   )
 }
