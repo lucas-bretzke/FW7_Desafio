@@ -53,17 +53,13 @@ export default function Login() {
 
   async function login() {
     setLoading(true)
+
     try {
-      await singIn(email, password)
+      const { user } = await singIn(email, password)
 
-      // clearState()
+      if (user) clearState()
     } catch (error) {
-      console.log('Erro ao fazer login:', error)
       setMsgError('Email ou senha incorretos.')
-
-      // if (error?.message === 'Network Error') {
-      //   setMsgError('Erro de rede. Verifique sua conexão com a internet.')
-      // }
     } finally {
       setLoading(false)
     }
