@@ -3,12 +3,12 @@ import * as Clipboard from 'expo-clipboard'
 import { FontAwesome } from '@expo/vector-icons'
 import { FlatList, Text } from 'react-native'
 import { MaterialIcons, Feather } from '@expo/vector-icons'
+import React, { useContext, useState } from 'react'
 import {
+  useNavigation,
   NavigationProp,
-  useFocusEffect,
-  useNavigation
+  useFocusEffect
 } from '@react-navigation/native'
-import React, { useContext, useEffect, useState } from 'react'
 
 /**
  * Styles.
@@ -16,18 +16,22 @@ import React, { useContext, useEffect, useState } from 'react'
 import {
   Link,
   Spinner,
+  Section,
+  Filters,
+  Dropdown,
   Container,
   AccessCount,
   DateCreated,
   Description,
   TextButtons,
+  FloatButton,
   ModalButtons,
   ModalContent,
   NoLinksSaved,
   NumberOfLinks,
   ContainerIcons,
-  ContainerShortenedUrl,
-  FloatButton
+  DropdownButton,
+  ContainerShortenedUrl
 } from './styles'
 
 /**
@@ -45,6 +49,7 @@ import api from '../../services/api'
  */
 import BaseModal from '../../components/Modal'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import Header from '../../components/Header'
 
 /**
  * Types.
@@ -71,6 +76,12 @@ export default function SavedLinksScreen() {
   const [selectedItem, setSelectedItem] = useState<ITypeLink>()
   const [shortenedUrls, setShortenedUrls] = useState([])
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false)
+
+  const DropdownButtons = [
+    { text: 'Favoritos', onPress: copyLink },
+    { text: 'Todos', onPress: deleteLink }
+  ]
 
   async function getUrls() {
     try {
@@ -83,33 +94,6 @@ export default function SavedLinksScreen() {
     } finally {
       setIsLoading(false)
     }
-  }
-
-  function renderShortenedUrl(item: ITypeLink) {
-    const date = format(new Date(item.created_at), 'dd/MM/yy')
-
-    return (
-      <ContainerShortenedUrl
-        onPress={() => {
-          setSelectedItem(item)
-          setIsModalVisible(true)
-        }}
-      >
-        <DateCreated>{date}</DateCreated>
-        <Description>{item.description}</Description>
-        <Link>{item.short_url}</Link>
-
-        <ContainerIcons>
-          {item.is_favorite && (
-            <MaterialIcons name='favorite' size={14} color='#444444' />
-          )}
-
-          <AccessCount>{item.access_count}</AccessCount>
-
-          <FontAwesome name='bar-chart' size={14} color='black' />
-        </ContainerIcons>
-      </ContainerShortenedUrl>
-    )
   }
 
   function closeModal() {
@@ -182,6 +166,33 @@ export default function SavedLinksScreen() {
     )
   }
 
+  function renderShortenedUrl(item: ITypeLink) {
+    const date = format(new Date(item.created_at), 'dd/MM/yy')
+
+    return (
+      <ContainerShortenedUrl
+        onPress={() => {
+          setSelectedItem(item)
+          setIsModalVisible(true)
+        }}
+      >
+        <DateCreated>{date}</DateCreated>
+        <Description>{item.description}</Description>
+        <Link>{item.short_url}</Link>
+
+        <ContainerIcons>
+          {item.is_favorite && (
+            <MaterialIcons name='favorite' size={14} color='#444444' />
+          )}
+
+          <AccessCount>{item.access_count}</AccessCount>
+
+          <FontAwesome name='bar-chart' size={14} color='black' />
+        </ContainerIcons>
+      </ContainerShortenedUrl>
+    )
+  }
+
   useFocusEffect(
     React.useCallback(() => {
       getUrls()
@@ -190,7 +201,30 @@ export default function SavedLinksScreen() {
 
   return (
     <Container>
-      <NumberOfLinks>Links: {shortenedUrls?.length}</NumberOfLinks>
+      <Header
+        title='Links'
+        leftIcon='menu'
+        inputValue={''}
+        onPresss={() => console.log('sss')}
+      />
+
+      <Section>
+        <NumberOfLinks>Links: {shortenedUrls?.length}</NumberOfLinks>
+        <Filters onPress={() => setIsDropdownVisible(!isDropdownVisible)}>
+          <Feather name='filter' size={22} color='white' />
+        </Filters>
+      </Section>
+
+      {isDropdownVisible && (
+        <Dropdown>
+          {DropdownButtons.map((button, index) => (
+            <DropdownButton key={index} onPress={button.onPress}>
+              <Text>{button.text}</Text>
+            </DropdownButton>
+          ))}
+        </Dropdown>
+      )}
+
       <FlatList
         data={shortenedUrls}
         renderItem={({ item }) => renderShortenedUrl(item)}

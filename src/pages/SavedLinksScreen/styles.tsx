@@ -5,10 +5,39 @@ export const Container = styled.SafeAreaView`
   background-color: white;
 `
 
-export const NumberOfLinks = styled.Text`
+export const Section = styled.View`
   padding: 10px 15px;
-  color: white;
   background-color: #192436;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`
+
+export const NumberOfLinks = styled.Text`
+  color: white;
+`
+export const Filters = styled.TouchableOpacity``
+
+export const Dropdown = styled.TouchableOpacity`
+  width: 140px;
+  height: auto;
+  position: absolute;
+  border-color: #4444;
+  right: 3%;
+  top: 100px;
+  background-color: white;
+  border: 1px solid #eee;
+  elevation: 10;
+  z-index: 2;
+`
+
+export const DropdownButton = styled.TouchableOpacity`
+  padding: 7px 0px;
+  align-items: center;
+  justify-content: center;
+  border-top-width: 1px;
+  border-color: #d6d6d6;
 `
 
 export const ContainerShortenedUrl = styled.TouchableOpacity`
