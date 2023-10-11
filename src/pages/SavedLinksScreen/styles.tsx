@@ -7,7 +7,8 @@ export const Container = styled.SafeAreaView`
 
 export const NumberOfLinks = styled.Text`
   padding: 10px 15px;
-  background-color: #eee;
+  color: white;
+  background-color: #192436;
 `
 
 export const ContainerShortenedUrl = styled.TouchableOpacity`

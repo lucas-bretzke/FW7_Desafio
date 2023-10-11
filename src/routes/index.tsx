@@ -42,7 +42,7 @@ export default function Routes() {
           component={AuthWrapper}
           options={{ headerShown: false }}
         />
-        
+
         <Stack.Screen
           name='Welcome'
           component={Welcome}
@@ -56,9 +56,11 @@ export default function Routes() {
         <Stack.Screen
           name='SavedLinksScreen'
           component={SavedLinksScreen}
-          options={{
-            header: props => <CustomHeader {...props} />
-          }}
+          options={{ headerShown: false }}
+
+          // options={{
+          //   header: props => <CustomHeader {...props} />
+          // }}
         />
 
         <Stack.Screen
