@@ -38,7 +38,7 @@ type TextInputProps = {
 export default function TextInput({
   icon,
   style,
-  value,
+  value = '',
   label = '',
   leftIcon,
   inputRef,
