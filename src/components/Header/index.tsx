@@ -18,6 +18,7 @@ type IHeader = {
   leftButtom?: () => void
   rightButtom?: () => void
   placeholder?: string
+  onInputChange: any
   canChangeTheInputState?: boolean
 }
 /**
@@ -31,6 +32,7 @@ export default function Header({
   leftButtom,
   placeholder,
   rightButtom,
+  onInputChange,
   canChangeTheInputState
 }: IHeader) {
   const [isInputVisible, setIsInputVisible] = useState(false)
@@ -68,7 +70,7 @@ export default function Header({
         <InputText
           inputRef={inputRef}
           value={inputValue}
-          onChangeText={text => inputValue}
+          onChangeText={text => onInputChange(text)}
           leftIcon='magnify'
           style={{ width: 300, borderWidth: 0 }}
           placeholder={placeholder}

@@ -96,7 +96,8 @@ export default function SavedLinksScreen() {
 
   async function getUrls() {
     try {
-      setIsLoading(true)
+      if ((shortenedUrls.length = 0)) setIsLoading(true)
+
       const response = await getUserShortenedUrls()
 
       setShortenedUrls(response)
@@ -222,6 +223,10 @@ export default function SavedLinksScreen() {
     )
   }
 
+  const handleSearchInputChange = (text: string) => {
+    setSearch(text)
+  }
+
   useFocusEffect(
     React.useCallback(() => {
       getUrls()
@@ -235,6 +240,7 @@ export default function SavedLinksScreen() {
         leftIcon='menu'
         rightIcon='magnify'
         inputValue={search}
+        onInputChange={handleSearchInputChange}
         canChangeTheInputState
       />
 
