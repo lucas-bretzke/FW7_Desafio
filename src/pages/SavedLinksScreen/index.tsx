@@ -238,8 +238,6 @@ export default function SavedLinksScreen() {
         canChangeTheInputState
       />
 
-      {/* <InputText onChangeText={text => setSearch(text)} value={search} /> */}
-
       <Section>
         <NumberOfLinks>Links: {shortenedUrls?.length}</NumberOfLinks>
         <Filters onPress={() => setIsDropdownVisible(!isDropdownVisible)}>
