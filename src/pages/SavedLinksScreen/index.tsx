@@ -234,8 +234,8 @@ export default function SavedLinksScreen() {
         title='Links'
         leftIcon='menu'
         rightIcon='magnify'
-        inputValue={''}
-        onPresss={() => console.log('sss')}
+        inputValue={search}
+        canChangeTheInputState
       />
 
       {/* <InputText onChangeText={text => setSearch(text)} value={search} /> */}

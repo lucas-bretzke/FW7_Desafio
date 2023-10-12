@@ -1,6 +1,6 @@
-import React from 'react'
-import { Feather } from '@expo/vector-icons'
 import InputText from '../Form/InputText'
+import { TextInput } from 'react-native'
+import React, { useRef, useState } from 'react'
 
 /**
  * Styles.
@@ -11,43 +11,73 @@ import { Container, LeftButtom, RightButtom, StyledIcon, Title } from './styles'
  * Types.
  */
 type IHeader = {
-  title?: string
+  title: string
   leftIcon?: string
-  onPresss?: () => void
   rightIcon?: string
   inputValue?: string
+  leftButtom?: () => void
+  rightButtom?: () => void
   placeholder?: string
+  canChangeTheInputState?: boolean
 }
 /**
  * Component.
  */
 export default function Header({
-  title = '',
-  onPresss,
-  leftIcon = '',
-  rightIcon = '',
-  inputValue = '',
-  placeholder = ''
+  title,
+  leftIcon,
+  rightIcon,
+  inputValue,
+  leftButtom,
+  placeholder,
+  rightButtom,
+  canChangeTheInputState
 }: IHeader) {
+  const [isInputVisible, setIsInputVisible] = useState(false)
+  const [isTitleVisible, setIsTitleVisible] = useState(true)
+
+  const inputRef = useRef<TextInput | null>(null)
+
+  function setInputVisibility() {
+    if (canChangeTheInputState) {
+      setIsTitleVisible(!isTitleVisible)
+      setIsInputVisible(!isInputVisible)
+    }
+
+    setTimeout(() => {
+      if (inputRef.current) {
+        if (isInputVisible) {
+          inputRef.current.blur()
+        } else {
+          inputRef.current.focus()
+        }
+      }
+    }, 100)
+  }
+
   return (
     <Container>
       {leftIcon && (
-        <LeftButtom>
+        <LeftButtom onPress={leftButtom}>
           <StyledIcon name={leftIcon} />
         </LeftButtom>
       )}
-      {title && <Title>{title}</Title>}
+      {title && isTitleVisible && <Title>{title}</Title>}
 
-      {/* <InputText
-        value={''}
-        onChangeText={text => inputValue}
-        placeholder={placeholder}
-        style={{ width: 100 }}
-      /> */}
+      {isInputVisible && (
+        <InputText
+          inputRef={inputRef}
+          value={inputValue}
+          onChangeText={text => inputValue}
+          leftIcon='magnify'
+          style={{ width: 300, borderWidth: 0 }}
+          placeholder={placeholder}
+        />
+      )}
 
       {rightIcon && (
-        <RightButtom>
-          <StyledIcon name={rightIcon} />
+        <RightButtom onPress={rightButtom || setInputVisibility}>
+          <StyledIcon name={isInputVisible ? 'close' : rightIcon} />
         </RightButtom>
       )}
     </Container>
