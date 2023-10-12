@@ -9,7 +9,9 @@ import {
   Input,
   Label,
   Error,
+  LeftIcon,
   ButtomIcon,
+  RighttIcon,
   ContainerInputPassword
 } from './styles'
 
@@ -17,11 +19,13 @@ import {
  * Types.
  */
 type TextInputProps = {
-  value: string
+  value: string | void
   icon?: string
   label?: string
   style?: ViewStyle
   onPress?: () => void
+  inputRef?: any
+  leftIcon?: string
   msgError?: string
   placeholder?: string
   onChangeText: (text: string) => void
@@ -36,6 +40,8 @@ export default function TextInput({
   style,
   value,
   label = '',
+  leftIcon,
+  inputRef,
   onPress = () => {},
   msgError = '',
   placeholder = '',
@@ -46,15 +52,19 @@ export default function TextInput({
       {label && <Label>{label}</Label>}
 
       <ContainerInputPassword>
+        {leftIcon && !value && <LeftIcon name={leftIcon} />}
+
         <Input
+          ref={inputRef}
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
           style={{ ...style }}
         />
+
         {icon && (
           <ButtomIcon onPress={onPress}>
-            <Feather name={icon} size={24} style={!value && { opacity: 0.5 }} />
+            <RighttIcon name={icon} style={!value && { opacity: 0.5 }} />
           </ButtomIcon>
         )}
       </ContainerInputPassword>

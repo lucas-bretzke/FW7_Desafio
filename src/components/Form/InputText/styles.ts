@@ -1,4 +1,9 @@
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import styled from 'styled-components/native'
+
+type Props = {
+  disabled?: boolean
+}
 
 export const ContainerInputPassword = styled.View`
   width: 100%;
@@ -37,6 +42,18 @@ export const ButtomIcon = styled.TouchableOpacity`
   align-items: center;
   border-radius: 50px;
   justify-content: center;
+`
+
+export const LeftIcon = styled(Icon)<Props>`
+  font-size: 24px;
+  color: #4444;
+  top: 8px;
+  left: 10px;
+  position: absolute;
+  z-index: 1;
+`
+export const RighttIcon = styled(Icon)<Props>`
+  font-size: 24px;
 `
 
 export const Error = styled.Text`
