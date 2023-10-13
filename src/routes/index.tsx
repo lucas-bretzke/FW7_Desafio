@@ -15,23 +15,23 @@ import AuthWrapper from './AuthWrapper'
 
 const Stack = createNativeStackNavigator()
 
-function CustomHeader({ navigation }: any) {
-  return (
-    <View
-      style={{
-        height: 60,
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: 10
-      }}
-    >
-      <TouchableOpacity onPress={() => navigation.openDrawer()}>
-        <Ionicons name='menu' size={30} color='black' />
-      </TouchableOpacity>
-      <Text style={{ fontSize: 20, marginLeft: 30 }}>Links</Text>
-    </View>
-  )
-}
+// function CustomHeader({ navigation }: any) {
+//   return (
+//     <View
+//       style={{
+//         height: 60,
+//         flexDirection: 'row',
+//         alignItems: 'center',
+//         paddingHorizontal: 10
+//       }}
+//     >
+//       <TouchableOpacity onPress={() => navigation.openDrawer()}>
+//         <Ionicons name='menu' size={30} color='black' />
+//       </TouchableOpacity>
+//       <Text style={{ fontSize: 20, marginLeft: 30 }}>Links</Text>
+//     </View>
+//   )
+// }
 
 export default function Routes() {
   return (
