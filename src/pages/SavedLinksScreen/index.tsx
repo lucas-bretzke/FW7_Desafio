@@ -7,7 +7,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import {
   useNavigation,
   NavigationProp,
-  useFocusEffect
+  useFocusEffect,
+  DrawerActions
 } from '@react-navigation/native'
 
 /**
@@ -93,6 +94,10 @@ export default function SavedLinksScreen() {
       )
     }
   ]
+
+  const openDrawer = () => {
+    navigation.dispatch(DrawerActions.openDrawer())
+  }
 
   async function getUrls() {
     try {
@@ -240,6 +245,7 @@ export default function SavedLinksScreen() {
         leftIcon='menu'
         rightIcon='magnify'
         inputValue={search}
+        leftButtom={openDrawer}
         onInputChange={handleSearchInputChange}
         canChangeTheInputState
       />
