@@ -1,6 +1,7 @@
-import { Alert, View } from 'react-native'
+import { Alert, Keyboard, View } from 'react-native'
+import { BackHandler } from 'react-native'
 import * as Animatable from 'react-native-animatable'
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 /**
  * Services.
@@ -25,9 +26,16 @@ import InputPassword from '../../components/Form/InputPassword'
 import styles, { Container, Spinner, Title } from './styles'
 
 /**
+ * Contexts.
+ */
+import { AuthContext } from '.././../contexts/auth'
+
+/**
  * Component.
  */
 export default function CreateAccount() {
+  const { singIn }: any = useContext(AuthContext)
+
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
@@ -69,26 +77,44 @@ export default function CreateAccount() {
     return true
   }
 
-  async function createAccount() {
+  async function login() {
+    setLoading(true)
+
     try {
-      setLoading(true)
-
-      if (await validateForm()) {
-        await api.createUser(name, email, password)
-
-        Alert.alert(
-          'Conta criada com sucesso!',
-          'Sua conta foi criada com sucesso.',
-          [{ text: 'Logar', onPress: () => console.log('teste') }]
-        )
-      }
+      await singIn(email, password)
     } catch (error) {
-      setMsgError('Erro interno, volte mais tarde')
-      console.log('Erro ao criar a conta', error)
+      setMsgError('Email ou senha incorretos.')
     } finally {
       setLoading(false)
     }
   }
+
+  async function createAccount() {
+    setLoading(true)
+    Keyboard.dismiss()
+
+    try {
+      if (await validateForm()) {
+        await api.createUser(name, email, password)
+        login()
+      }
+    } catch (error) {
+      setMsgError('Erro interno, volte mais tarde')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        return loading ? true : false
+      }
+    )
+
+    return () => backHandler.remove()
+  }, [loading])
 
   return (
     <>
