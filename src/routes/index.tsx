@@ -15,9 +15,9 @@ const Stack = createNativeStackNavigator()
 
 function DrawerNavigation() {
   return (
-    <Drawer.Navigator initialRouteName='SavedLinksScreen'>
+    <Drawer.Navigator initialRouteName='DrawerSavedLinksScreen'>
       <Drawer.Screen
-        name='SavedLinksScreen'
+        name='DrawerSavedLinksScreen'
         component={SavedLinksScreen}
         options={{ headerShown: false }}
       />
