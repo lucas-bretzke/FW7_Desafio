@@ -52,20 +52,12 @@ export default function InputPassword({
           value={value}
           onChangeText={onChangeText}
           onSubmitEditing={onSubmitEditing}
-          secureTextEntry={passwordVisibility}
+          secureTextEntry={!passwordVisibility}
           placeholder={placeholder}
           placeholderTextColor={'#ccc'}
           style={{ ...style }}
         />
-        <EyeButtom
-          style={
-            !passwordVisibility && {
-              backgroundColor: '#44444444',
-              opacity: 0.5
-            }
-          }
-          onPress={visiblePassword}
-        >
+        <EyeButtom active={passwordVisibility} onPress={visiblePassword}>
           <Feather name={passwordVisibility ? 'eye' : 'eye-off'} size={24} />
         </EyeButtom>
       </ContainerInputPassword>

@@ -7,7 +7,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import {
   useNavigation,
   NavigationProp,
-  useFocusEffect
+  useFocusEffect,
+  DrawerActions
 } from '@react-navigation/native'
 
 /**
@@ -93,6 +94,10 @@ export default function SavedLinksScreen() {
       )
     }
   ]
+
+  const openDrawer = () => {
+    navigation.dispatch(DrawerActions.openDrawer())
+  }
 
   async function getUrls() {
     try {
@@ -240,6 +245,7 @@ export default function SavedLinksScreen() {
         leftIcon='menu'
         rightIcon='magnify'
         inputValue={search}
+        leftButtom={openDrawer}
         onInputChange={handleSearchInputChange}
         canChangeTheInputState
       />
@@ -273,20 +279,6 @@ export default function SavedLinksScreen() {
       />
 
       <FloatButton onPress={() => navigation.navigate('CreateNewLinkScreen')}>
-        <Feather name='plus-circle' size={42} />
-      </FloatButton>
-
-      <FloatButton
-        style={{ right: 100 }}
-        onPress={() => {
-          try {
-            AsyncStorage.removeItem('userData')
-            console.log('Dados do usuário removidos com sucesso.')
-          } catch (error) {
-            console.log('Erro ao remover os dados do usuário: ', error)
-          }
-        }}
-      >
         <Feather name='plus-circle' size={42} />
       </FloatButton>
 

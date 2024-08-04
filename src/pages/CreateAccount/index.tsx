@@ -1,6 +1,7 @@
-import { Alert, View } from 'react-native'
+import { Alert, Keyboard, View } from 'react-native'
+import { BackHandler } from 'react-native'
 import * as Animatable from 'react-native-animatable'
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 /**
  * Services.
@@ -25,9 +26,16 @@ import InputPassword from '../../components/Form/InputPassword'
 import styles, { Container, Spinner, Title } from './styles'
 
 /**
+ * Contexts.
+ */
+import { AuthContext } from '.././../contexts/auth'
+
+/**
  * Component.
  */
 export default function CreateAccount() {
+  const { singIn }: any = useContext(AuthContext)
+
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
@@ -46,9 +54,14 @@ export default function CreateAccount() {
       return false
     }
 
+    if (password.length < 6) {
+      setMsgError('A senha deve conter no minimo 6 caracteres')
+      return false
+    }
+
     if (!validatePassword(password)) {
       setMsgError(
-        `A senha deve conter no mínimo um caractere especial (@, #, $, %, ^, & ou +), um número e uma letra maiúscula.`
+        `A senha deve conter no mínimo um caractere especial, um número e uma letra maiúscula.`
       )
       return false
     }
@@ -59,7 +72,6 @@ export default function CreateAccount() {
     }
 
     const emailExists = await api.checkIfTheEmailIsAlreadyRegistered(email)
-
     if (emailExists?.status === 200) {
       setMsgError('Este email já está cadastrado')
       return false
@@ -69,26 +81,53 @@ export default function CreateAccount() {
     return true
   }
 
-  async function createAccount() {
-    try {
-      setLoading(true)
+  async function login() {
+    setLoading(true)
 
+    try {
+      await singIn(email, password)
+    } catch (error) {
+      setMsgError('Email ou senha incorretos.')
+    } finally {
+      clearState()
+      setLoading(false)
+    }
+  }
+
+  async function createAccount() {
+    setLoading(true)
+    Keyboard.dismiss()
+
+    try {
       if (await validateForm()) {
         await api.createUser(name, email, password)
-
-        Alert.alert(
-          'Conta criada com sucesso!',
-          'Sua conta foi criada com sucesso.',
-          [{ text: 'Logar', onPress: () => console.log('teste') }]
-        )
+        login()
       }
     } catch (error) {
       setMsgError('Erro interno, volte mais tarde')
-      console.log('Erro ao criar a conta', error)
     } finally {
       setLoading(false)
     }
   }
+
+  function clearState() {
+    setName('')
+    setEmail('')
+    setMsgError('')
+    setPassword('')
+    setConfirmPassword('')
+  }
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        return loading ? true : false
+      }
+    )
+
+    return () => backHandler.remove()
+  }, [loading])
 
   return (
     <>
@@ -100,7 +139,7 @@ export default function CreateAccount() {
             <InputText
               value={name}
               label='Nome'
-              icon='user'
+              icon='account'
               placeholder='Nome'
               onChangeText={text => setName(text)}
             />
@@ -108,7 +147,7 @@ export default function CreateAccount() {
             <InputText
               value={email}
               label='E-mail'
-              icon='mail'
+              icon='email'
               placeholder='example@gmail.comn'
               onChangeText={text => setEmail(text)}
             />

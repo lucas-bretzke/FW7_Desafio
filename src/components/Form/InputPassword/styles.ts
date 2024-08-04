@@ -1,5 +1,9 @@
 import styled from 'styled-components/native'
 
+interface EyeButtonProps {
+  active: boolean
+}
+
 export const ContainerInputPassword = styled.View`
   width: 100%;
   flex-direction: row;
@@ -27,7 +31,7 @@ export const Input = styled.TextInput`
   elevation: 2;
   background-color: #fff;
 `
-export const EyeButtom = styled.TouchableOpacity`
+export const EyeButtom = styled.TouchableOpacity<EyeButtonProps>`
   position: absolute;
   top: 8px;
   right: 10px;
@@ -36,6 +40,7 @@ export const EyeButtom = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   border-radius: 50px;
+  opacity: ${({ active }) => (!active ? '0.5' : ' 1')};
 `
 
 export const Error = styled.Text`

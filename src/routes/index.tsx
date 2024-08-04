@@ -1,79 +1,97 @@
-import { Ionicons } from '@expo/vector-icons'
 import { NavigationContainer } from '@react-navigation/native'
+import { createDrawerNavigator } from '@react-navigation/drawer'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { useNavigation } from '@react-navigation/native'
 
-/**
- * Screens
- */
+// Screens.
 import Login from '../pages/Login'
 import Welcome from '../pages/Welcome'
+import AuthWrapper from './AuthWrapper'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useEffect } from 'react'
 import CreateAccount from '../pages/CreateAccount'
 import SavedLinksScreen from '../pages/SavedLinksScreen'
 import CreateNewLinkScreen from '../pages/CreateNewLinkScreen'
-import { View, Text, TouchableOpacity } from 'react-native'
-import AuthWrapper from './AuthWrapper'
 
 const Stack = createNativeStackNavigator()
+const Drawer = createDrawerNavigator()
 
-function CustomHeader({ navigation }: any) {
+function LogoutScreen() {
+  const navigation = useNavigation()
+
+  useEffect(() => {
+    const logout = async () => {
+      try {
+        await AsyncStorage.removeItem('userData')
+        navigation.navigate('Login' as keyof typeof StackNavigation)
+      } catch (error) {
+        console.log('Erro ao remover os dados do usuário: ', error)
+      }
+    }
+    logout()
+  }, [])
+
+  return null
+}
+
+function DrawerNavigation() {
   return (
-    <View
-      style={{
-        height: 60,
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: 10
-      }}
-    >
-      <TouchableOpacity onPress={() => navigation.openDrawer()}>
-        <Ionicons name='menu' size={30} color='black' />
-      </TouchableOpacity>
-      <Text style={{ fontSize: 20, marginLeft: 30 }}>Links</Text>
-    </View>
+    <Drawer.Navigator initialRouteName='DrawerSavedLinksScreen'>
+      <Drawer.Screen
+        name='Meus links'
+        component={SavedLinksScreen}
+        options={{ headerShown: false }}
+      />
+      <Drawer.Screen
+        name='Sair'
+        component={LogoutScreen}
+        options={{ headerShown: false }}
+      />
+    </Drawer.Navigator>
+  )
+}
+
+function StackNavigation() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name='AuthWrapper'
+        component={AuthWrapper}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='Welcome'
+        component={Welcome}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='CreateNewLinkScreen'
+        component={CreateNewLinkScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='Login'
+        component={Login}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='CreateAccount'
+        component={CreateAccount}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='SavedLinksScreen'
+        component={DrawerNavigation}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
   )
 }
 
 export default function Routes() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name='AuthWrapper'
-          component={AuthWrapper}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name='Welcome'
-          component={Welcome}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name='CreateNewLinkScreen'
-          component={CreateNewLinkScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name='SavedLinksScreen'
-          component={SavedLinksScreen}
-          options={{ headerShown: false }}
-
-          // options={{
-          //   header: props => <CustomHeader {...props} />
-          // }}
-        />
-
-        <Stack.Screen
-          name='Login'
-          component={Login}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name='CreateAccount'
-          component={CreateAccount}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
+      <StackNavigation />
     </NavigationContainer>
   )
 }
