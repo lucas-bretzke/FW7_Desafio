@@ -54,9 +54,14 @@ export default function CreateAccount() {
       return false
     }
 
+    if (password.length < 6) {
+      setMsgError('A senha deve conter no minimo 6 caracteres')
+      return false
+    }
+
     if (!validatePassword(password)) {
       setMsgError(
-        `A senha deve conter no mínimo um caractere especial (@, #, $, %, ^, & ou +), um número e uma letra maiúscula.`
+        `A senha deve conter no mínimo um caractere especial, um número e uma letra maiúscula.`
       )
       return false
     }
@@ -134,7 +139,7 @@ export default function CreateAccount() {
             <InputText
               value={name}
               label='Nome'
-              icon='user'
+              icon='account'
               placeholder='Nome'
               onChangeText={text => setName(text)}
             />
@@ -142,7 +147,7 @@ export default function CreateAccount() {
             <InputText
               value={email}
               label='E-mail'
-              icon='mail'
+              icon='email'
               placeholder='example@gmail.comn'
               onChangeText={text => setEmail(text)}
             />

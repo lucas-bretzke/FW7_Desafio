@@ -38,7 +38,7 @@ function DrawerNavigation() {
   return (
     <Drawer.Navigator initialRouteName='DrawerSavedLinksScreen'>
       <Drawer.Screen
-        name='DrawerSavedLinksScreen'
+        name='Meus links'
         component={SavedLinksScreen}
         options={{ headerShown: false }}
       />
