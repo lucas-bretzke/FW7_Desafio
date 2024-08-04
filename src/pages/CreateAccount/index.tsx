@@ -67,7 +67,6 @@ export default function CreateAccount() {
     }
 
     const emailExists = await api.checkIfTheEmailIsAlreadyRegistered(email)
-
     if (emailExists?.status === 200) {
       setMsgError('Este email já está cadastrado')
       return false
@@ -85,6 +84,7 @@ export default function CreateAccount() {
     } catch (error) {
       setMsgError('Email ou senha incorretos.')
     } finally {
+      clearState()
       setLoading(false)
     }
   }
@@ -103,6 +103,14 @@ export default function CreateAccount() {
     } finally {
       setLoading(false)
     }
+  }
+
+  function clearState() {
+    setName('')
+    setEmail('')
+    setMsgError('')
+    setPassword('')
+    setConfirmPassword('')
   }
 
   useEffect(() => {
