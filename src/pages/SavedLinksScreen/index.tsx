@@ -3,7 +3,7 @@ import * as Clipboard from 'expo-clipboard'
 import { FontAwesome } from '@expo/vector-icons'
 import { FlatList, Text } from 'react-native'
 import { MaterialIcons, Feather } from '@expo/vector-icons'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
   useNavigation,
   NavigationProp,
@@ -73,8 +73,8 @@ export default function SavedLinksScreen() {
   const navigation = useNavigation<NavigationProp<any>>()
   const { getUserShortenedUrls }: any = useContext(AuthContext)
 
-  const [isLoading, setIsLoading] = useState(false)
   const [search, setSearch] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const [selectedItem, setSelectedItem] = useState<ITypeLink>()
   const [shortenedUrls, setShortenedUrls] = useState([])
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -122,6 +122,10 @@ export default function SavedLinksScreen() {
     }
   }
 
+  const sortLinksByDate = (links: ITypeLink[]) => {
+    return links.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+  }
+
   const filterLinks = () => {
     let filteredLinks = shortenedUrls
 
@@ -137,7 +141,8 @@ export default function SavedLinksScreen() {
       })
     }
 
-    return filteredLinks
+    // Sort links by creation date
+    return sortLinksByDate(filteredLinks)
   }
 
   function closeModal() {
@@ -224,12 +229,12 @@ export default function SavedLinksScreen() {
 
         <ContainerIcons>
           {item.is_favorite && (
-            <MaterialIcons name='favorite' size={14} color='#444444' />
+            <MaterialIcons name='favorite' size={14} color='#526281' />
           )}
 
           <AccessCount>{item.access_count}</AccessCount>
 
-          <FontAwesome name='bar-chart' size={14} color='black' />
+          <FontAwesome name='bar-chart' size={14} color='#526281' />
         </ContainerIcons>
       </ContainerShortenedUrl>
     )
@@ -258,7 +263,11 @@ export default function SavedLinksScreen() {
       />
 
       <Section>
-        <NumberOfLinks>Links: {filterLinks()?.length}</NumberOfLinks>
+        <NumberOfLinks>
+          {favoritosAtivados ? 'Favoritos' : 'Todos'}
+          <Text style={{ color: '#b3b1b1' }}> {filterLinks()?.length}</Text>
+        </NumberOfLinks>
+
         <Filters onPress={() => setIsDropdownVisible(!isDropdownVisible)}>
           <Feather name='filter' size={22} color='white' />
         </Filters>
