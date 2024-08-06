@@ -1,7 +1,7 @@
 import { format } from 'date-fns'
 import * as Clipboard from 'expo-clipboard'
 import { FontAwesome } from '@expo/vector-icons'
-import {  FlatList, Text } from 'react-native'
+import { FlatList, Text } from 'react-native'
 import { MaterialIcons, Feather } from '@expo/vector-icons'
 import React, { useContext, useEffect, useState } from 'react'
 import {
@@ -51,7 +51,6 @@ import api from '../../services/api'
 import BaseModal from '../../components/Modal'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Header from '../../components/Header'
-import InputText from '../../components/Form/InputText'
 
 /**
  * Types.
@@ -290,8 +289,12 @@ export default function SavedLinksScreen() {
         <Feather name='plus-circle' size={42} />
       </FloatButton>
 
-      {!shortenedUrls?.length && (
+      {!shortenedUrls?.length && !favoritosAtivados && (
         <NoLinksSaved>Não há links salvos</NoLinksSaved>
+      )}
+
+      {favoritosAtivados && !filterLinks()?.length && (
+        <NoLinksSaved>Não há favoritos salvos</NoLinksSaved>
       )}
 
       {isLoading && <Spinner size='large' color='black' />}
