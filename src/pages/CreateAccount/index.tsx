@@ -105,7 +105,7 @@ export default function CreateAccount() {
         await login()
       }
     } catch (error) {
-      setMsgError('Erro interno, tente novamente mais tarde')
+      setMsgError('Erro, tente novamente mais tarde')
     } finally {
       setLoading(false)
     }
