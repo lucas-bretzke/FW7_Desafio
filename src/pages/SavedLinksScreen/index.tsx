@@ -1,7 +1,7 @@
 import { format } from 'date-fns'
 import * as Clipboard from 'expo-clipboard'
 import { FontAwesome } from '@expo/vector-icons'
-import { FlatList, Text } from 'react-native'
+import {  FlatList, Text } from 'react-native'
 import { MaterialIcons, Feather } from '@expo/vector-icons'
 import React, { useContext, useEffect, useState } from 'react'
 import {
@@ -100,14 +100,24 @@ export default function SavedLinksScreen() {
   }
 
   async function getUrls() {
-    try {
-      if ((shortenedUrls.length = 0)) setIsLoading(true)
+    setIsLoading(true)
 
+    try {
       const response = await getUserShortenedUrls()
 
       setShortenedUrls(response)
+      await AsyncStorage.setItem('shortenedUrls', JSON.stringify(response))
     } catch (error) {
-      console.log(error)
+      console.error('Erro ao buscar URLs encurtadas:', error)
+
+      // Tenta recuperar URLs encurtadas do AsyncStorage como fallback
+      try {
+        const storedUrls = await AsyncStorage.getItem('shortenedUrls')
+        console.log('storedUrls', storedUrls)
+        if (storedUrls) setShortenedUrls(JSON.parse(storedUrls))
+      } catch (storageError) {
+        console.error('Erro ao acessar AsyncStorage:', storageError)
+      }
     } finally {
       setIsLoading(false)
     }
@@ -143,15 +153,13 @@ export default function SavedLinksScreen() {
   }
 
   async function toggleFavorite() {
-    if (!selectedItem) return
-
     closeModal()
     setIsLoading(true)
 
     const updatedLink = {
-      id: selectedItem.link_id,
+      id: selectedItem?.link_id,
       description: selectedItem?.description,
-      is_favorite: !selectedItem.is_favorite
+      is_favorite: !selectedItem?.is_favorite
     }
 
     try {

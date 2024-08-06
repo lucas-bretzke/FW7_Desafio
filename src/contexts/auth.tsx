@@ -28,10 +28,10 @@ export default function AuthProvider({ children }: any) {
 
   async function logout() {
     try {
-      await AsyncStorage.removeItem('userData')
+      await AsyncStorage.clear()
       setUser(undefined)
     } catch (error) {
-      console.log('Erro ao remover os dados do usuário: ', error)
+      console.error('Erro ao remover os dados do usuário: ', error)
     }
   }
 
