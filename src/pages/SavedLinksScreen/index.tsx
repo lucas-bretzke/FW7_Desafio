@@ -229,12 +229,12 @@ export default function SavedLinksScreen() {
 
         <ContainerIcons>
           {item.is_favorite && (
-            <MaterialIcons name='favorite' size={14} color='#526281' />
+            <MaterialIcons name='bookmark' size={14} color='#444444' />
           )}
 
           <AccessCount>{item.access_count}</AccessCount>
 
-          <FontAwesome name='bar-chart' size={14} color='#526281' />
+          <FontAwesome name='bar-chart' size={14} color='black' />
         </ContainerIcons>
       </ContainerShortenedUrl>
     )
@@ -269,7 +269,11 @@ export default function SavedLinksScreen() {
         </NumberOfLinks>
 
         <Filters onPress={() => setIsDropdownVisible(!isDropdownVisible)}>
-          <Feather name='filter' size={22} color='white' />
+          <Feather
+            name='filter'
+            size={22}
+            color={isDropdownVisible ? '#b3b1b1' : 'white'}
+          />
         </Filters>
       </Section>
 
@@ -284,6 +288,7 @@ export default function SavedLinksScreen() {
       )}
 
       <FlatList
+        style={{ opacity: isDropdownVisible ? 0.7 : 1 }}
         data={filterLinks()}
         renderItem={({ item }) => renderShortenedUrl(item)}
       />
@@ -295,7 +300,7 @@ export default function SavedLinksScreen() {
       />
 
       <FloatButton onPress={() => navigation.navigate('CreateNewLinkScreen')}>
-        <Feather name='plus-circle' size={42} />
+        <Feather name='plus-circle' size={42} color='#023696' />
       </FloatButton>
 
       {!shortenedUrls?.length && !favoritosAtivados && (
