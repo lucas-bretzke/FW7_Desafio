@@ -152,7 +152,7 @@ export default function CreateNewLinkScreen() {
 
         <Button
           onPress={() => checkFieldsBeforeRequest()}
-          title='Encurtar link'
+          title='Criar'
           bgColor='#023696'
           style={{ marginTop: 90 }}
         />

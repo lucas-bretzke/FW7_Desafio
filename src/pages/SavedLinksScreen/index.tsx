@@ -152,26 +152,28 @@ export default function SavedLinksScreen() {
   function copyLink() {
     if (!selectedItem) return
 
-    Clipboard.setString(selectedItem?.short_url),
-      alert(`URL Copiada!\n ${selectedItem?.short_url}`)
+    Clipboard.setString(selectedItem?.short_url), closeModal()
   }
 
   async function toggleFavorite() {
-    closeModal()
-    setIsLoading(true)
-
-    const updatedLink = {
-      id: selectedItem?.link_id,
-      description: selectedItem?.description,
-      is_favorite: !selectedItem?.is_favorite
-    }
-
     try {
+      closeModal()
+      setIsLoading(true)
+
+      if (!selectedItem?.link_id) {
+        throw new Error('Invalid link ID.')
+      }
+
+      const updatedLink = {
+        ...selectedItem,
+        is_favorite: !selectedItem.is_favorite
+      }
+
       await api.editShortenedUrl(updatedLink)
     } catch (error) {
-      console.log(error)
+      console.error('Failed to toggle favorite status:', error)
     } finally {
-      getUrls()
+      await getUrls()
       setIsLoading(false)
     }
   }
