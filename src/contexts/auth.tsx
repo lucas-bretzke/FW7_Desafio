@@ -47,7 +47,7 @@ export default function AuthProvider({
 
   const logout = async (): Promise<void> => {
     try {
-      await AsyncStorage.clear()
+      await AsyncStorage.removeItem('userData')
       setUser(undefined)
     } catch (error) {
       console.error('Error clearing user data:', error)

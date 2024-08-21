@@ -72,7 +72,7 @@ export default function CreateAccount() {
     }
 
     try {
-      const emailExists = await api.checkIfTheEmailIsAlreadyRegistered(email)
+      const emailExists = await api.checkIfEmailExists(email)
       if (emailExists?.status === 200) {
         setMsgError('Este email já está cadastrado')
         return false
@@ -100,10 +100,10 @@ export default function CreateAccount() {
     Keyboard.dismiss()
 
     try {
-      if (await validateForm()) {
-        await api.createUser(name, email, password)
-        await login()
-      }
+      if (!validateForm()) return
+
+      await api.createUser(name, email, password)
+      await login()
     } catch (error) {
       setMsgError('Erro, tente novamente mais tarde')
     } finally {

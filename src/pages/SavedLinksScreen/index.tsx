@@ -196,7 +196,7 @@ export default function SavedLinksScreen() {
 
       if (!selectedItem) return
 
-      await api.deleteShorUrl(selectedItem.link_id)
+      await api.deleteShortUrl(selectedItem.link_id)
     } catch (error) {
       console.log(error)
     } finally {
