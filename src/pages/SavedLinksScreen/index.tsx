@@ -43,7 +43,7 @@ import { AuthContext } from '../../contexts/auth'
 /**
  * Services.
  */
-import api from '../../services/api'
+import api from '../../services/api.ts'
 
 /**
  * Components.

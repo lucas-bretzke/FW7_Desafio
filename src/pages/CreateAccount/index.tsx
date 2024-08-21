@@ -6,7 +6,7 @@ import React, { useContext, useEffect, useState, useCallback } from 'react'
 /**
  * Services.
  */
-import api from '../../services/api'
+import api from '../../services/api.ts'
 
 /**
  * Utils.
