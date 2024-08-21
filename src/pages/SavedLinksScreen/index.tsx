@@ -3,12 +3,12 @@ import * as Clipboard from 'expo-clipboard'
 import { FontAwesome } from '@expo/vector-icons'
 import { FlatList, Text } from 'react-native'
 import { MaterialIcons, Feather } from '@expo/vector-icons'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
   useNavigation,
+  DrawerActions,
   NavigationProp,
-  useFocusEffect,
-  DrawerActions
+  useFocusEffect
 } from '@react-navigation/native'
 
 /**
@@ -48,10 +48,9 @@ import api from '../../services/api'
 /**
  * Components.
  */
+import Header from '../../components/Header'
 import BaseModal from '../../components/Modal'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import Header from '../../components/Header'
-import InputText from '../../components/Form/InputText'
 
 /**
  * Types.
@@ -72,26 +71,35 @@ type ITypeLink = {
  */
 export default function SavedLinksScreen() {
   const navigation = useNavigation<NavigationProp<any>>()
-  const { getUserShortenedUrls }: any = useContext(AuthContext)
+  const { user }: any = useContext(AuthContext)
 
-  const [isLoading, setIsLoading] = useState(false)
   const [search, setSearch] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const [selectedItem, setSelectedItem] = useState<ITypeLink>()
   const [shortenedUrls, setShortenedUrls] = useState([])
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [isDropdownVisible, setIsDropdownVisible] = useState(false)
   const [favoritosAtivados, setFavoritosAtivados] = useState(false)
 
+  const handleFavoritosPress = () => {
+    setFavoritosAtivados(true)
+    setIsDropdownVisible(false)
+  }
+
+  const handleTodosPress = () => {
+    setSearch('')
+    setFavoritosAtivados(false)
+    setIsDropdownVisible(false)
+  }
+
   const DropdownButtons = [
     {
       text: 'Favoritos',
-      onPress: () => (setFavoritosAtivados(true), setIsDropdownVisible(false))
+      onPress: handleFavoritosPress
     },
     {
       text: 'Todos',
-      onPress: () => (
-        setSearch(''), setFavoritosAtivados(false), setIsDropdownVisible(false)
-      )
+      onPress: handleTodosPress
     }
   ]
 
@@ -100,17 +108,33 @@ export default function SavedLinksScreen() {
   }
 
   async function getUrls() {
-    try {
-      if ((shortenedUrls.length = 0)) setIsLoading(true)
+    setIsLoading(true)
 
-      const response = await getUserShortenedUrls()
+    try {
+      const response = await api.userShortenedUrls(user.id)
 
       setShortenedUrls(response)
+      AsyncStorage.setItem('shortenedUrls', JSON.stringify(response))
     } catch (error) {
-      console.log(error)
+      console.error('Erro ao buscar URLs encurtadas:', error)
+
+      // Tenta recuperar URLs encurtadas do AsyncStorage como fallback
+      try {
+        const storedUrls = await AsyncStorage.getItem('shortenedUrls')
+        console.log('storedUrls', storedUrls)
+        if (storedUrls) setShortenedUrls(JSON.parse(storedUrls))
+      } catch (storageError) {
+        console.error('Erro ao acessar AsyncStorage:', storageError)
+      }
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const sortLinksByDate = (links: ITypeLink[]) => {
+    return links.sort(
+      (a, b) => +new Date(b.created_at) - +new Date(a.created_at)
+    )
   }
 
   const filterLinks = () => {
@@ -128,7 +152,8 @@ export default function SavedLinksScreen() {
       })
     }
 
-    return filteredLinks
+    // Sort links by creation date
+    return sortLinksByDate(filteredLinks)
   }
 
   function closeModal() {
@@ -138,28 +163,28 @@ export default function SavedLinksScreen() {
   function copyLink() {
     if (!selectedItem) return
 
-    Clipboard.setString(selectedItem?.short_url),
-      alert(`URL Copiada!\n ${selectedItem?.short_url}`)
+    Clipboard.setString(selectedItem?.short_url), closeModal()
   }
 
   async function toggleFavorite() {
-    if (!selectedItem) return
-
-    closeModal()
-    setIsLoading(true)
-
-    const updatedLink = {
-      id: selectedItem.link_id,
-      description: selectedItem?.description,
-      is_favorite: !selectedItem.is_favorite
-    }
-
     try {
+      closeModal()
+      setIsLoading(true)
+
+      if (!selectedItem?.link_id) {
+        throw new Error('Invalid link ID.')
+      }
+
+      const updatedLink = {
+        ...selectedItem,
+        is_favorite: !selectedItem.is_favorite
+      }
+
       await api.editShortenedUrl(updatedLink)
     } catch (error) {
-      console.log(error)
+      console.error('Failed to toggle favorite status:', error)
     } finally {
-      getUrls()
+      await getUrls()
       setIsLoading(false)
     }
   }
@@ -171,7 +196,7 @@ export default function SavedLinksScreen() {
 
       if (!selectedItem) return
 
-      await api.deleteShorUrl(selectedItem.link_id)
+      await api.deleteShortUrl(selectedItem.link_id)
     } catch (error) {
       console.log(error)
     } finally {
@@ -217,7 +242,7 @@ export default function SavedLinksScreen() {
 
         <ContainerIcons>
           {item.is_favorite && (
-            <MaterialIcons name='favorite' size={14} color='#444444' />
+            <MaterialIcons name='bookmark' size={14} color='#444444' />
           )}
 
           <AccessCount>{item.access_count}</AccessCount>
@@ -251,9 +276,17 @@ export default function SavedLinksScreen() {
       />
 
       <Section>
-        <NumberOfLinks>Links: {shortenedUrls?.length}</NumberOfLinks>
+        <NumberOfLinks>
+          {favoritosAtivados ? 'Favoritos' : 'Todos'}
+          <Text style={{ color: '#b3b1b1' }}> {filterLinks()?.length}</Text>
+        </NumberOfLinks>
+
         <Filters onPress={() => setIsDropdownVisible(!isDropdownVisible)}>
-          <Feather name='filter' size={22} color='white' />
+          <Feather
+            name='filter'
+            size={22}
+            color={isDropdownVisible ? '#b3b1b1' : 'white'}
+          />
         </Filters>
       </Section>
 
@@ -268,6 +301,7 @@ export default function SavedLinksScreen() {
       )}
 
       <FlatList
+        style={{ opacity: isDropdownVisible ? 0.7 : 1 }}
         data={filterLinks()}
         renderItem={({ item }) => renderShortenedUrl(item)}
       />
@@ -279,11 +313,15 @@ export default function SavedLinksScreen() {
       />
 
       <FloatButton onPress={() => navigation.navigate('CreateNewLinkScreen')}>
-        <Feather name='plus-circle' size={42} />
+        <Feather name='plus-circle' size={42} color='#023696' />
       </FloatButton>
 
-      {!shortenedUrls?.length && (
+      {!shortenedUrls?.length && !favoritosAtivados && (
         <NoLinksSaved>Não há links salvos</NoLinksSaved>
+      )}
+
+      {favoritosAtivados && !filterLinks()?.length && (
+        <NoLinksSaved>Não há favoritos salvos</NoLinksSaved>
       )}
 
       {isLoading && <Spinner size='large' color='black' />}

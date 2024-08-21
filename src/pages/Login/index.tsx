@@ -41,7 +41,7 @@ import { TouchableOpacity } from 'react-native'
  */
 export default function Login() {
   const navigation = useNavigation<NavigationProp<any>>()
-  const { singIn }: any = useContext(AuthContext)
+  const { signIn }: any = useContext(AuthContext)
 
   const [email, setEmail] = useState('')
   const [checked, setChecked] = useState(false)
@@ -55,11 +55,11 @@ export default function Login() {
     setLoading(true)
 
     try {
-      const { user } = await singIn(email, password)
+      const { user } = await signIn(email, password)
 
       if (user) clearState()
     } catch (error) {
-      setMsgError('Email ou senha incorretos.')
+      setMsgError('E-mail e/ou senha inválidos')
     } finally {
       setLoading(false)
     }

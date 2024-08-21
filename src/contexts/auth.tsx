@@ -2,70 +2,75 @@ import api from '../services/api'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useState, createContext, useEffect } from 'react'
 
-export const AuthContext = createContext({})
+interface IUser {
+  id: string
+  name: string
+  email: string
+}
 
-export default function AuthProvider({ children }: any) {
-  const [user, setUser] = useState<IUser | undefined>()
+interface AuthContextData {
+  user?: IUser
+  signIn(email: string, password: string): Promise<IUser | undefined>
+  logout(): Promise<void>
+}
 
-  async function singIn(email: string, password: string) {
+export const AuthContext = createContext<AuthContextData>({} as AuthContextData)
+
+export default function AuthProvider({
+  children
+}: {
+  children: React.ReactNode
+}) {
+  const [user, setUser] = useState<IUser>()
+
+  const signIn = async (
+    email: string,
+    password: string
+  ): Promise<IUser | undefined> => {
     try {
-      const { user } = await api.singIn(email, password)
+      const { user } = await api.signIn(email, password)
 
-      const userData = {
+      const userData: IUser = {
         id: user.user_id,
         name: user.username,
         email: user.email
       }
 
-      setUser(userData)
-      //Armazenar dados do usuario no AsyncStorage
       await AsyncStorage.setItem('userData', JSON.stringify(userData))
+      setUser(userData)
+
       return userData
     } catch (error) {
-      console.log('Erro ao fazer login: ', error)
+      console.error('Error during login:', error)
     }
   }
 
-  async function logout() {
+  const logout = async (): Promise<void> => {
     try {
       await AsyncStorage.removeItem('userData')
       setUser(undefined)
     } catch (error) {
-      console.log('Erro ao remover os dados do usuário: ', error)
+      console.error('Error clearing user data:', error)
     }
   }
 
-  async function getUserToAsyncStorage() {
+  const loadUserData = async () => {
     try {
       const userDataString = await AsyncStorage.getItem('userData')
-
       if (userDataString) {
-        const userData = JSON.parse(userDataString)
-        setUser(userData)
+        setUser(JSON.parse(userDataString))
       }
     } catch (error) {
-      console.log('Erro ao recuperar os dados do usuário: ', error)
-    }
-  }
-
-  async function getUserShortenedUrls() {
-    try {
-      if (!user) return
-      const response = await api.userShortenedUrls(user.id)
-      return response
-    } catch (error) {
-      console.log(error)
+      console.error('Error loading user data:', error)
     }
   }
 
   useEffect(() => {
-    getUserToAsyncStorage()
+    loadUserData()
   }, [])
 
   return (
-    <AuthContext.Provider
-      value={{ singIn, getUserShortenedUrls, logout, user }}
-    >
+    <AuthContext.Provider value={{ user, signIn, logout }}>
       {children}
     </AuthContext.Provider>
   )

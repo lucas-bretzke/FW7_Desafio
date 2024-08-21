@@ -15,7 +15,7 @@ export const Title = styled.Text`
 export const Container = styled.SafeAreaView`
   background-color: white;
   padding: 20px;
-  border-radius: 2px;
+  border-radius: 4px;
 `
 
 export const CloseModal = styled.TouchableOpacity`
@@ -25,4 +25,5 @@ export const CloseModal = styled.TouchableOpacity`
   background-color: #eee;
   padding: 8px;
   border: 1px solid #4444;
+  border-radius: 3px;
 `

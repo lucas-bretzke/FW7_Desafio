@@ -23,44 +23,44 @@ export const Dropdown = styled.TouchableOpacity`
   width: 140px;
   height: auto;
   position: absolute;
-  border-color: #4444;
   right: 3%;
   top: 100px;
   background-color: white;
-  border: 1px solid #eee;
   elevation: 10;
   z-index: 2;
+  elevation: 25;
 `
 
 export const DropdownButton = styled.TouchableOpacity`
   padding: 7px 0px;
   align-items: center;
   justify-content: center;
-  border-top-width: 1px;
+  border-bottom-width: 1px;
   border-color: #d6d6d6;
 `
 
 export const ContainerShortenedUrl = styled.TouchableOpacity`
-  padding: 17px 15px;
+  padding: 15px;
   border-bottom-width: 1px;
   border-color: #d6d6d6;
 `
 
 export const DateCreated = styled.Text`
-  font-size: 13px;
+  font-size: 12px;
+  color: #526281;
 `
 
 export const Description = styled.Text`
-  font-size: 15px;
+  font-size: 14px;
 `
 export const Link = styled.Text`
   font-size: 13px;
-  color: blue;
+  color: #2a5bd7;
 `
 
 export const ContainerIcons = styled.View`
   position: absolute;
-  right: 2%;
+  right: 4%;
   bottom: 30%;
   display: flex;
   flex-direction: row;
@@ -69,6 +69,7 @@ export const ContainerIcons = styled.View`
 
 export const AccessCount = styled.Text`
   margin: 0 5px;
+  color: #526281;
 `
 
 export const DeleteButton = styled.TouchableOpacity`
@@ -96,8 +97,9 @@ export const FloatButton = styled.TouchableOpacity`
   position: absolute;
   bottom: 3%;
   right: 5%;
-  background-color: transparent;
-  elevation: 0;
+  border-radius: 50px;
+  elevation: 7;
+  background-color: white;
 `
 
 export const TextButtons = styled.Text`

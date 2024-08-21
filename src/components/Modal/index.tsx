@@ -1,6 +1,6 @@
 import React from 'react'
 import { Feather } from '@expo/vector-icons'
-import { Text, Modal } from 'react-native'
+import { Modal } from 'react-native'
 import { CloseModal, Container, ModalStyled, Title } from './styles'
 
 /**
