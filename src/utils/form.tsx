@@ -1,11 +1,16 @@
-const validateTheEmail = (email: any) => {
-  var re =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  return re.test(email)
+const EMAIL_REGEX =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+const MIN_PASSWORD_LENGTH = 6
+const SPECIAL_CHAR_REGEX = /[@#$%^&+=]/
+const ALLOWED_CHAR_REGEX = /^[A-Za-z0-9@]+$/
+
+const validateEmail = (email: string): boolean => {
+  return EMAIL_REGEX.test(email)
 }
 
-const validatePassword = (password: string) => {
-  if (password.length < 6) {
+const validatePassword = (password: string): boolean => {
+  if (password.length < MIN_PASSWORD_LENGTH) {
+    // Verifique se a senha tem pelo menos 6 caracteres
     return false
   }
 
@@ -14,17 +19,17 @@ const validatePassword = (password: string) => {
     return false
   }
 
-  // Verifique se a senha contém apenas letras maiúsculas, minúsculas ou números
-  if (!/^[A-Za-z0-9@]+$/.test(password)) {
+  if (!ALLOWED_CHAR_REGEX.test(password)) {
+    // Verifique se a senha contém apenas letras, números e caracteres especiais permitidos
     return false
   }
 
-  // Verifique se a senha contém pelo menos um caractere especial
-  if (!/[@#$%^&+=]/.test(password)) {
+  if (!SPECIAL_CHAR_REGEX.test(password)) {
+    // Verifique se a senha contém pelo menos um caractere especial
     return false
   }
 
   return true
 }
 
-export { validateTheEmail, validatePassword }
+export { validateEmail, validatePassword }
