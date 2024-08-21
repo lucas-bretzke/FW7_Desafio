@@ -11,7 +11,7 @@ type IPropsType = {
   title?: string
   visible: boolean
   onClose: () => void
-  container: any
+  container: React.ReactNode
 }
 
 /**
@@ -24,11 +24,11 @@ export default function BaseModal({
   container
 }: IPropsType) {
   return (
-    <Modal visible={visible} transparent={true}>
+    <Modal visible={visible} transparent={true} onRequestClose={onClose}>
       <ModalStyled>
         <Container>
           <CloseModal onPress={onClose}>
-            <Feather name='x' size={24} color='black' onPress={onClose} />
+            <Feather name='x' size={24} />
           </CloseModal>
 
           {title && <Title>{title}</Title>}

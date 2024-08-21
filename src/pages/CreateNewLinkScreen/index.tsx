@@ -7,7 +7,7 @@ import { NavigationProp, useNavigation } from '@react-navigation/native'
 /**
  * Services.
  */
-import api from '../../services/api.ts'
+import api from '../../services/api'
 
 /**
  * Helpers.

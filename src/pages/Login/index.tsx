@@ -11,7 +11,7 @@ import { AuthContext } from '.././../contexts/auth'
 /**
  * Helpers.
  */
-import { validateTheEmail } from '../../utils/form'
+import { validateEmail } from '../../utils/form'
 
 /**
  * Styles.
@@ -34,7 +34,7 @@ import styles, {
 import Buttom from '../../components/Form/Buttom'
 import InputText from '../../components/Form/InputText'
 import InputPassword from '../../components/Form/InputPassword'
-import { TouchableOpacity } from 'react-native'
+import { Keyboard, TouchableOpacity } from 'react-native'
 
 /**
  * Component.
@@ -53,6 +53,7 @@ export default function Login() {
 
   async function login() {
     setLoading(true)
+    Keyboard.dismiss()
 
     try {
       const { user } = await signIn(email, password)
@@ -72,7 +73,7 @@ export default function Login() {
     setMsgError('')
   }
 
-  const buttonEnabled = validateTheEmail(email) && password.length >= 6
+  const buttonEnabled = validateEmail(email) && password.length >= 6
 
   return (
     <>

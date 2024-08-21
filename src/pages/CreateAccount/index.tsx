@@ -6,12 +6,12 @@ import React, { useContext, useEffect, useState, useCallback } from 'react'
 /**
  * Services.
  */
-import api from '../../services/api.ts'
+import api from '../../services/api'
 
 /**
  * Utils.
  */
-import { validatePassword, validateTheEmail } from '../../utils/form'
+import { validatePassword, validateEmail } from '../../utils/form'
 
 /**
  * Components.
@@ -49,7 +49,7 @@ export default function CreateAccount() {
       return false
     }
 
-    if (!validateTheEmail(email)) {
+    if (!validateEmail(email)) {
       setMsgError('Email inválido')
       return false
     }
