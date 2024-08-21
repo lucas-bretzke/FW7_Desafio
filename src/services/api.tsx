@@ -1,7 +1,7 @@
 import { http } from './config'
 
 export default {
-  singIn: async (email: string, password: string) => {
+  signIn: async (email: string, password: string) => {
     const response = await http.post('/auth/login', {
       email: email,
       password: password

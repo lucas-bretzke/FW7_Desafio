@@ -34,7 +34,7 @@ import { AuthContext } from '../../contexts/auth'
  * Component.
  */
 export default function CreateAccount() {
-  const { singIn }: any = useContext(AuthContext)
+  const { signIn }: any = useContext(AuthContext)
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -88,12 +88,12 @@ export default function CreateAccount() {
 
   const login = useCallback(async () => {
     try {
-      await singIn(email, password)
+      await signIn(email, password)
       clearState()
     } catch (error) {
       setMsgError('Erro, feche o app e abra novamente')
     }
-  }, [email, password, singIn])
+  }, [email, password, signIn])
 
   const createAccount = useCallback(async () => {
     setLoading(true)

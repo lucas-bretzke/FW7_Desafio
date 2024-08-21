@@ -6,9 +6,9 @@ import { MaterialIcons, Feather } from '@expo/vector-icons'
 import React, { useContext, useState } from 'react'
 import {
   useNavigation,
+  DrawerActions,
   NavigationProp,
-  useFocusEffect,
-  DrawerActions
+  useFocusEffect
 } from '@react-navigation/native'
 
 /**
@@ -48,9 +48,9 @@ import api from '../../services/api'
 /**
  * Components.
  */
+import Header from '../../components/Header'
 import BaseModal from '../../components/Modal'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import Header from '../../components/Header'
 
 /**
  * Types.
@@ -71,7 +71,7 @@ type ITypeLink = {
  */
 export default function SavedLinksScreen() {
   const navigation = useNavigation<NavigationProp<any>>()
-  const { getUserShortenedUrls }: any = useContext(AuthContext)
+  const { user }: any = useContext(AuthContext)
 
   const [search, setSearch] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -81,16 +81,25 @@ export default function SavedLinksScreen() {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false)
   const [favoritosAtivados, setFavoritosAtivados] = useState(false)
 
+  const handleFavoritosPress = () => {
+    setFavoritosAtivados(true)
+    setIsDropdownVisible(false)
+  }
+
+  const handleTodosPress = () => {
+    setSearch('')
+    setFavoritosAtivados(false)
+    setIsDropdownVisible(false)
+  }
+
   const DropdownButtons = [
     {
       text: 'Favoritos',
-      onPress: () => (setFavoritosAtivados(true), setIsDropdownVisible(false))
+      onPress: handleFavoritosPress
     },
     {
       text: 'Todos',
-      onPress: () => (
-        setSearch(''), setFavoritosAtivados(false), setIsDropdownVisible(false)
-      )
+      onPress: handleTodosPress
     }
   ]
 
@@ -102,10 +111,10 @@ export default function SavedLinksScreen() {
     setIsLoading(true)
 
     try {
-      const response = await getUserShortenedUrls()
+      const response = await api.userShortenedUrls(user.id)
 
       setShortenedUrls(response)
-      await AsyncStorage.setItem('shortenedUrls', JSON.stringify(response))
+      AsyncStorage.setItem('shortenedUrls', JSON.stringify(response))
     } catch (error) {
       console.error('Erro ao buscar URLs encurtadas:', error)
 
@@ -123,7 +132,9 @@ export default function SavedLinksScreen() {
   }
 
   const sortLinksByDate = (links: ITypeLink[]) => {
-    return links.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    return links.sort(
+      (a, b) => +new Date(b.created_at) - +new Date(a.created_at)
+    )
   }
 
   const filterLinks = () => {
