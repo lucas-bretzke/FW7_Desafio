@@ -36,13 +36,12 @@ export default function AuthProvider({
         email: user.email
       }
 
-      setUser(userData)
       await AsyncStorage.setItem('userData', JSON.stringify(userData))
+      setUser(userData)
 
       return userData
     } catch (error) {
       console.error('Error during login:', error)
-      return undefined
     }
   }
 
@@ -55,13 +54,11 @@ export default function AuthProvider({
     }
   }
 
-  const loadUserData = async (): Promise<void> => {
+  const loadUserData = async () => {
     try {
       const userDataString = await AsyncStorage.getItem('userData')
-
       if (userDataString) {
-        const userData: IUser = JSON.parse(userDataString)
-        setUser(userData)
+        setUser(JSON.parse(userDataString))
       }
     } catch (error) {
       console.error('Error loading user data:', error)
