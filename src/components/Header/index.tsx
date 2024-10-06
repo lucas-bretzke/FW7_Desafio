@@ -39,16 +39,13 @@ export default function Header({
   const [isInputVisible, setIsInputVisible] = useState(false)
   const inputRef = useRef<TextInput | null>(null)
 
-  // Toggle input visibility and handle title visibility
   const toggleInputVisibility = () => {
-    // Clear input value when toggling visibility
     onInputChange('')
 
     if (canChangeTheInputState) {
       setIsInputVisible(prev => !prev)
     }
 
-    // Focus or blur the input after a slight delay for smoother UX
     setTimeout(() => {
       if (inputRef.current) {
         isInputVisible ? inputRef.current.blur() : inputRef.current.focus()
@@ -72,7 +69,7 @@ export default function Header({
           value={inputValue}
           onChangeText={onInputChange}
           leftIcon='magnify'
-          style={{ width: 300, borderWidth: 0 }} // Optional: move styles to a separate style file
+          style={{ width: 300, borderWidth: 0 }}
           placeholder={placeholder}
         />
       )}
