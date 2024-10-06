@@ -52,7 +52,7 @@ export const LeftIcon = styled(Icon)<Props>`
   position: absolute;
   z-index: 1;
 `
-export const RighttIcon = styled(Icon)<Props>`
+export const RightIcon = styled(Icon)<Props>`
   font-size: 24px;
 `
 
