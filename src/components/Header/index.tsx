@@ -21,6 +21,7 @@ type IHeader = {
   onInputChange: any
   canChangeTheInputState?: boolean
 }
+
 /**
  * Component.
  */
@@ -28,33 +29,29 @@ export default function Header({
   title,
   leftIcon,
   rightIcon,
-  inputValue,
+  inputValue = '',
   leftButton,
   placeholder,
   rightButton,
   onInputChange,
-  canChangeTheInputState
+  canChangeTheInputState = false
 }: IHeader) {
   const [isInputVisible, setIsInputVisible] = useState(false)
-  const [isTitleVisible, setIsTitleVisible] = useState(true)
-
   const inputRef = useRef<TextInput | null>(null)
 
-  function setInputVisibility() {
+  // Toggle input visibility and handle title visibility
+  const toggleInputVisibility = () => {
+    // Clear input value when toggling visibility
     onInputChange('')
 
     if (canChangeTheInputState) {
-      setIsTitleVisible(!isTitleVisible)
-      setIsInputVisible(!isInputVisible)
+      setIsInputVisible(prev => !prev)
     }
 
+    // Focus or blur the input after a slight delay for smoother UX
     setTimeout(() => {
       if (inputRef.current) {
-        if (isInputVisible) {
-          inputRef.current.blur()
-        } else {
-          inputRef.current.focus()
-        }
+        isInputVisible ? inputRef.current.blur() : inputRef.current.focus()
       }
     }, 100)
   }
@@ -66,21 +63,22 @@ export default function Header({
           <StyledIcon name={leftIcon} />
         </LeftButton>
       )}
-      {title && isTitleVisible && <Title>{title}</Title>}
+
+      {title && !isInputVisible && <Title>{title}</Title>}
 
       {isInputVisible && (
         <InputText
           inputRef={inputRef}
           value={inputValue}
-          onChangeText={text => onInputChange(text)}
+          onChangeText={onInputChange}
           leftIcon='magnify'
-          style={{ width: 300, borderWidth: 0 }}
+          style={{ width: 300, borderWidth: 0 }} // Optional: move styles to a separate style file
           placeholder={placeholder}
         />
       )}
 
       {rightIcon && (
-        <RightButton onPress={rightButton || setInputVisibility}>
+        <RightButton onPress={rightButton || toggleInputVisibility}>
           <StyledIcon name={isInputVisible ? 'close' : rightIcon} />
         </RightButton>
       )}
