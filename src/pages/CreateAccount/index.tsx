@@ -16,7 +16,7 @@ import { validatePassword, validateEmail } from '../../utils/form'
 /**
  * Components.
  */
-import Button from '../../components/Form/Buttom'
+import Button from '../../components/Form/Button'
 import InputText from '../../components/Form/InputText'
 import InputPassword from '../../components/Form/InputPassword'
 

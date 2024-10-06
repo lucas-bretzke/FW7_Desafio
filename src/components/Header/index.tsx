@@ -5,7 +5,7 @@ import React, { useRef, useState } from 'react'
 /**
  * Styles.
  */
-import { Container, LeftButtom, RightButtom, StyledIcon, Title } from './styles'
+import { Container, LeftButton, RightButton, StyledIcon, Title } from './styles'
 
 /**
  * Types.
@@ -15,8 +15,8 @@ type IHeader = {
   leftIcon?: string
   rightIcon?: string
   inputValue?: string
-  leftButtom?: () => void
-  rightButtom?: () => void
+  leftButton?: () => void
+  rightButton?: () => void
   placeholder?: string
   onInputChange: any
   canChangeTheInputState?: boolean
@@ -29,9 +29,9 @@ export default function Header({
   leftIcon,
   rightIcon,
   inputValue,
-  leftButtom,
+  leftButton,
   placeholder,
-  rightButtom,
+  rightButton,
   onInputChange,
   canChangeTheInputState
 }: IHeader) {
@@ -62,9 +62,9 @@ export default function Header({
   return (
     <Container>
       {leftIcon && (
-        <LeftButtom onPress={leftButtom}>
+        <LeftButton onPress={leftButton}>
           <StyledIcon name={leftIcon} />
-        </LeftButtom>
+        </LeftButton>
       )}
       {title && isTitleVisible && <Title>{title}</Title>}
 
@@ -80,9 +80,9 @@ export default function Header({
       )}
 
       {rightIcon && (
-        <RightButtom onPress={rightButtom || setInputVisibility}>
+        <RightButton onPress={rightButton || setInputVisibility}>
           <StyledIcon name={isInputVisible ? 'close' : rightIcon} />
-        </RightButtom>
+        </RightButton>
       )}
     </Container>
   )

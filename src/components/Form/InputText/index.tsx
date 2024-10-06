@@ -10,7 +10,7 @@ import {
   Label,
   Error,
   LeftIcon,
-  ButtomIcon,
+  ButtonIcon,
   RighttIcon,
   ContainerInputPassword
 } from './styles'
@@ -63,9 +63,9 @@ export default function TextInput({
         />
 
         {icon && (
-          <ButtomIcon onPress={onPress}>
+          <ButtonIcon onPress={onPress}>
             <RighttIcon name={icon} style={!value && { opacity: 0.5 }} />
-          </ButtomIcon>
+          </ButtonIcon>
         )}
       </ContainerInputPassword>
 

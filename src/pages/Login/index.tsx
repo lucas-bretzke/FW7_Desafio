@@ -31,7 +31,7 @@ import styles, {
 /**
  * Components.
  */
-import Buttom from '../../components/Form/Buttom'
+import Button from '../../components/Form/Button'
 import InputText from '../../components/Form/InputText'
 import InputPassword from '../../components/Form/InputPassword'
 import { Keyboard, TouchableOpacity } from 'react-native'
@@ -114,7 +114,7 @@ export default function Login() {
             <CheckboxLabel>Manter-me conectado!</CheckboxLabel>
           </KeepMeMonnected>
 
-          <Buttom
+          <Button
             title={'Acessar'}
             onPress={login}
             disabled={!buttonEnabled}

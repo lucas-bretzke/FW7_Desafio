@@ -33,7 +33,7 @@ export const Input = styled.TextInput`
   background-color: #fff;
 `
 
-export const ButtomIcon = styled.TouchableOpacity`
+export const ButtonIcon = styled.TouchableOpacity`
   top: 8px;
   right: 10px;
   width: 30px;

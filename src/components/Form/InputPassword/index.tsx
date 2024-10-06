@@ -9,7 +9,7 @@ import {
   Input,
   Error,
   Label,
-  EyeButtom,
+  EyeButton,
   ContainerInputPassword
 } from './styles'
 
@@ -57,9 +57,9 @@ export default function InputPassword({
           placeholderTextColor={'#ccc'}
           style={{ ...style }}
         />
-        <EyeButtom active={passwordVisibility} onPress={visiblePassword}>
+        <EyeButton active={passwordVisibility} onPress={visiblePassword}>
           <Feather name={passwordVisibility ? 'eye' : 'eye-off'} size={24} />
-        </EyeButtom>
+        </EyeButton>
       </ContainerInputPassword>
 
       <Error>{msgError}</Error>
